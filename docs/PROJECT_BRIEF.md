@@ -62,6 +62,6 @@ Princípio: frases concretas e verificáveis. Nada de "apaixonado por tecnologia
 | E-mail | Provisório: e-mail pessoal; trocar por e-mail profissional quando houver domínio |
 | Texto do Sobre | Texto de exemplo, sinalizado; Irvin vai substituir |
 | Domínio (`nome.dev` + `.com.br`?) | Pendente (fase 3) |
-| Hospedagem (Cloudflare Pages × Vercel) | Pendente (fase 3) |
+| Hospedagem | **Vercel** ([ADR 007](decisions/007-hospedagem-vercel.md)) |
 | Famílias tipográficas e cor de acento | **Expressivo** (Fraunces · Geist · Geist Mono) + **laranja-sinal** (decidido) |
 | Figura-assinatura | Mantida como no protótipo; teste de 5 s adiado por decisão do Irvin (18/10/2026) |

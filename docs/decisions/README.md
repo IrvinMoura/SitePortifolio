@@ -10,3 +10,4 @@ Um arquivo por decisão: `NNN-titulo-curto.md`. Formato: **Contexto · Decisão 
 | [004](004-conteudo-mdx.md) | Conteúdo em MDX no repositório, sem CMS | Aceito |
 | [005](005-motion.md) | Motion: CSS nativo primeiro, Motion nas ilhas | Aceito |
 | [006](006-lancamento-sem-projetos.md) | Lançar sem projetos, com o site como Memorial 001 | Aceito |
+| [007](007-hospedagem-vercel.md) | Hospedagem na Vercel | Aceito |

@@ -1,6 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
-const PORT = 4321;
+// Porta própria para nunca reaproveitar o servidor de desenvolvimento (4321).
+const PORT = 4400;
 
 export default defineConfig({
   testDir: './tests/e2e',
@@ -20,6 +21,6 @@ export default defineConfig({
   webServer: {
     command: `npm run preview -- --port ${PORT}`,
     port: PORT,
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: false,
   },
 });

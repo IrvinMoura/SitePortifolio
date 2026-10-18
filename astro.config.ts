@@ -3,8 +3,12 @@ import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
 import sitemap from '@astrojs/sitemap';
 
-// Domínio ainda não definido (ver docs/ROADMAP.md, fase 3). Configure SITE_URL quando houver.
-const site = process.env.SITE_URL || 'http://localhost:4321';
+// URL pública: SITE_URL quando houver domínio próprio; na Vercel, o domínio de produção do projeto.
+const site =
+  process.env.SITE_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : 'http://localhost:4321');
 
 export default defineConfig({
   site,

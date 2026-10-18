@@ -24,8 +24,8 @@ MDX (conteúdo) ──► Astro build (SSG) ──► HTML/CSS estático + ilhas
 | Motion | CSS nativo → Motion (`motion`) nas ilhas | 14.3 | [005](decisions/005-motion.md) |
 | Testes | Vitest · Playwright · @axe-core/playwright · Lighthouse CI | PW 1.64 / axe 4.14 | — |
 | Qualidade de código | `astro check`, ESLint, Prettier | — | — |
-| Hospedagem | Cloudflare Pages **ou** Vercel (decidir na fase 3) | — | pendente |
-| Analytics | Cloudflare Web Analytics (sem cookies) ou Umami | — | pendente |
+| Hospedagem | Vercel (produção em `main`, preview por PR) | — | [007](decisions/007-hospedagem-vercel.md) |
+| Analytics | Vercel Web Analytics ou Umami (sem cookies) | — | pendente (fase 10) |
 | CI | GitHub Actions | — | — |
 
 **Não usar sem novo ADR:** Lenis/smooth scroll, Three.js/R3F, GSAP, Tailwind, bibliotecas de UI, CMS, backend.
@@ -35,7 +35,8 @@ MDX (conteúdo) ──► Astro build (SSG) ──► HTML/CSS estático + ilhas
 /
 ├─ AGENTS.md · CLAUDE.md · README.md
 ├─ docs/                     documentação e ADRs
-├─ public/                   fontes, favicon, currículo PDF, _headers
+├─ public/                   favicon, currículo PDF
+├─ vercel.json               cabeçalhos de segurança e cache
 ├─ src/
 │  ├─ content/
 │  │  ├─ memoriais/          um .mdx por projeto (inclui este-site.mdx)
@@ -117,7 +118,7 @@ Corpo MDX segue o template de 10 seções (ver [QUALITY_GATES.md](QUALITY_GATES.
 - `sitemap.xml` via `@astrojs/sitemap`; `robots.txt`.
 
 ## Segurança
-- Cabeçalhos em `public/_headers` (ou `vercel.json`): CSP sem `unsafe-inline` para scripts, HSTS, `X-Content-Type-Options`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy` restritiva.
+- Cabeçalhos em `vercel.json` (HSTS já vem da Vercel): CSP sem `unsafe-inline` para scripts, HSTS, `X-Content-Type-Options`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy` restritiva.
 - Dependências mínimas; Dependabot; `npm audit` no CI.
 - Nenhum segredo no repositório (não há segredos previstos).
 

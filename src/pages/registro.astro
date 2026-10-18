@@ -1,0 +1,67 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { formatDate, isoDate } from '../lib/format';
+
+const entries = (await getCollection('registro')).sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime(),
+);
+---
+
+<BaseLayout title="Registro" description="Registro público do que está sendo feito, com datas.">
+  <h1>Registro</h1>
+  <p class="intro">Registro público do que está sendo feito. Cada entrada é datada.</p>
+  <ol class="log">
+    {entries.map((e) => (
+      <li>
+        <time datetime={isoDate(e.data.date)}>{formatDate(e.data.date)}</time>
+        <span class="tag">{e.data.type}</span>
+        <span>{e.data.link ? <a href={e.data.link}>{e.data.title}</a> : e.data.title}</span>
+      </li>
+    ))}
+  </ol>
+</BaseLayout>
+
+<style>
+  h1 {
+    font-size: var(--step-4);
+  }
+  .intro {
+    margin-top: 0.75rem;
+    color: var(--ink-muted);
+  }
+  .log {
+    list-style: none;
+    padding: 0;
+    margin-top: 2rem;
+    border-top: 1px solid var(--ink);
+    max-width: 52rem;
+  }
+  .log li {
+    display: grid;
+    grid-template-columns: 7.5rem 4.5rem minmax(0, 1fr);
+    gap: 0.25rem 1rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: baseline;
+  }
+  time,
+  .tag {
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-muted);
+  }
+  .tag {
+    color: var(--accent-ink);
+  }
+  @media (max-width: 35rem) {
+    .log li {
+      grid-template-columns: auto 1fr;
+    }
+    .log li > span:last-child {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

@@ -1,0 +1,19 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Página não encontrada" noindex>
+  <h1>Esta página não existe.</h1>
+  <p>
+    O endereço pode ter mudado. <a href="/">Voltar ao início</a>.
+  </p>
+</BaseLayout>
+
+<style>
+  h1 {
+    font-size: var(--step-3);
+  }
+  p {
+    margin-top: 1rem;
+  }
+</style>

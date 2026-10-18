@@ -1,0 +1,31 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { NATURE_LABELS, memorialNumber, publishedFirst, shouldBuildIndex } from '../../lib/content';
+
+// /memoriais só é gerada com 3 ou mais memoriais publicados (ADR 006).
+// Rota "rest" para poder não gerar página nenhuma: getStaticPaths vazio = sem /memoriais.
+export const getStaticPaths = (async () => {
+  const entries = publishedFirst(await getCollection('memoriais'));
+  return shouldBuildIndex(entries.length)
+    ? [{ params: { index: undefined }, props: { entries } }]
+    : [];
+}) satisfies GetStaticPaths;
+
+const { entries } = Astro.props;
+---
+
+<BaseLayout title="Memoriais" description="Projetos documentados do problema ao resultado.">
+  <h1>Memoriais</h1>
+  <ul>
+    {entries.map((m) => (
+      <li>
+        <a href={`/memoriais/${m.id}`}>
+          {memorialNumber(m.data.number)} — {m.data.title}
+        </a>{' '}
+        <span>({NATURE_LABELS[m.data.nature]})</span>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>

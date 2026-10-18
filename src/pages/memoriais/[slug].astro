@@ -1,0 +1,137 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { NATURE_LABELS, STATUS_LABELS, memorialNumber, publishedFirst } from '../../lib/content';
+import { formatPeriod } from '../../lib/format';
+
+export const getStaticPaths = (async () => {
+  const entries = publishedFirst(await getCollection('memoriais'), {
+    includeDrafts: import.meta.env.DEV,
+  });
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+---
+
+<BaseLayout title={`Memorial ${memorialNumber(d.number)} — ${d.title}`} description={d.summary}>
+  <article>
+    <header>
+      <p class="kicker">Memorial {memorialNumber(d.number)}</p>
+      <h1>{d.title}</h1>
+      <p class="lede">{d.summary}</p>
+      <dl class="spec">
+        <div>
+          <dt>Natureza</dt>
+          <dd>{NATURE_LABELS[d.nature]}</dd>
+        </div>
+        <div>
+          <dt>Status</dt>
+          <dd>{STATUS_LABELS[d.status]}</dd>
+        </div>
+        <div>
+          <dt>Papel</dt>
+          <dd>{d.role}</dd>
+        </div>
+        <div>
+          <dt>Período</dt>
+          <dd>{formatPeriod(d.period.start, d.period.end)}</dd>
+        </div>
+        <div>
+          <dt>Stack</dt>
+          <dd>{d.stack.join(', ')}</dd>
+        </div>
+        {d.links.repo && (
+          <div>
+            <dt>Repositório</dt>
+            <dd>
+              <a href={d.links.repo}>Ver código</a>
+            </dd>
+          </div>
+        )}
+        {d.links.demo && (
+          <div>
+            <dt>Demonstração</dt>
+            <dd>
+              <a href={d.links.demo}>Abrir</a>
+            </dd>
+          </div>
+        )}
+      </dl>
+    </header>
+    <div class="body">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .kicker {
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--accent-ink);
+  }
+  h1 {
+    font-size: var(--step-4);
+  }
+  .lede {
+    font-family: var(--font-serif);
+    font-size: var(--step-1);
+    max-width: 36rem;
+    margin-top: 0.75rem;
+  }
+  .spec {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+    border-top: 1px solid var(--ink);
+    margin-top: 2rem;
+  }
+  .spec div {
+    padding: 0.85rem 1rem 0.85rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .spec dt {
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-muted);
+  }
+  .body {
+    max-width: var(--measure);
+    margin-top: var(--space-section);
+    font-family: var(--font-serif);
+  }
+  .body :global(* + *) {
+    margin-top: 1em;
+  }
+  .body :global(h2) {
+    font-size: var(--step-2);
+    margin-top: 3rem;
+  }
+  .body :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-sans);
+    font-size: 0.95rem;
+  }
+  .body :global(th),
+  .body :global(td) {
+    text-align: left;
+    padding: 0.6rem 1rem 0.6rem 0;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  .body :global(blockquote) {
+    border-left: 2px solid var(--accent);
+    padding-left: 0.85rem;
+    color: var(--ink-muted);
+    font-family: var(--font-sans);
+    font-size: var(--step--1);
+  }
+</style>

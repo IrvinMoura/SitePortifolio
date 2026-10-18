@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Irvin Marques — desenvolvedor independente (protótipo)</title>
+  <meta name="description" content="Protótipo da fase 2 do portfólio de Irvin Marques: sistemas web, automações e integrações para empresas.">
+  <meta name="robots" content="noindex">
+  <script>
+    (function () {
+      var p = {};
+      try { p = JSON.parse(localStorage.getItem('memorial-proto')) || {}; } catch (e) {}
+      var r = document.documentElement;
+      r.dataset.type = p.type || 'expressivo';
+      r.dataset.accent = p.accent || 'sinal';
+      r.dataset.theme = p.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      if (p.pend) r.dataset.pend = 'on';
+      r.classList.add('js');
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Só no protótipo: as três combinações tipográficas carregadas juntas. Em produção as fontes serão auto-hospedadas. -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,400&family=Inter:wght@400..600&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..600;1,8..60,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,400&family=Geist:wght@400..600&family=Geist+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="./" aria-label="Irvin Marques, página inicial">
+        <span class="brand-name">Irvin Marques</span>
+        <span class="brand-tag">Memorial</span>
+      </a>
+      <nav class="site-nav" aria-label="Principal">
+        <ul>
+          <li><a href="#memoriais">Memoriais</a></li>
+          <li><a href="#como-trabalho">Como trabalho</a></li>
+          <li><a href="#registro">Registro</a></li>
+          <li><a href="#sobre">Sobre</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </nav>
+      <div class="header-end">
+        <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false">Tema escuro</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <!-- 00 — Apresentação -->
+    <section class="sheet wrap hero" aria-labelledby="titulo" style="padding-block: clamp(3rem, 2rem + 5vw, 6rem) var(--space-section);">
+      <p class="label"><span class="num">00</span> Apresentação</p>
+      <h1 class="display wide" id="titulo">Construo sistemas web, automações e integrações para empresas que ainda resolvem tudo na planilha.</h1>
+      <p class="lede">Sou Irvin Marques, desenvolvedor independente e estudante de Ciência da Computação em fase final. Transformo processos manuais e repetitivos em software que a equipe usa todos os dias.</p>
+      <aside class="note">
+        <span class="note-k">Nota</span>
+        Este site é o meu primeiro projeto documentado. Como ele foi pensado está no <a class="link" href="memorial-este-site.html">Memorial 001</a>.
+      </aside>
+      <div>
+        <p class="status">Disponível para primeiros projetos</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#contato">Conversar sobre um projeto <span class="arrow" aria-hidden="true">→</span></a>
+          <a class="btn btn-secondary" href="memorial-este-site.html">Ler o Memorial 001</a>
+        </div>
+      </div>
+
+      <!-- Fig. 0 — figura-assinatura -->
+      <figure class="flow wide" data-flow data-state="antes" aria-labelledby="fig0-cap">
+        <div class="flow-head">
+          <span class="flow-title">Fig. 0 · Um pedido</span>
+          <div class="seg" role="group" aria-label="Ver o processo">
+            <button type="button" data-set="antes" aria-pressed="true">Como é hoje</button>
+            <button type="button" data-set="depois" aria-pressed="false">Com um sistema</button>
+          </div>
+        </div>
+        <div class="flow-stage">
+          <ol class="nodes" data-for="antes" aria-label="Processo como é hoje">
+            <li class="node">
+              <span class="node-n">01</span>
+              <span class="node-t">Pedido chega por mensagem</span>
+              <span class="node-m">WhatsApp, e-mail ou telefone</span>
+            </li>
+            <li class="node">
+              <span class="node-n">02</span>
+              <span class="node-t">Alguém copia para a planilha</span>
+              <span class="node-m">À mão, campo por campo</span>
+            </li>
+            <li class="node">
+              <span class="node-n">03</span>
+              <span class="node-t">Outra pessoa confere</span>
+              <span class="node-m">Procurando erro de digitação</span>
+            </li>
+            <li class="node node--alert">
+              <span class="node-n">04</span>
+              <span class="node-t">Erro encontrado</span>
+              <span class="node-m">O pedido volta e o trabalho se repete</span>
+              <span class="loop">↺ volta ao passo 02</span>
+            </li>
+          </ol>
+          <ol class="nodes" data-for="depois" aria-label="Processo com um sistema">
+            <li class="node" style="--i: 0">
+              <span class="node-n">01</span>
+              <span class="node-t">Pedido entra por formulário ou API</span>
+              <span class="node-m">Os dados já chegam estruturados</span>
+            </li>
+            <li class="node" style="--i: 1">
+              <span class="node-n">02</span>
+              <span class="node-t">Validação automática</span>
+              <span class="node-m">Erros são barrados na entrada</span>
+            </li>
+            <li class="node" style="--i: 2">
+              <span class="node-n">03</span>
+              <span class="node-t">Registro no sistema</span>
+              <span class="node-m">Uma única fonte de verdade</span>
+            </li>
+            <li class="node node--done" style="--i: 3">
+              <span class="node-n">04 ✓</span>
+              <span class="node-t">Painel atualizado</span>
+              <span class="node-m">E a equipe é avisada</span>
+            </li>
+          </ol>
+        </div>
+        <figcaption class="cap" id="fig0-cap"><b>Fig. 0</b> — O mesmo pedido, hoje e com um sistema sob medida. É esse tipo de problema que eu resolvo: tirar das pessoas o trabalho repetitivo e passar para o software.</figcaption>
+        <p class="sr-only" aria-live="polite" data-flow-live></p>
+      </figure>
+    </section>
+
+    <!-- 01 — Memoriais -->
+    <section class="section sheet wrap reveal" id="memoriais" aria-labelledby="h-memoriais">
+      <p class="label"><span class="num">01</span> Memoriais</p>
+      <h2 class="h2" id="h-memoriais">Projetos documentados do problema ao resultado.</h2>
+      <aside class="note">
+        <span class="note-k">Como ler</span>
+        Cada memorial declara a sua natureza: cliente, acadêmico, demonstrativo ou projeto próprio.
+      </aside>
+      <div class="mlist wide">
+        <a class="mrow" href="memorial-este-site.html">
+          <span class="mrow-n">001</span>
+          <span>
+            <span class="mrow-title">Este site</span>
+            <span class="mrow-sum">Como planejei um portfólio profissional sem ter projetos para mostrar — e sem inventar nenhum.</span>
+          </span>
+          <span class="mrow-arrow" aria-hidden="true">→</span>
+          <span class="mrow-meta">
+            <span class="badge">Projeto próprio</span>
+            <span>Em andamento</span>
+            <span>Astro · TypeScript · CSS</span>
+          </span>
+        </a>
+      </div>
+    </section>
+
+    <!-- 02 — Como trabalho -->
+    <section class="section sheet wrap reveal" id="como-trabalho" aria-labelledby="h-trabalho">
+      <p class="label"><span class="num">02</span> Como trabalho</p>
+      <h2 class="h2" id="h-trabalho">Tecnologia sob medida para quem toca o próprio negócio.</h2>
+      <p class="lede">Trabalho ao lado de pequenos e médios empreendedores para que a tecnologia trabalhe por eles, e não o contrário. Nenhum projeto sai de um molde: cada um começa do zero, a partir do jeito que o seu negócio funciona.</p>
+      <aside class="note">
+        <span class="note-k">Para quem</span>
+        Lojas, escritórios, clínicas, prestadores de serviço: negócios em que o dono ainda resolve muita coisa na mão.
+      </aside>
+      <ul class="offers wide">
+        <li class="offer">
+          <span class="offer-n">A</span>
+          <h3>Sites únicos, feitos para você</h3>
+          <p>Nada de template. Cada site é desenhado e construído para a sua marca, o seu público e o que ele precisa fazer: apresentar, vender, agendar ou captar clientes.</p>
+        </li>
+        <li class="offer">
+          <span class="offer-n">B</span>
+          <h3>Automação de processos</h3>
+          <p>Copiar pedidos, conferir planilhas, mandar o mesmo e-mail pela décima vez: o trabalho repetitivo passa para o software, e a sua equipe volta a cuidar do que importa.</p>
+        </li>
+        <li class="offer">
+          <span class="offer-n">C</span>
+          <h3>Sistemas e integrações</h3>
+          <p>Painéis, cadastros e conexões entre as ferramentas que você já usa, para que a informação do negócio esteja num só lugar e sempre atualizada.</p>
+        </li>
+      </ul>
+      <h3 class="steps-title wide">Como um projeto acontece</h3>
+      <ol class="steps wide">
+        <li class="step">
+          <span class="step-n">Etapa 1</span>
+          <h3>Entender o processo</h3>
+          <p>Uma conversa para mapear como o trabalho acontece hoje: quem faz o quê, onde estão as cópias, as conferências e os atrasos.</p>
+          <p class="out"><b>Você recebe</b>Um mapa do processo atual e uma proposta escrita.</p>
+        </li>
+        <li class="step">
+          <span class="step-n">Etapa 2</span>
+          <h3>Definir o escopo</h3>
+          <p>Escopo, prazo e o que fica de fora, tudo por escrito. Começo pelo menor sistema que já resolve uma parte real do problema.</p>
+          <p class="out"><b>Você recebe</b>Escopo fechado e cronograma em etapas.</p>
+        </li>
+        <li class="step">
+          <span class="step-n">Etapa 3</span>
+          <h3>Construir em ciclos curtos</h3>
+          <p>Uma versão funcionando ao fim de cada ciclo, para você testar com dados reais e corrigir o rumo cedo.</p>
+          <p class="out"><b>Você recebe</b>Acesso a cada versão para testar.</p>
+        </li>
+        <li class="step">
+          <span class="step-n">Etapa 4</span>
+          <h3>Entregar e documentar</h3>
+          <p>Publicação, documentação de uso e passagem de conhecimento para a equipe.</p>
+          <p class="out"><b>Você recebe</b>Sistema no ar, documentação e código-fonte.</p>
+        </li>
+        <li class="step">
+          <span class="step-n">Etapa 5</span>
+          <h3>Acompanhar</h3>
+          <p>Ajustes depois do uso real e evolução combinada.</p>
+          <p class="out"><b>Você recebe</b>Período de suporte definido na proposta.</p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- 03 — Registro -->
+    <section class="section sheet wrap reveal" id="registro" aria-labelledby="h-registro">
+      <p class="label"><span class="num">03</span> Em construção</p>
+      <h2 class="h2" id="h-registro">Registro público do que está sendo feito.</h2>
+      <aside class="note">
+        <span class="note-k">Por que existe</span>
+        Prefiro mostrar o trabalho acontecendo a esperar que tudo esteja pronto. Cada entrada é datada.
+      </aside>
+      <ol class="log wide">
+        <li><time datetime="2026-10-18">18 out 2026</time><span class="tag">Site</span><span>Protótipo estático da página inicial e do Memorial 001.</span></li>
+        <li><time datetime="2026-10-18">18 out 2026</time><span class="tag">Site</span><span>Documentação inicial e seis decisões técnicas registradas.</span></li>
+        <li><time datetime="2026-10-18">18 out 2026</time><span class="tag">Site</span><span>Direção criativa “Memorial” escolhida entre três propostas.</span></li>
+        <li><time datetime="2026-10-18">18 out 2026</time><span class="tag">Estudo</span><span>Pesquisa de 11 portfólios de referência e da viabilidade técnica.</span></li>
+      </ol>
+    </section>
+
+    <!-- 04 — Sobre -->
+    <section class="section sheet wrap reveal" id="sobre" aria-labelledby="h-sobre">
+      <p class="label"><span class="num">04</span> Sobre</p>
+      <h2 class="h2" id="h-sobre">Engenharia de software a serviço do dia a dia das empresas.</h2>
+      <div class="prose example" data-example>
+        <p class="example-tag">Texto de exemplo · substituir</p>
+        <p>Sou Irvin Marques, desenvolvedor independente e estudante de Ciência da Computação em fase final. Estou estruturando a <strong>Phainon</strong>, meu estúdio de desenvolvimento, para atender pequenos e médios negócios com sites, automações e sistemas sob medida.</p>
+        <p>Gosto do ponto em que o software encontra a rotina de trabalho: o site que traz clientes, a planilha que vira sistema, a tarefa repetitiva que some do dia de alguém. Neste momento estou construindo este site e os primeiros projetos demonstrativos, que serão publicados aqui como memoriais.</p>
+      </div>
+      <figure class="photo-slot note pend" aria-label="Espaço reservado para foto">
+        <span class="photo-frame"><span>Foto</span></span>
+        <figcaption>Espaço reservado para a foto de Irvin Marques.</figcaption>
+      </figure>
+      <p><a class="link pend" href="#sobre">Currículo em PDF</a> · <a class="link pend" href="#sobre">GitHub</a> · <a class="link pend" href="#sobre">LinkedIn</a></p>
+    </section>
+
+    <!-- 05 — Contato -->
+    <section class="section sheet wrap reveal" id="contato" aria-labelledby="h-contato">
+      <p class="label"><span class="num">05</span> Contato</p>
+      <h2 class="h2 wide" id="h-contato" style="max-width: 26ch;">Tem um processo que toma tempo demais da sua equipe? Vamos conversar.</h2>
+      <p class="lede">Respondo por e-mail. Para uma primeira conversa, também dá para agendar um horário.</p>
+      <dl class="contact-list wide">
+        <div>
+          <dt>E-mail</dt>
+          <dd>
+            <a class="link pend" href="mailto:irvinmoura27@gmail.com" title="Provisório: trocar por e-mail profissional">irvinmoura27@gmail.com</a>
+            <button class="copy" type="button" data-copy="irvinmoura27@gmail.com">Copiar</button>
+            <span class="copy-ok" aria-live="polite" data-copy-status></span>
+          </dd>
+        </div>
+        <div><dt>Agenda</dt><dd><a class="link pend" href="#contato">Agendar uma conversa</a></dd></div>
+        <div><dt>Perfis</dt><dd><a class="link pend" href="#contato">GitHub</a> <a class="link pend" href="#contato">LinkedIn</a></dd></div>
+        <div><dt>Horário</dt><dd><span><span data-clock>—</span> em Brasília (UTC−3)</span></dd></div>
+      </dl>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p><b style="color: var(--ink); font-weight: 500;">Irvin Marques · Memorial</b><br>Protótipo da fase 2 — não publicado.</p>
+      <p>Protótipo feito em HTML e CSS. A versão final usará Astro, TypeScript e ilhas React. Detalhes no <a class="link" href="memorial-este-site.html">Memorial 001</a>.</p>
+    </div>
+  </footer>
+
+  <details class="proto" data-proto>
+    <summary>Protótipo · opções</summary>
+    <form class="proto-body">
+      <fieldset>
+        <legend>Tipografia</legend>
+        <label class="opt"><input type="radio" name="type" value="literario">
+          <span><span class="opt-name" style="font-family: Newsreader, serif;">Literário</span><span class="opt-desc">Newsreader · Inter · JetBrains Mono</span></span></label>
+        <label class="opt"><input type="radio" name="type" value="tecnico">
+          <span><span class="opt-name" style="font-family: 'Source Serif 4', serif;">Técnico</span><span class="opt-desc">Source Serif 4 · IBM Plex Sans · IBM Plex Mono</span></span></label>
+        <label class="opt"><input type="radio" name="type" value="expressivo">
+          <span><span class="opt-name" style="font-family: Fraunces, serif;">Expressivo</span><span class="opt-desc">Fraunces · Geist · Geist Mono</span></span></label>
+      </fieldset>
+      <fieldset>
+        <legend>Acento</legend>
+        <label class="opt"><input type="radio" name="accent" value="revisao">
+          <span><span class="opt-name"><span class="swatch" style="background: oklch(56% 0.19 29);"></span>Vermelho-revisão</span><span class="opt-desc">A caneta de quem revisa o projeto</span></span></label>
+        <label class="opt"><input type="radio" name="accent" value="cianotipia">
+          <span><span class="opt-name"><span class="swatch" style="background: oklch(50% 0.15 254);"></span>Azul-cianotipia</span><span class="opt-desc">A cópia de planta de engenharia</span></span></label>
+        <label class="opt"><input type="radio" name="accent" value="sinal">
+          <span><span class="opt-name"><span class="swatch" style="background: oklch(67% 0.18 50);"></span>Laranja-sinal</span><span class="opt-desc">Sinalização técnica, mais enérgico</span></span></label>
+      </fieldset>
+      <label class="check"><input type="checkbox" name="pend"> Destacar conteúdo pendente</label>
+    </form>
+  </details>
+
+  <script src="proto.js" defer></script>
+</body>
+</html>

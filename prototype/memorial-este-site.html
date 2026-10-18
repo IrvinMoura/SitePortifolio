@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Memorial 001 — Este site · Irvin Marques (protótipo)</title>
+  <meta name="description" content="Como planejei um portfólio profissional sem ter projetos para mostrar — e sem inventar nenhum.">
+  <meta name="robots" content="noindex">
+  <script>
+    (function () {
+      var p = {};
+      try { p = JSON.parse(localStorage.getItem('memorial-proto')) || {}; } catch (e) {}
+      var r = document.documentElement;
+      r.dataset.type = p.type || 'expressivo';
+      r.dataset.accent = p.accent || 'sinal';
+      r.dataset.theme = p.theme || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      if (p.pend) r.dataset.pend = 'on';
+      r.classList.add('js');
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,400&family=Inter:wght@400..600&family=JetBrains+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..600;1,8..60,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300..600;1,9..144,400&family=Geist:wght@400..600&family=Geist+Mono:wght@400;500&display=swap">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="site-header">
+    <div class="wrap">
+      <a class="brand" href="./" aria-label="Irvin Marques, página inicial">
+        <span class="brand-name">Irvin Marques</span>
+        <span class="brand-tag">Memorial</span>
+      </a>
+      <nav class="site-nav" aria-label="Principal">
+        <ul>
+          <li><a href="./#memoriais" aria-current="page">Memoriais</a></li>
+          <li><a href="./#como-trabalho">Como trabalho</a></li>
+          <li><a href="./#registro">Registro</a></li>
+          <li><a href="./#sobre">Sobre</a></li>
+          <li><a href="./#contato">Contato</a></li>
+        </ul>
+      </nav>
+      <div class="header-end">
+        <button class="theme-toggle" type="button" data-theme-toggle aria-pressed="false">Tema escuro</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="conteudo">
+    <article>
+      <header class="sheet wrap" style="padding-block: clamp(3rem, 2rem + 5vw, 6rem) 3rem;">
+        <p class="label"><span class="num">001</span> Memorial</p>
+        <h1 class="display wide" style="view-transition-name: m001; width: fit-content;">Este site</h1>
+        <p class="lede">Como planejei um portfólio profissional sem ter projetos para mostrar — e sem inventar nenhum.</p>
+        <dl class="spec wide">
+          <div><dt>Natureza</dt><dd>Projeto próprio</dd></div>
+          <div><dt>Status</dt><dd>Em andamento · fase 2 de 10</dd></div>
+          <div><dt>Papel</dt><dd>Pesquisa, design e desenvolvimento, solo</dd></div>
+          <div><dt>Período</dt><dd>Out. 2026 – atual</dd></div>
+          <div><dt>Stack</dt><dd>Astro, TypeScript, React (ilhas), CSS</dd></div>
+          <div><dt>Links</dt><dd><span class="pend">Repositório</span> · ainda não publicado</dd></div>
+        </dl>
+      </header>
+
+      <div class="mem-shell wrap">
+        <nav class="toc" aria-label="Neste memorial">
+          <p class="toc-title">Neste memorial</p>
+          <ol>
+            <li><a href="#s1"><span class="mono">1</span>Contexto e problema</a></li>
+            <li><a href="#s2"><span class="mono">2</span>Para quem</a></li>
+            <li><a href="#s3"><span class="mono">3</span>Solução</a></li>
+            <li><a href="#s4"><span class="mono">4</span>Fluxos</a></li>
+            <li><a href="#s5"><span class="mono">5</span>Arquitetura</a></li>
+            <li><a href="#s6"><span class="mono">6</span>Decisões técnicas</a></li>
+            <li><a href="#s7"><span class="mono">7</span>Interface</a></li>
+            <li><a href="#s8"><span class="mono">8</span>Qualidade</a></li>
+            <li><a href="#s9"><span class="mono">9</span>Resultados</a></li>
+            <li><a href="#s10"><span class="mono">10</span>Próximos passos</a></li>
+          </ol>
+        </nav>
+
+        <div class="mem">
+          <h2 id="s1"><span class="mono">1</span>Contexto e problema</h2>
+          <p>Estou terminando a graduação em Ciência da Computação e quero trabalhar como desenvolvedor independente: sites, sistemas, automações, integrações e inteligência artificial aplicada. Para isso, preciso de um portfólio. O problema é que ainda não tenho projetos para mostrar.</p>
+          <p>A saída mais comum seria preencher o site com projetos genéricos, números sem fonte e depoimentos vagos. Descartei isso desde o início: um portfólio que exagera perde justamente a confiança que deveria construir.</p>
+          <aside class="note"><span class="note-k">Regra do projeto</span>Nenhuma métrica é publicada sem fonte. Na versão final, o build falha se isso acontecer.</aside>
+
+          <h2 id="s2"><span class="mono">2</span>Para quem</h2>
+          <p>Três públicos, com tempos de atenção diferentes, chegam à mesma página inicial.</p>
+          <figure class="wide">
+            <div class="table-scroll">
+              <table class="table">
+                <thead><tr><th scope="col">Público</th><th scope="col">Precisa entender em 30 s</th><th scope="col">Ação esperada</th></tr></thead>
+                <tbody>
+                  <tr><td>Cliente empresarial</td><td>Que problema eu resolvo, em linguagem de negócio</td><td>Iniciar uma conversa</td></tr>
+                  <tr><td>Recrutador ou tech lead</td><td>Posicionamento, stack e forma de pensar</td><td>Abrir GitHub, LinkedIn ou currículo</td></tr>
+                  <tr><td>Comunidade dev</td><td>Algo interessante para explorar</td><td>Acompanhar e compartilhar</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <figcaption class="cap"><b>Fig. 2.1</b> — Públicos em ordem de prioridade.</figcaption>
+          </figure>
+
+          <h2 id="s3"><span class="mono">3</span>Solução</h2>
+          <p>Antes de escrever código, pesquisei 11 portfólios de desenvolvedores e comparei três direções criativas. A escolhida trata o portfólio como um <em>memorial descritivo</em>: o documento da engenharia que explica o que foi construído, por quê e com quais especificações.</p>
+          <p>Isso inverte a limitação. Em vez de depender de muitos projetos, o site depende de documentar bem cada um, e este é o primeiro.</p>
+          <aside class="note"><span class="note-k">Fonte</span>A pesquisa completa está em <code>docs/RESEARCH.md</code> no repositório.</aside>
+          <figure class="wide">
+            <div class="table-scroll">
+              <table class="table">
+                <thead><tr><th scope="col">Direção</th><th scope="col">Clareza para cliente</th><th scope="col">Funciona com poucos projetos</th><th scope="col">Custo de evoluir</th></tr></thead>
+                <tbody>
+                  <tr><td>A · Bancada (bento modular)</td><td>Média</td><td>Fraco</td><td>Médio</td></tr>
+                  <tr><td>B · Fluxo (diagrama guiado por scroll)</td><td>Baixa</td><td>Médio</td><td>Alto</td></tr>
+                  <tr class="hl"><td>C · Memorial (escolhida)</td><td>Alta</td><td>Forte</td><td>Baixo</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <figcaption class="cap"><b>Fig. 3.1</b> — Avaliação qualitativa das três direções. Da direção B ficou só um elemento: a Fig. 0 da página inicial.</figcaption>
+          </figure>
+
+          <h2 id="s4"><span class="mono">4</span>Fluxos</h2>
+          <p>Dois caminhos principais, pensados para quem tem pouco tempo:</p>
+          <ol class="numbered">
+            <li><strong>Cliente:</strong> apresentação → Fig. 0 → como trabalho → contato.</li>
+            <li><strong>Recrutador:</strong> apresentação → memorial → decisões técnicas → GitHub.</li>
+          </ol>
+          <p>Seções sem conteúdo real não aparecem. Quando o primeiro projeto demonstrativo estiver pronto, a lista de memoriais cresce sem mudar o layout.</p>
+
+          <h2 id="s5"><span class="mono">5</span>Arquitetura</h2>
+          <figure class="wide">
+            <ol class="nodes pipe" aria-label="Do conteúdo ao visitante">
+              <li class="node"><span class="node-n">Conteúdo</span><span class="node-t">Arquivos MDX no repositório</span><span class="node-m">Um arquivo por memorial</span></li>
+              <li class="node"><span class="node-n">Build</span><span class="node-t">Astro valida e gera as páginas</span><span class="node-m">Schema barra conteúdo incompleto</span></li>
+              <li class="node"><span class="node-n">Saída</span><span class="node-t">HTML e CSS estáticos</span><span class="node-m">JavaScript só nas figuras interativas</span></li>
+              <li class="node"><span class="node-n">Entrega</span><span class="node-t">CDN</span><span class="node-m">Sem servidor para manter</span></li>
+            </ol>
+            <figcaption class="cap"><b>Fig. 5.1</b> — Do conteúdo ao visitante.</figcaption>
+          </figure>
+          <p>Não há servidor, banco de dados nem autenticação, porque o site não precisa deles. Isso reduz custo, manutenção e superfície de ataque.</p>
+
+          <h2 id="s6"><span class="mono">6</span>Decisões técnicas</h2>
+          <dl class="adr">
+            <div><dt>Astro com ilhas React</dt><dd><b>Em vez de</b>Next.js. Zero JavaScript por padrão; React aparece só onde demonstra algo.</dd></div>
+            <div><dt>CSS moderno com tokens</dt><dd><b>Em vez de</b>Tailwind. Mais controle tipográfico para um layout editorial; os mesmos tokens alimentam as figuras.</dd></div>
+            <div><dt>Movimento com CSS nativo primeiro</dt><dd><b>Em vez de</b>GSAP e smooth scroll. O scroll nativo é melhor para leitura; as transições entre páginas usam View Transitions, que no Firefox viram navegação normal sem quebrar nada.</dd></div>
+            <div><dt>Lançar sem projetos</dt><dd><b>Em vez de</b>esperar ou usar “em breve”. Presença agora e uma vitrine que cresce com prova real.</dd></div>
+          </dl>
+          <aside class="note"><span class="note-k">Registro</span>Cada decisão tem um ADR em <code>docs/decisions/</code>.</aside>
+
+          <h2 id="s7"><span class="mono">7</span>Interface</h2>
+          <p>Esta página é a própria interface. Ela começou como protótipo estático na fase 2, com três combinações tipográficas e três cores de acento em teste.</p>
+          <aside class="note"><span class="note-k">Experimente</span>O painel “Protótipo” no canto da tela troca tipografia e acento.</aside>
+
+          <h2 id="s8"><span class="mono">8</span>Qualidade</h2>
+          <p>As metas foram definidas antes do código e serão verificadas automaticamente a cada mudança.</p>
+          <figure class="wide">
+            <div class="table-scroll">
+              <table class="table">
+                <thead><tr><th scope="col">Critério</th><th scope="col">Meta</th></tr></thead>
+                <tbody>
+                  <tr><td>JavaScript na página inicial</td><td>&lt; 50 KB comprimido</td></tr>
+                  <tr><td>Maior elemento visível (LCP)</td><td>&lt; 2,0 s em 4G simulado</td></tr>
+                  <tr><td>Estabilidade de layout (CLS)</td><td>&lt; 0,05</td></tr>
+                  <tr><td>Lighthouse</td><td>≥ 95 nas quatro categorias</td></tr>
+                  <tr><td>Acessibilidade (axe)</td><td>Zero violações WCAG 2.2 A/AA</td></tr>
+                  <tr><td>Teclado e movimento reduzido</td><td>Tudo navegável; nenhum conteúdo depende de animação</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <figcaption class="cap"><b>Fig. 8.1</b> — Metas, não resultados.</figcaption>
+          </figure>
+          <aside class="note"><span class="note-k">Honestidade</span>Os números medidos entram aqui no lançamento, com link para o relatório.</aside>
+
+          <h2 id="s9"><span class="mono">9</span>Resultados e aprendizados</h2>
+          <p>Ainda não há resultados medidos: o site não foi lançado. A pesquisa, porém, já mudou decisões:</p>
+          <ul class="bullets">
+            <li>Muitos portfólios premiados são pesados. Um dos analisados transferiu cerca de 11,8 MB em 250 requisições e exibia uma tela de carregamento antes de qualquer conteúdo.</li>
+            <li>Revelar conteúdo durante o scroll pode deixar áreas vazias em leitura rápida no celular. Observei isso num dos sites de referência; aqui, o conteúdo nunca depende de animação.</li>
+            <li>O site de referência principal nem mostra projetos na página inicial: a personalidade vem de detalhes consistentes, não de volume.</li>
+          </ul>
+
+          <h2 id="s10"><span class="mono">10</span>Próximos passos</h2>
+          <ol class="numbered">
+            <li>Escolher tipografia e acento (este protótipo).</li>
+            <li>Testar a Fig. 0 com três pessoas: em 5 segundos, entendem o que eu faço?</li>
+            <li>Montar o repositório e o sistema visual (fases 3 e 4).</li>
+            <li>Publicar o primeiro projeto demonstrativo: automação de planilha para sistema.</li>
+          </ol>
+          <p><a class="link" href="./">← Voltar ao início</a></p>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p><b style="color: var(--ink); font-weight: 500;">Irvin Marques · Memorial</b><br>Protótipo da fase 2 — não publicado.</p>
+      <p>Última atualização deste memorial: 18 out 2026.</p>
+    </div>
+  </footer>
+
+  <details class="proto" data-proto>
+    <summary>Protótipo · opções</summary>
+    <form class="proto-body">
+      <fieldset>
+        <legend>Tipografia</legend>
+        <label class="opt"><input type="radio" name="type" value="literario">
+          <span><span class="opt-name" style="font-family: Newsreader, serif;">Literário</span><span class="opt-desc">Newsreader · Inter · JetBrains Mono</span></span></label>
+        <label class="opt"><input type="radio" name="type" value="tecnico">
+          <span><span class="opt-name" style="font-family: 'Source Serif 4', serif;">Técnico</span><span class="opt-desc">Source Serif 4 · IBM Plex Sans · IBM Plex Mono</span></span></label>
+        <label class="opt"><input type="radio" name="type" value="expressivo">
+          <span><span class="opt-name" style="font-family: Fraunces, serif;">Expressivo</span><span class="opt-desc">Fraunces · Geist · Geist Mono</span></span></label>
+      </fieldset>
+      <fieldset>
+        <legend>Acento</legend>
+        <label class="opt"><input type="radio" name="accent" value="revisao">
+          <span><span class="opt-name"><span class="swatch" style="background: oklch(56% 0.19 29);"></span>Vermelho-revisão</span><span class="opt-desc">A caneta de quem revisa o projeto</span></span></label>
+        <label class="opt"><input type="radio" name="accent" value="cianotipia">
+          <span><span class="opt-name"><span class="swatch" style="background: oklch(50% 0.15 254);"></span>Azul-cianotipia</span><span class="opt-desc">A cópia de planta de engenharia</span></span></label>
+        <label class="opt"><input type="radio" name="accent" value="sinal">
+          <span><span class="opt-name"><span class="swatch" style="background: oklch(67% 0.18 50);"></span>Laranja-sinal</span><span class="opt-desc">Sinalização técnica, mais enérgico</span></span></label>
+      </fieldset>
+      <label class="check"><input type="checkbox" name="pend"> Destacar conteúdo pendente</label>
+    </form>
+  </details>
+
+  <script src="proto.js" defer></script>
+</body>
+</html>

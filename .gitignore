@@ -1,0 +1,19 @@
+node_modules/
+dist/
+.astro/
+.env
+.env.*
+!.env.example
+
+# testes e relatórios
+test-results/
+playwright-report/
+.lighthouseci/
+coverage/
+
+# sistema
+.DS_Store
+Thumbs.db
+
+# configuração local do Claude Code
+.claude/settings.local.json

@@ -1,0 +1,77 @@
+/*
+ * Tokens de design — fonte da verdade dos valores visuais (docs/DESIGN.md explica o porquê).
+ * Famílias tipográficas (--font-serif, --font-sans, --font-mono) vêm da API de fontes do Astro
+ * (astro.config.ts). Valores de partida portados do protótipo da fase 2; refinados na fase 4.
+ */
+@layer tokens {
+  :root {
+    --display-weight: 400;
+    --display-tracking: -0.025em;
+
+    /* cor: papel (claro) */
+    --paper: oklch(97.6% 0.008 85);
+    --paper-2: oklch(94.8% 0.011 85);
+    --ink: oklch(23% 0.012 85);
+    --ink-muted: oklch(46% 0.012 85);
+    --rule: oklch(87% 0.012 85);
+    --rule-strong: oklch(68% 0.012 85);
+
+    /* acento: laranja-sinal */
+    --accent: oklch(67% 0.18 50);
+    --accent-ink: oklch(52% 0.16 45);
+    --accent-soft: oklch(67% 0.18 50 / 0.16);
+
+    /* escala tipográfica fluida */
+    --step--2: 0.75rem;
+    --step--1: clamp(0.82rem, 0.8rem + 0.1vw, 0.9rem);
+    --step-0: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+    --step-1: clamp(1.25rem, 1.12rem + 0.6vw, 1.5rem);
+    --step-2: clamp(1.55rem, 1.3rem + 1.1vw, 2.15rem);
+    --step-3: clamp(2rem, 1.5rem + 2.2vw, 3.2rem);
+    --step-4: clamp(2.4rem, 1.55rem + 3.8vw, 4.6rem);
+
+    /* espaço */
+    --space-section: clamp(4rem, 3rem + 5vw, 7.5rem);
+    --space-block: clamp(1.5rem, 1.2rem + 1.2vw, 2.5rem);
+    --gutter: clamp(1rem, 0.5rem + 3vw, 2.75rem);
+    --measure: 40rem;
+
+    /* movimento (docs/INTERACTIONS.md) */
+    --dur-instant: 120ms;
+    --dur-fast: 200ms;
+    --dur-base: 320ms;
+    --dur-slow: 480ms;
+    --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
+    --ease-in-out: cubic-bezier(0.6, 0, 0.2, 1);
+
+    color-scheme: light;
+  }
+
+  /* tema escuro "cianotipia": segue o sistema, a menos que o usuário escolha claro */
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) {
+      --paper: oklch(21% 0.035 255);
+      --paper-2: oklch(25% 0.04 255);
+      --ink: oklch(94% 0.012 240);
+      --ink-muted: oklch(76% 0.025 240);
+      --rule: oklch(34% 0.04 255);
+      --rule-strong: oklch(50% 0.04 255);
+      --accent: oklch(78% 0.15 62);
+      --accent-ink: oklch(80% 0.14 62);
+      --accent-soft: oklch(78% 0.15 62 / 0.16);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme='dark'] {
+    --paper: oklch(21% 0.035 255);
+    --paper-2: oklch(25% 0.04 255);
+    --ink: oklch(94% 0.012 240);
+    --ink-muted: oklch(76% 0.025 240);
+    --rule: oklch(34% 0.04 255);
+    --rule-strong: oklch(50% 0.04 255);
+    --accent: oklch(78% 0.15 62);
+    --accent-ink: oklch(80% 0.14 62);
+    --accent-soft: oklch(78% 0.15 62 / 0.16);
+    color-scheme: dark;
+  }
+}

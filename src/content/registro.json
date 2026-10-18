@@ -1,0 +1,38 @@
+[
+  {
+    "id": "2026-10-18-pesquisa",
+    "date": "2026-10-18",
+    "type": "estudo",
+    "title": "Pesquisa de 11 portfólios de referência e da viabilidade técnica."
+  },
+  {
+    "id": "2026-10-18-direcao",
+    "date": "2026-10-18",
+    "type": "site",
+    "title": "Direção criativa “Memorial” escolhida entre três propostas."
+  },
+  {
+    "id": "2026-10-18-documentacao",
+    "date": "2026-10-18",
+    "type": "site",
+    "title": "Documentação inicial e seis decisões técnicas registradas."
+  },
+  {
+    "id": "2026-10-18-prototipo",
+    "date": "2026-10-18",
+    "type": "site",
+    "title": "Protótipo estático da página inicial e do Memorial 001."
+  },
+  {
+    "id": "2026-10-18-identidade",
+    "date": "2026-10-18",
+    "type": "site",
+    "title": "Tipografia (Fraunces, Geist) e acento laranja-sinal definidos."
+  },
+  {
+    "id": "2026-10-18-repositorio",
+    "date": "2026-10-18",
+    "type": "site",
+    "title": "Estrutura do repositório Astro montada (fase 3)."
+  }
+]

@@ -1,0 +1,57 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { NATURE_LABELS, memorialNumber, publishedFirst } from '../lib/content';
+import { SITE } from '../lib/site';
+
+// Esqueleto da fase 3: conteúdo real, sem o design final (fases 4 e 5).
+const memoriais = publishedFirst(await getCollection('memoriais'), {
+  includeDrafts: import.meta.env.DEV,
+});
+---
+
+<BaseLayout>
+  <h1>
+    Construo sistemas web, automações e integrações para empresas que ainda resolvem tudo na
+    planilha.
+  </h1>
+
+  {memoriais.length > 0 && (
+    <section id="memoriais" aria-labelledby="h-memoriais">
+      <h2 id="h-memoriais">Memoriais</h2>
+      <ul>
+        {memoriais.map((m) => (
+          <li>
+            <a href={`/memoriais/${m.id}`}>
+              {memorialNumber(m.data.number)} — {m.data.title}
+            </a>{' '}
+            <span>({NATURE_LABELS[m.data.nature]})</span>
+            <p>{m.data.summary}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
+  )}
+
+  <section id="contato" aria-labelledby="h-contato">
+    <h2 id="h-contato">Contato</h2>
+    <p>
+      <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  h1 {
+    font-size: var(--step-4);
+    max-width: 21ch;
+  }
+  section {
+    margin-top: var(--space-section);
+    max-width: var(--measure);
+  }
+  h2 {
+    font-size: var(--step-2);
+    margin-bottom: 1rem;
+  }
+</style>

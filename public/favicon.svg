@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <style>
+    rect { fill: #f8f5ef; }
+    text { fill: #2a2722; }
+    @media (prefers-color-scheme: dark) { rect { fill: #161d2c; } text { fill: #eef0f4; } }
+  </style>
+  <rect width="32" height="32" rx="4"/>
+  <text x="16" y="22" font-family="Georgia, serif" font-size="16" text-anchor="middle">IM</text>
+  <circle cx="26" cy="7" r="2.5" fill="#e07a2a"/>
+</svg>

@@ -1,0 +1,11 @@
+dist/
+.astro/
+node_modules/
+package-lock.json
+prototype/
+playwright-report/
+test-results/
+.lighthouseci/
+# documentação e conteúdo editorial: formatação manual
+**/*.md
+**/*.mdx

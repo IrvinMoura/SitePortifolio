@@ -1,0 +1,50 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - run: npm ci
+      - name: Tipos (astro check)
+        run: npm run check
+      - name: Lint
+        run: npm run lint
+      - name: Formatação
+        run: npm run format:check
+      - name: Testes unitários
+        run: npm test
+      - name: Build
+        run: npm run build
+      - name: Instalar navegador dos testes
+        run: npx playwright install --with-deps chromium
+      - name: Testes E2E e acessibilidade
+        run: npm run test:e2e
+      - name: Lighthouse (orçamentos)
+        run: npm run lhci
+      - name: Relatórios
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: relatorios
+          path: |
+            playwright-report/
+            .lighthouseci/
+          retention-days: 7

@@ -9,6 +9,11 @@ updates:
         patterns: ['astro', '@astrojs/*']
       testes:
         patterns: ['@playwright/*', '@axe-core/*', 'vitest', '@lhci/*']
+    ignore:
+      # TypeScript 7 ainda não é suportado por typescript-eslint nem por @astrojs/check.
+      # Reavaliar quando os dois declararem suporte.
+      - dependency-name: typescript
+        update-types: ['version-update:semver-major']
   - package-ecosystem: github-actions
     directory: /
     schedule:

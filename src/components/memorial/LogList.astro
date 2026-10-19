@@ -1,0 +1,71 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatDate, isoDate } from '../../lib/format';
+
+// Registro público (changelog/diário), do mais recente para o mais antigo.
+interface Props {
+  entries: CollectionEntry<'registro'>[];
+  limit?: number;
+  class?: string;
+}
+const { entries, limit, class: className } = Astro.props;
+const LABELS = { site: 'Site', projeto: 'Projeto', estudo: 'Estudo' } as const;
+const sorted = [...entries]
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, limit);
+---
+
+{sorted.length > 0 && (
+  <ol class:list={['log', className]}>
+    {sorted.map(({ data }) => (
+      <li>
+        <time datetime={isoDate(data.date)}>{formatDate(data.date)}</time>
+        <span class="tag">{LABELS[data.type]}</span>
+        <span class="text">
+          {data.link ? (
+            <a class="link" href={data.link}>
+              {data.title}
+            </a>
+          ) : (
+            data.title
+          )}
+        </span>
+      </li>
+    ))}
+  </ol>
+)}
+
+<style>
+  .log {
+    list-style: none;
+    padding: 0;
+    border-top: 1px solid var(--ink);
+  }
+  li {
+    display: grid;
+    grid-template-columns: 7.5rem 4.5rem minmax(0, 1fr);
+    gap: 0.25rem 1rem;
+    padding: 0.9rem 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: baseline;
+  }
+  time,
+  .tag {
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--ink-muted);
+  }
+  .tag {
+    color: var(--accent-ink);
+  }
+  @media (max-width: 35rem) {
+    li {
+      grid-template-columns: auto 1fr;
+    }
+    .text {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

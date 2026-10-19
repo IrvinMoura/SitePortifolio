@@ -1,0 +1,37 @@
+---
+// Nota de margem (INTERACTIONS I-04): coluna direita no desktop, bloco em linha no celular.
+// Deve vir logo depois do parágrafo que comenta, dentro de uma .sheet ou .mem.
+interface Props {
+  kicker?: string;
+}
+const { kicker = 'Nota' } = Astro.props;
+---
+
+<aside class="note">
+  <span class="kicker accent-ink">{kicker}</span>
+  <slot />
+</aside>
+
+<style>
+  .note {
+    display: grid;
+    gap: 0.2rem;
+    align-self: start;
+    font-family: var(--font-sans);
+    font-size: var(--step--1);
+    line-height: 1.5;
+    color: var(--ink-muted);
+    border-left: 2px solid var(--accent);
+    padding: 0.1rem 0 0.1rem 0.85rem;
+  }
+  .note :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.92em;
+  }
+  @media (max-width: 63.99rem) {
+    .note {
+      background: var(--paper-2);
+      padding: 0.75rem 1rem;
+    }
+  }
+</style>

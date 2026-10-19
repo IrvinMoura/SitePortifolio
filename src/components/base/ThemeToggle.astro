@@ -1,0 +1,68 @@
+---
+// INTERACTIONS I-07. O tema inicial é aplicado antes da pintura por ThemeInit.astro.
+---
+
+<button class="theme-toggle" type="button" aria-pressed="false" data-theme-toggle>
+  <span class="dot" aria-hidden="true"></span>
+  Tema escuro
+</button>
+
+<script>
+  const KEY = 'theme';
+  const root = document.documentElement;
+  const media = matchMedia('(prefers-color-scheme: dark)');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+
+  const isDark = () => (root.dataset.theme ? root.dataset.theme === 'dark' : media.matches);
+
+  for (const button of document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]')) {
+    const sync = () => button.setAttribute('aria-pressed', String(isDark()));
+    sync();
+    media.addEventListener('change', sync);
+    button.addEventListener('click', () => {
+      const next = isDark() ? 'light' : 'dark';
+      const apply = () => {
+        root.dataset.theme = next;
+        sync();
+      };
+      if (document.startViewTransition && !reduced.matches) document.startViewTransition(apply);
+      else apply();
+      try {
+        localStorage.setItem(KEY, next);
+      } catch {
+        // Sem armazenamento: o tema vale só para esta visita.
+      }
+    });
+  }
+</script>
+
+<style>
+  .theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background: none;
+    border: 1px solid var(--rule-strong);
+    border-radius: 2px;
+    padding: 0.4rem 0.65rem;
+    cursor: pointer;
+    transition: border-color var(--dur-instant);
+  }
+  .theme-toggle:hover {
+    border-color: var(--ink);
+  }
+  .dot {
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+    background: linear-gradient(90deg, currentColor 50%, transparent 50%);
+  }
+  .theme-toggle[aria-pressed='true'] .dot {
+    background: currentColor;
+  }
+</style>

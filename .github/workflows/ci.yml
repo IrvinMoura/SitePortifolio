@@ -31,8 +31,8 @@ jobs:
         run: npm run format:check
       - name: Testes unitários
         run: npm test
-      - name: Build
-        run: npm run build
+      - name: Build (inclui páginas internas de teste)
+        run: npm run build:test
       - name: Instalar navegador dos testes
         run: npx playwright install --with-deps chromium
       - name: Testes E2E e acessibilidade

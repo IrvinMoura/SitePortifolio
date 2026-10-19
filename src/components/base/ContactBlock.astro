@@ -1,0 +1,92 @@
+---
+import { SITE } from '../../lib/site';
+
+// Lista de contato. Só mostra canais que existem de fato (sem links pendentes em produção).
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<dl class:list={['contact', className]}>
+  <div>
+    <dt class="kicker">E-mail</dt>
+    <dd>
+      <a class="link" href={`mailto:${SITE.email}`}>
+        {SITE.email}
+      </a>
+      <button class="copy" type="button" data-copy={SITE.email}>
+        Copiar
+      </button>
+      <span class="status" aria-live="polite" data-copy-status></span>
+    </dd>
+  </div>
+  <div>
+    <dt class="kicker">Fuso horário</dt>
+    <dd>Brasília (UTC−3)</dd>
+  </div>
+</dl>
+
+<script>
+  // INTERACTIONS I-05: copia e confirma por 2 s; sem JS, o link mailto continua funcionando.
+  for (const button of document.querySelectorAll<HTMLButtonElement>('[data-copy]')) {
+    const status = button.parentElement?.querySelector('[data-copy-status]');
+    let timer: number | undefined;
+    button.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(button.dataset.copy ?? '');
+        if (status) status.textContent = 'Copiado';
+      } catch {
+        if (status) status.textContent = 'Não foi possível copiar';
+      }
+      clearTimeout(timer);
+      timer = window.setTimeout(() => {
+        if (status) status.textContent = '';
+      }, 2000);
+    });
+  }
+</script>
+
+<style>
+  .contact {
+    border-top: 1px solid var(--ink);
+  }
+  .contact > div {
+    display: grid;
+    grid-template-columns: 8rem minmax(0, 1fr);
+    gap: 0.5rem 1rem;
+    padding: 0.95rem 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: center;
+  }
+  dd {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem 1rem;
+  }
+  .copy {
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    background: none;
+    border: 1px solid var(--rule-strong);
+    border-radius: 2px;
+    padding: 0.3rem 0.55rem;
+    cursor: pointer;
+  }
+  .copy:hover {
+    border-color: var(--ink);
+  }
+  .status {
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    color: var(--accent-ink);
+  }
+  @media (max-width: 35rem) {
+    .contact > div {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

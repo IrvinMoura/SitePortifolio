@@ -1,0 +1,27 @@
+---
+interface Props {
+  target?: string;
+}
+const { target = 'conteudo' } = Astro.props;
+---
+
+<a class="skip" href={`#${target}`}>
+  Pular para o conteúdo
+</a>
+
+<style>
+  .skip {
+    position: absolute;
+    left: var(--gutter);
+    top: -4rem;
+    z-index: 100;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0.6rem 1rem;
+    font-size: var(--step--1);
+    text-decoration: none;
+  }
+  .skip:focus {
+    top: 1rem;
+  }
+</style>

@@ -57,19 +57,25 @@ Regras: o acento é **raro** (anotação, foco e interação), nunca área grand
 - **Ficha técnica** no topo de cada memorial.
 - **Figura-assinatura** no hero (ver [INTERACTIONS.md](INTERACTIONS.md)).
 
-## Componentes base (fase 4)
-| Componente | Responsabilidade |
-|---|---|
-| `Section` | Seção numerada com título e âncora |
-| `MarginNote` | Nota de margem: popover no desktop, bloco em linha no mobile |
-| `SpecSheet` | Ficha técnica (natureza, período, papel, stack, status, links) |
-| `NatureBadge` | Rótulo de natureza do projeto (cliente / acadêmico / demonstrativo / open source) |
-| `Figure` | Moldura de figura com legenda numerada, fallback estático e área para ilha interativa |
-| `Toc` | Índice lateral com indicador da seção atual |
-| `LogEntry` | Entrada do registro/changelog (data, tipo, texto, link) |
-| `ProjectRow` | Item da lista de memoriais (aparece só quando houver projetos) |
-| `ContactBlock` | E-mail copiável, agenda, perfis, fuso horário |
-| `Link`, `Button`, `ThemeToggle`, `SkipLink`, `SiteHeader`, `SiteFooter` | Fundamentais |
+## Componentes (fase 4)
+Visíveis juntos, nos dois temas, em `/interno/componentes` (só em `npm run dev` e no build de teste).
+
+| Componente | Arquivo | Responsabilidade |
+|---|---|---|
+| `Section` | `memorial/Section.astro` | Seção numerada da folha: rótulo na margem, título e conteúdo |
+| `MarginNote` | `memorial/MarginNote.astro` | Nota na coluna direita (desktop) ou bloco em linha (celular), alinhada ao parágrafo anterior |
+| `SpecSheet` | `memorial/SpecSheet.astro` | Ficha técnica em pares rótulo/valor |
+| `NatureBadge` | `memorial/NatureBadge.astro` | Rótulo da natureza do projeto |
+| `Figure` | `memorial/Figure.astro` | Figura com legenda numerada; o conteúdo vem pelo slot |
+| `Toc` | `memorial/Toc.astro` | Índice do memorial com a seção atual destacada |
+| `MemorialList` | `memorial/MemorialList.astro` | Lista de memoriais; não renderiza nada se vazia |
+| `LogList` | `memorial/LogList.astro` | Registro público, do mais recente ao mais antigo |
+| `ContactBlock` | `base/ContactBlock.astro` | E-mail copiável e fuso; só canais que existem |
+| `Button` | `base/Button.astro` | Link ou botão, primário ou secundário, seta opcional |
+| `ThemeToggle` + `ThemeInit` | `base/` | Alternância de tema persistida, sem flash na carga |
+| `SkipLink`, `SiteHeader`, `SiteFooter` | `base/` | Estrutura de todas as páginas |
+
+Estilos globais em camadas (`src/styles/`): `base.css` (ordem das camadas, reset, base), `tokens.css`, `layout.css` (`.wrap`, `.sheet`, `.mem`) e `typography.css` (`.display`, `.heading`, `.subheading`, `.lede`, `.prose`, `.kicker`, `.link`). Estilos de componente ficam com escopo no próprio `.astro`.
 
 Sem abstrações antecipadas: um componente só é criado quando é usado em pelo menos um lugar real.
 

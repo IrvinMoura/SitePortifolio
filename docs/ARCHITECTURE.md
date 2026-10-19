@@ -49,7 +49,7 @@ MDX (conteúdo) ──► Astro build (SSG) ──► HTML/CSS estático + ilhas
 │  │  └─ islands/            componentes React interativos (figuras)
 │  ├─ layouts/               BaseLayout, MemorialLayout
 │  ├─ pages/                 rotas (ver abaixo)
-│  ├─ styles/                tokens.css, base.css, utilities.css
+│  ├─ styles/                base.css (camadas), tokens.css, layout.css, typography.css
 │  ├─ i18n/                  strings de UI (pt-BR agora, en depois)
 │  └─ lib/                   utilitários puros (testados com Vitest)
 └─ tests/

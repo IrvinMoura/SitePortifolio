@@ -1,0 +1,48 @@
+---
+// Ficha técnica: pares rótulo/valor em grade, com fios finos.
+export interface SpecItem {
+  label: string;
+  value: string;
+  href?: string | undefined;
+}
+interface Props {
+  items: SpecItem[];
+  class?: string;
+}
+const { items, class: className } = Astro.props;
+---
+
+<dl class:list={['spec', className]}>
+  {items.map(({ label, value, href }) => (
+    <div>
+      <dt class="kicker">{label}</dt>
+      <dd>
+        {href ? (
+          <a class="link" href={href}>
+            {value}
+          </a>
+        ) : (
+          value
+        )}
+      </dd>
+    </div>
+  ))}
+</dl>
+
+<style>
+  .spec {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+    border-top: 1px solid var(--ink);
+  }
+  .spec div {
+    padding: 0.85rem 1rem 0.85rem 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  dt {
+    margin-bottom: 0.2rem;
+  }
+  dd {
+    font-size: 0.98rem;
+  }
+</style>

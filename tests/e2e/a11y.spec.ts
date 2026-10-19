@@ -1,8 +1,8 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
-import { ROUTES } from './routes';
+import { A11Y_ROUTES } from './routes';
 
-for (const route of ROUTES) {
+for (const route of A11Y_ROUTES) {
   for (const scheme of ['light', 'dark'] as const) {
     test(`${route} sem violações WCAG 2.2 A/AA (tema ${scheme})`, async ({ page }) => {
       await page.emulateMedia({ colorScheme: scheme });

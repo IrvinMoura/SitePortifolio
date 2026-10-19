@@ -2,6 +2,12 @@
 import { Font } from 'astro:assets';
 import '../styles/base.css';
 import '../styles/tokens.css';
+import '../styles/layout.css';
+import '../styles/typography.css';
+import SiteFooter from '../components/base/SiteFooter.astro';
+import SiteHeader from '../components/base/SiteHeader.astro';
+import SkipLink from '../components/base/SkipLink.astro';
+import ThemeInit from '../components/base/ThemeInit.astro';
 import { SITE } from '../lib/site';
 import { canonicalPath } from '../lib/url';
 
@@ -21,6 +27,7 @@ const canonical = new URL(canonicalPath(Astro.url.pathname), Astro.site);
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <ThemeInit />
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
@@ -40,80 +47,11 @@ const canonical = new URL(canonicalPath(Astro.url.pathname), Astro.site);
     <Font cssVariable="--font-mono" />
   </head>
   <body>
-    <a class="skip" href="#conteudo">
-      Pular para o conteúdo
-    </a>
-    <header class="site-header wrap">
-      <a href="/" class="brand">
-        {SITE.name}
-      </a>
-      <nav aria-label="Principal">
-        <ul>
-          <li>
-            <a href="/#memoriais">Memoriais</a>
-          </li>
-          <li>
-            <a href="/registro">Registro</a>
-          </li>
-          <li>
-            <a href="/#contato">Contato</a>
-          </li>
-        </ul>
-      </nav>
-    </header>
-    <main id="conteudo" class="wrap">
+    <SkipLink />
+    <SiteHeader />
+    <main id="conteudo">
       <slot />
     </main>
-    <footer class="site-footer wrap">
-      <p>
-        © {new Date().getFullYear()} {SITE.name}
-      </p>
-    </footer>
+    <SiteFooter />
   </body>
 </html>
-
-<style>
-  /* Estrutura mínima da fase 3; o sistema visual completo chega na fase 4. */
-  .skip {
-    position: absolute;
-    left: var(--gutter);
-    top: -4rem;
-    z-index: 100;
-    background: var(--ink);
-    color: var(--paper);
-    padding: 0.6rem 1rem;
-  }
-  .skip:focus {
-    top: 1rem;
-  }
-  .site-header {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 0.75rem 2rem;
-    padding-block: 1.25rem;
-    border-bottom: 1px solid var(--rule);
-  }
-  .brand {
-    font-family: var(--font-serif);
-    font-size: var(--step-1);
-    text-decoration: none;
-  }
-  nav ul {
-    display: flex;
-    gap: 1.4rem;
-    list-style: none;
-    padding: 0;
-    font-size: var(--step--1);
-  }
-  main {
-    padding-block: var(--space-section);
-  }
-  .site-footer {
-    border-top: 1px solid var(--rule);
-    padding-block: 2rem 4rem;
-    font-size: var(--step--1);
-    color: var(--ink-muted);
-  }
-</style>

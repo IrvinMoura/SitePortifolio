@@ -1,0 +1,95 @@
+---
+import { SITE } from '../../lib/site';
+import ThemeToggle from './ThemeToggle.astro';
+
+const links = [
+  { href: '/#memoriais', label: 'Memoriais', match: '/memoriais' },
+  { href: '/registro', label: 'Registro', match: '/registro' },
+  { href: '/#contato', label: 'Contato', match: null },
+];
+const path = Astro.url.pathname.replace(/\.html$/, '');
+---
+
+<header class="site-header">
+  <div class="wrap inner">
+    <a class="brand" href="/">
+      <span class="brand-name">{SITE.name}</span>
+      <span class="brand-tag">Memorial</span>
+    </a>
+    <nav class="nav" aria-label="Principal">
+      <ul>
+        {links.map(({ href, label, match }) => (
+          <li>
+            <a href={href} aria-current={match && path.startsWith(match) ? 'page' : undefined}>
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <ThemeToggle />
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--rule);
+  }
+  .inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 2rem;
+    padding-block: 1.1rem;
+  }
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    text-decoration: none;
+  }
+  .brand-name {
+    font-family: var(--font-serif);
+    font-size: var(--step-1);
+    letter-spacing: var(--display-tracking);
+  }
+  .brand-tag {
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink-muted);
+  }
+  .nav {
+    margin-left: auto;
+  }
+  .nav ul {
+    display: flex;
+    gap: 1.4rem;
+    list-style: none;
+    padding: 0;
+    font-size: var(--step--1);
+  }
+  .nav a {
+    color: var(--ink-muted);
+    text-decoration: none;
+    transition: color var(--dur-instant);
+  }
+  .nav a:hover,
+  .nav a[aria-current='page'] {
+    color: var(--ink);
+  }
+  .nav a[aria-current='page'] {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 0.35em;
+  }
+  @media (max-width: 47.99rem) {
+    .nav {
+      order: 3;
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+</style>

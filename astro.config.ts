@@ -16,7 +16,7 @@ export default defineConfig({
   // URLs sem barra final (/registro), uma por página: evita conteúdo duplicado. Ver vercel.json.
   trailingSlash: 'never',
   build: { format: 'file' },
-  integrations: [mdx(), react(), sitemap()],
+  integrations: [mdx(), react(), sitemap({ filter: (page) => !page.includes('/interno/') })],
   i18n: {
     defaultLocale: 'pt-BR',
     locales: ['pt-BR'],

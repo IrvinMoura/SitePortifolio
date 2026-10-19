@@ -1,0 +1,38 @@
+---
+// Seção numerada da folha: rótulo na margem esquerda, título e conteúdo na coluna de texto.
+interface Props {
+  id: string;
+  number: string;
+  label: string;
+  title: string;
+}
+const { id, number, label, title } = Astro.props;
+---
+
+<section class="section sheet wrap" id={id} aria-labelledby={`h-${id}`}>
+  <p class="label kicker">
+    <span class="num">{number}</span> {label}
+  </p>
+  <h2 class="heading" id={`h-${id}`}>
+    {title}
+  </h2>
+  <slot />
+</section>
+
+<style>
+  .label {
+    display: flex;
+    gap: 0.7em;
+    align-items: baseline;
+    padding-top: 0.55rem;
+  }
+  @media (min-width: 64rem) {
+    .label {
+      position: sticky;
+      top: 1.5rem;
+      align-self: start;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+  }
+</style>

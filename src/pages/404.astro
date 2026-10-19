@@ -1,19 +1,30 @@
 ---
+import Button from '../components/base/Button.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="Página não encontrada" noindex>
-  <h1>Esta página não existe.</h1>
-  <p>
-    O endereço pode ter mudado. <a href="/">Voltar ao início</a>.
-  </p>
+  <section class="sheet wrap page" aria-labelledby="titulo">
+    <p class="label kicker">
+      <span class="num">404</span> Não encontrada
+    </p>
+    <h1 class="display wide" id="titulo">
+      Esta página não existe.
+    </h1>
+    <p class="lede">O endereço pode ter mudado.</p>
+    <p>
+      <Button href="/" arrow>
+        Voltar ao início
+      </Button>
+    </p>
+  </section>
 </BaseLayout>
 
 <style>
-  h1 {
-    font-size: var(--step-3);
+  .page {
+    padding-block: clamp(3rem, 2rem + 5vw, 6rem) var(--space-section);
   }
-  p {
-    margin-top: 1rem;
+  .page .label {
+    padding-top: 0.55rem;
   }
 </style>

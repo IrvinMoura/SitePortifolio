@@ -29,7 +29,7 @@
 | I-01 | Transição entre páginas | Navegação interna | Cross-fade; o título do memorial na lista "vira" o título da página | View Transitions cross-document (`@view-transition`) | n/a | Troca instantânea | Navegação normal (Firefox ainda sem suporte) | MVP |
 | I-02 | Entrada de seção | Seção entra na viewport | Fade + translate de 8 px, **uma vez** | `@starting-style` / classe via IntersectionObserver | n/a | Sem animação | Conteúdo visível | MVP |
 | I-03 | Índice com seção ativa | Scroll | Marcador de acento move para a seção atual | IntersectionObserver | Itens são links focáveis | Marcador muda sem deslizar | Índice estático | MVP |
-| I-04 | Nota de margem | Clique/toque no marcador | Abre nota ancorada ao marcador | `popover` + anchor positioning, com fallback de posicionamento | Enter/Espaço abre, Esc fecha, foco retorna | Sem translate | Nota em linha, sempre visível | MVP |
+| I-04 | Nota de margem | — (estática) | Sempre visível: coluna direita no desktop, bloco em linha no celular. O popover previsto foi descartado na fase 4: esconder a nota atrás de um clique piorava a leitura sem ganho | CSS grid | Não precisa de interação | Igual | Igual | MVP ✅ |
 | I-05 | Copiar e-mail | Clique | Copia e mostra "copiado" por 2 s (`aria-live`) | Clipboard API | Botão nativo | Igual | Link `mailto:` | MVP |
 | I-06 | Link com sublinhado desenhado | Hover/foco | Sublinhado cresce da esquerda | CSS (`background-size`) | Mesmo efeito no `:focus-visible` | Sublinhado fixo | Sublinhado fixo | MVP |
 | I-07 | Alternar tema | Clique | Troca papel ↔ cianotipia | CSS custom properties; `startViewTransition` se disponível | Botão nativo com `aria-pressed` | Troca instantânea | Segue o sistema | MVP |

@@ -1,0 +1,93 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+// Índice do memorial com a seção atual destacada (INTERACTIONS I-03).
+interface Props {
+  headings: MarkdownHeading[];
+}
+const items = Astro.props.headings.filter((h) => h.depth === 2);
+---
+
+<nav class="toc" aria-label="Neste memorial">
+  <p class="kicker title">Neste memorial</p>
+  <ol>
+    {items.map((h, i) => (
+      <li>
+        <a href={`#${h.slug}`}>
+          <span class="n">{i + 1}</span>
+          {h.text}
+        </a>
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<script>
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('.toc a')];
+  const byId = new Map(links.map((a) => [decodeURIComponent(a.hash.slice(1)), a]));
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        links.forEach((a) => a.removeAttribute('aria-current'));
+        byId.get(entry.target.id)?.setAttribute('aria-current', 'true');
+      }
+    },
+    { rootMargin: '0px 0px -75% 0px' },
+  );
+  for (const id of byId.keys()) {
+    const target = document.getElementById(id);
+    if (target) observer.observe(target);
+  }
+</script>
+
+<style>
+  .toc {
+    font-size: var(--step--1);
+  }
+  .title {
+    margin-bottom: 0.6rem;
+  }
+  ol {
+    list-style: none;
+    padding: 0;
+    columns: 2;
+    column-gap: 1.5rem;
+  }
+  a {
+    display: flex;
+    gap: 0.6rem;
+    padding: 0.3rem 0 0.3rem 0.75rem;
+    border-left: 1px solid var(--rule);
+    color: var(--ink-muted);
+    text-decoration: none;
+    break-inside: avoid;
+    transition:
+      color var(--dur-instant),
+      border-color var(--dur-fast);
+  }
+  a:hover {
+    color: var(--ink);
+  }
+  a[aria-current='true'] {
+    color: var(--ink);
+    border-left: 2px solid var(--accent);
+    padding-left: calc(0.75rem - 1px);
+  }
+  .n {
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    color: var(--accent-ink);
+    padding-top: 0.15rem;
+  }
+  @media (min-width: 64rem) {
+    .toc {
+      position: sticky;
+      top: 1.5rem;
+      align-self: start;
+    }
+    ol {
+      columns: 1;
+    }
+  }
+</style>

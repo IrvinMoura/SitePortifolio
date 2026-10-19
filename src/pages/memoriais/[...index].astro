@@ -1,8 +1,9 @@
 ---
 import type { GetStaticPaths } from 'astro';
 import { getCollection } from 'astro:content';
+import MemorialList from '../../components/memorial/MemorialList.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { NATURE_LABELS, memorialNumber, publishedFirst, shouldBuildIndex } from '../../lib/content';
+import { publishedFirst, shouldBuildIndex } from '../../lib/content';
 
 // /memoriais só é gerada com 3 ou mais memoriais publicados (ADR 006).
 // Rota "rest" para poder não gerar página nenhuma: getStaticPaths vazio = sem /memoriais.
@@ -17,15 +18,19 @@ const { entries } = Astro.props;
 ---
 
 <BaseLayout title="Memoriais" description="Projetos documentados do problema ao resultado.">
-  <h1>Memoriais</h1>
-  <ul>
-    {entries.map((m) => (
-      <li>
-        <a href={`/memoriais/${m.id}`}>
-          {memorialNumber(m.data.number)} — {m.data.title}
-        </a>{' '}
-        <span>({NATURE_LABELS[m.data.nature]})</span>
-      </li>
-    ))}
-  </ul>
+  <section class="sheet wrap page" aria-labelledby="titulo">
+    <p class="label kicker">
+      <span class="num">01</span> Memoriais
+    </p>
+    <h1 class="display wide" id="titulo">
+      Memoriais
+    </h1>
+    <MemorialList entries={entries} class="wide" />
+  </section>
 </BaseLayout>
+
+<style>
+  .page {
+    padding-block: clamp(3rem, 2rem + 5vw, 6rem) var(--space-section);
+  }
+</style>

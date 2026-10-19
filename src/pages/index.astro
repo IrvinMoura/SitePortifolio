@@ -1,57 +1,71 @@
 ---
 import { getCollection } from 'astro:content';
+import ContactBlock from '../components/base/ContactBlock.astro';
+import LogList from '../components/memorial/LogList.astro';
+import MemorialList from '../components/memorial/MemorialList.astro';
+import Section from '../components/memorial/Section.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { NATURE_LABELS, memorialNumber, publishedFirst } from '../lib/content';
-import { SITE } from '../lib/site';
+import { publishedFirst } from '../lib/content';
 
-// Esqueleto da fase 3: conteúdo real, sem o design final (fases 4 e 5).
+// Página inicial com os componentes da fase 4. Apresentação completa, Fig. 0,
+// "Como trabalho" e "Sobre" chegam na fase 5.
 const memoriais = publishedFirst(await getCollection('memoriais'), {
   includeDrafts: import.meta.env.DEV,
 });
+const registro = await getCollection('registro');
 ---
 
 <BaseLayout>
-  <h1>
-    Construo sistemas web, automações e integrações para empresas que ainda resolvem tudo na
-    planilha.
-  </h1>
+  <section class="sheet wrap hero" aria-labelledby="titulo">
+    <p class="label kicker">
+      <span class="num">00</span> Apresentação
+    </p>
+    <h1 class="display wide" id="titulo">
+      Construo sistemas web, automações e integrações para empresas que ainda resolvem tudo na
+      planilha.
+    </h1>
+  </section>
 
   {memoriais.length > 0 && (
-    <section id="memoriais" aria-labelledby="h-memoriais">
-      <h2 id="h-memoriais">Memoriais</h2>
-      <ul>
-        {memoriais.map((m) => (
-          <li>
-            <a href={`/memoriais/${m.id}`}>
-              {memorialNumber(m.data.number)} — {m.data.title}
-            </a>{' '}
-            <span>({NATURE_LABELS[m.data.nature]})</span>
-            <p>{m.data.summary}</p>
-          </li>
-        ))}
-      </ul>
-    </section>
+    <Section
+      id="memoriais"
+      number="01"
+      label="Memoriais"
+      title="Projetos documentados do problema ao resultado."
+    >
+      <MemorialList entries={memoriais} class="wide" />
+    </Section>
   )}
 
-  <section id="contato" aria-labelledby="h-contato">
-    <h2 id="h-contato">Contato</h2>
+  <Section
+    id="registro"
+    number="03"
+    label="Em construção"
+    title="Registro público do que está sendo feito."
+  >
+    <LogList entries={registro} limit={5} class="wide" />
     <p>
-      <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+      <a class="link" href="/registro">
+        Ver o registro completo
+      </a>
     </p>
-  </section>
+  </Section>
+
+  <Section
+    id="contato"
+    number="05"
+    label="Contato"
+    title="Tem um processo que toma tempo demais da sua equipe? Vamos conversar."
+  >
+    <ContactBlock class="wide" />
+  </Section>
 </BaseLayout>
 
 <style>
-  h1 {
-    font-size: var(--step-4);
-    max-width: 21ch;
+  .hero {
+    padding-block: clamp(3rem, 2rem + 5vw, 6rem) var(--space-section);
   }
-  section {
-    margin-top: var(--space-section);
-    max-width: var(--measure);
-  }
-  h2 {
-    font-size: var(--step-2);
-    margin-bottom: 1rem;
+  .hero .label {
+    padding-top: 0.55rem;
   }
 </style>

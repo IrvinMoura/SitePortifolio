@@ -13,7 +13,10 @@ featured: true
 updated: 2026-10-18
 ---
 
-{/* Versão de partida, portada do protótipo. O texto completo, com notas de margem e figuras, entra na fase 6. */}
+import Figure from '../../components/memorial/Figure.astro';
+import MarginNote from '../../components/memorial/MarginNote.astro';
+
+{/* Versão de partida, portada do protótipo. O texto completo e as demais figuras entram na fase 6. */}
 
 ## Contexto e problema
 
@@ -21,15 +24,19 @@ Estou terminando a graduação em Ciência da Computação e quero trabalhar com
 
 A saída mais comum seria preencher o site com projetos genéricos, números sem fonte e depoimentos vagos. Descartei isso desde o início: um portfólio que exagera perde justamente a confiança que deveria construir.
 
-> **Regra do projeto:** nenhuma métrica é publicada sem fonte. O build falha se isso acontecer.
+<MarginNote kicker="Regra do projeto">Nenhuma métrica é publicada sem fonte. O build falha se isso acontecer.</MarginNote>
 
 ## Para quem
+
+<Figure number="2.1" caption="Públicos em ordem de prioridade.">
 
 | Público | Precisa entender em 30 s | Ação esperada |
 | --- | --- | --- |
 | Cliente empresarial | Que problema eu resolvo, em linguagem de negócio | Iniciar uma conversa |
 | Recrutador ou tech lead | Posicionamento, stack e forma de pensar | Abrir GitHub, LinkedIn ou currículo |
 | Comunidade dev | Algo interessante para explorar | Acompanhar e compartilhar |
+
+</Figure>
 
 ## Solução
 

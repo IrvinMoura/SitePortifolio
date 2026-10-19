@@ -1,0 +1,164 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection } from 'astro:content';
+import Button from '../../components/base/Button.astro';
+import ContactBlock from '../../components/base/ContactBlock.astro';
+import Figure from '../../components/memorial/Figure.astro';
+import LogList from '../../components/memorial/LogList.astro';
+import MarginNote from '../../components/memorial/MarginNote.astro';
+import MemorialList from '../../components/memorial/MemorialList.astro';
+import NatureBadge from '../../components/memorial/NatureBadge.astro';
+import Section from '../../components/memorial/Section.astro';
+import SpecSheet from '../../components/memorial/SpecSheet.astro';
+import Toc from '../../components/memorial/Toc.astro';
+import { NATURES } from '../../content/schemas';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { publishedFirst } from '../../lib/content';
+
+// Página interna de componentes (fase 4). Só existe em `astro dev` e no build de teste
+// (`npm run build:test`); nunca no build de produção. Os textos aqui são amostras.
+export const getStaticPaths = (() =>
+  import.meta.env.DEV || import.meta.env.MODE === 'test'
+    ? [{ params: { componentes: 'componentes' } }]
+    : []) satisfies GetStaticPaths;
+
+const memoriais = publishedFirst(await getCollection('memoriais'));
+const registro = await getCollection('registro');
+const colors = [
+  'paper',
+  'paper-2',
+  'ink',
+  'ink-muted',
+  'rule',
+  'rule-strong',
+  'accent',
+  'accent-ink',
+];
+const headings = [
+  { depth: 2, slug: 'tipografia', text: 'Tipografia' },
+  { depth: 2, slug: 'cor', text: 'Cor' },
+  { depth: 2, slug: 'componentes', text: 'Componentes' },
+];
+---
+
+<BaseLayout title="Componentes (interno)" noindex>
+  <section class="sheet wrap page" aria-labelledby="titulo">
+    <p class="label kicker">
+      <span class="num">—</span> Interno
+    </p>
+    <h1 class="display wide" id="titulo">
+      Sistema visual
+    </h1>
+    <p class="lede">Amostras de tokens e componentes. Página interna, fora do build de produção.</p>
+  </section>
+
+  <div class="mem-shell wrap">
+    <Toc headings={headings} />
+    <div class="mem">
+      <h2 id="tipografia">Tipografia</h2>
+      <p class="display">Display em Fraunces</p>
+      <p class="heading">Título de seção em Fraunces</p>
+      <p class="subheading">Subtítulo em Fraunces</p>
+      <p class="lede">Texto de abertura em Fraunces, maior e com entrelinha generosa.</p>
+      <p>
+        Texto corrido em Fraunces para leitura longa, com um{' '}
+        <a class="link" href="#tipografia">
+          link de sublinhado desenhado
+        </a>{' '}
+        e <code>código em Geist Mono</code>.
+      </p>
+      <MarginNote kicker="Nota de margem">
+        Fica na coluna direita no desktop e vira bloco em linha no celular.
+      </MarginNote>
+      <p class="kicker">
+        <span class="num">01</span> Rótulo técnico em Geist Mono
+      </p>
+
+      <h2 id="cor">Cor</h2>
+      <ul class="swatches wide">
+        {colors.map((c) => (
+          <li>
+            <span class="swatch" style={`background: var(--${c})`} />
+            <code>--{c}</code>
+          </li>
+        ))}
+      </ul>
+
+      <h2 id="componentes">Componentes</h2>
+      <p class="row">
+        <Button href="#componentes" arrow>
+          Botão principal
+        </Button>
+        <Button variant="secondary">Botão secundário</Button>
+      </p>
+      <p class="row">
+        {NATURES.map((n) => (
+          <NatureBadge nature={n} />
+        ))}
+      </p>
+      <SpecSheet
+        class="wide"
+        items={[
+          { label: 'Natureza', value: 'Projeto próprio' },
+          { label: 'Status', value: 'Em andamento' },
+          { label: 'Stack', value: 'Astro, TypeScript' },
+          { label: 'Link', value: 'Exemplo', href: '#componentes' },
+        ]}
+      />
+      <Figure number="0.1" caption="Figura com tabela de exemplo.">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Coluna</th>
+              <th scope="col">Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Linha A</td>
+              <td>1</td>
+            </tr>
+            <tr>
+              <td>Linha B</td>
+              <td>2</td>
+            </tr>
+          </tbody>
+        </table>
+      </Figure>
+      <MemorialList entries={memoriais} class="wide" />
+      <LogList entries={registro} limit={3} class="wide" />
+      <ContactBlock class="wide" />
+    </div>
+  </div>
+
+  <Section id="secao" number="09" label="Seção" title="Seção numerada da folha.">
+    <p class="prose">Conteúdo da seção na coluna de texto.</p>
+    <MarginNote>Nota alinhada ao parágrafo anterior.</MarginNote>
+  </Section>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-block: clamp(3rem, 2rem + 5vw, 6rem) 3rem;
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    align-items: center;
+  }
+  .swatches {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    font-size: var(--step--2);
+  }
+  .swatch {
+    display: block;
+    height: 3rem;
+    border: 1px solid var(--rule);
+    margin-bottom: 0.35rem;
+  }
+</style>

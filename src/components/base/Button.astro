@@ -1,0 +1,67 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+type Props = {
+  variant?: 'primary' | 'secondary';
+  arrow?: boolean;
+} & (({ href: string } & HTMLAttributes<'a'>) | ({ href?: never } & HTMLAttributes<'button'>));
+
+const { variant = 'primary', arrow = false, class: className, ...rest } = Astro.props;
+const classes = ['btn', variant, className];
+---
+
+{'href' in rest && rest.href ? (
+  <a class:list={classes} {...(rest as HTMLAttributes<'a'>)}>
+    <slot />
+    {arrow && (
+      <span class="arrow" aria-hidden="true">
+        →
+      </span>
+    )}
+  </a>
+) : (
+  <button class:list={classes} type="button" {...(rest as HTMLAttributes<'button'>)}>
+    <slot />
+    {arrow && (
+      <span class="arrow" aria-hidden="true">
+        →
+      </span>
+    )}
+  </button>
+)}
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    line-height: 1.2;
+    text-decoration: none;
+    padding: 0.8rem 1.15rem;
+    border: 1px solid var(--ink);
+    border-radius: 2px;
+    background: none;
+    cursor: pointer;
+    transition:
+      background-color var(--dur-instant),
+      color var(--dur-instant);
+  }
+  .primary {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .primary:hover {
+    background: color-mix(in oklch, var(--ink) 85%, var(--accent));
+  }
+  .secondary:hover {
+    background: var(--paper-2);
+  }
+  .arrow {
+    transition: transform var(--dur-fast) var(--ease-out);
+  }
+  .btn:hover .arrow {
+    transform: translateX(3px);
+  }
+</style>

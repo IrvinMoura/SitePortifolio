@@ -45,7 +45,9 @@ Requer **Node ≥ 22.22** (recomendado: 24, ver `.node-version`).
 | `npm test` | Vitest (utilitários e schemas) |
 | `npm run test:e2e` | Playwright + axe sobre o build (rode `npm run build` antes) |
 | `npm run lhci` | Lighthouse CI com os orçamentos de `docs/QUALITY_GATES.md` |
-| `npm run verify` | Tudo acima menos Lighthouse, na ordem do CI |
+| `npm run build:test` | Build com a página interna `/interno/componentes` (usado pelos testes) |
+| `npm run test:visual` | Comparação visual (só local, referências por sistema operacional). `test:visual:update` regrava todas; revise as imagens antes de commitar |
+| `npm run verify` | Tudo acima menos Lighthouse e testes visuais, na ordem do CI |
 | `npm run prototype` | Protótipo da fase 2 em http://localhost:4322 |
 
 ## Fluxo de trabalho

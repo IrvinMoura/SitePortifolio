@@ -10,7 +10,7 @@
 | 2 | Direção criativa | ✅ | Validar o visual antes do código | **Protótipo estático** de home + Memorial 001 (`prototype/`, pronto) | Protótipo aprovado | Tipografia ✅ · acento ✅ · nome ✅ · teste de 5 s adiado (figura mantida) · textos finais |
 | 3 | Arquitetura | ✅ | Esqueleto do repositório | Git + repo Astro/TS, CI, deploy de preview, schemas de conteúdo | Build e deploy de preview verdes; gates no CI | Hospedagem ✅ (Vercel) · domínio (pode ficar para a fase 10) |
 | 4 | Sistema visual | ✅ | Tokens e componentes base | `tokens.css`, tipografia, grid com margem, componentes de [DESIGN.md](DESIGN.md), página interna `/interno/componentes` | Componentes com foco, tema escuro e teste visual | — |
-| 5 | Home e navegação | ⬜ | Primeira versão completa | Home, header/footer, 404, `/sobre`, `/registro`, SEO base | Conteúdo real em tudo; teclado ok | Textos da home e do sobre |
+| 5 | Home e navegação | ✅ (texto do Sobre provisório) | Primeira versão completa | Home, header/footer, 404, `/sobre`, `/registro`, SEO base | Conteúdo real em tudo; teclado ok | Textos da home e do sobre |
 | 6 | Memorial 001 (este site) | ⬜ | Primeiro estudo de caso | Template de memorial + `este-site.mdx` | Passa no checklist de memorial | Texto do memorial |
 | 7 | Interações | ⬜ | Motion e figuras | I-01 a I-08 de [INTERACTIONS.md](INTERACTIONS.md) | Inventário do MVP implementado com fallbacks | Corte de qualquer interação que não passe |
 | 8 | Responsividade e a11y | ⬜ | Robustez | Ajustes de 320 a 1920 px; leitor de tela | Zero violação axe; navegação completa por teclado | — |

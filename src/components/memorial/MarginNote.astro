@@ -9,7 +9,9 @@ const { kicker = 'Nota' } = Astro.props;
 
 <aside class="note">
   <span class="kicker accent-ink">{kicker}</span>
-  <slot />
+  <div>
+    <slot />
+  </div>
 </aside>
 
 <style>

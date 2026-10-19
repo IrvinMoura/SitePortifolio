@@ -6,6 +6,7 @@ const PAGES = [
   { name: 'componentes', path: '/interno/componentes' },
   { name: 'memorial', path: '/memoriais/este-site' },
   { name: 'inicio', path: '/' },
+  { name: 'sobre', path: '/sobre' },
 ];
 
 for (const { name, path } of PAGES) {

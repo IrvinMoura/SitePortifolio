@@ -46,5 +46,11 @@
     "date": "2026-10-18",
     "type": "site",
     "title": "Sistema visual e componentes base, com tema escuro e testes visuais (fase 4)."
+  },
+  {
+    "id": "2026-10-19-home",
+    "date": "2026-10-19",
+    "type": "site",
+    "title": "Página inicial completa, página Sobre e dados estruturados para buscadores (fase 5)."
   }
 ]

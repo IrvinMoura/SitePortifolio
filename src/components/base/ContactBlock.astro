@@ -21,9 +21,21 @@ const { class: className } = Astro.props;
       <span class="status" aria-live="polite" data-copy-status></span>
     </dd>
   </div>
+  {SITE.profiles.length > 0 && (
+    <div>
+      <dt class="kicker">Perfis</dt>
+      <dd>
+        {SITE.profiles.map((p) => (
+          <a class="link" href={p.href} rel="me">
+            {p.label}
+          </a>
+        ))}
+      </dd>
+    </div>
+  )}
   <div>
     <dt class="kicker">Fuso horário</dt>
-    <dd>Brasília (UTC−3)</dd>
+    <dd>UTC−3 (horário de Brasília)</dd>
   </div>
 </dl>
 

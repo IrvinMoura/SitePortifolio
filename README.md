@@ -2,7 +2,7 @@
 
 Portfólio profissional de desenvolvedor independente, no formato **Memorial**: um caderno técnico com estudos de caso, notas de margem e figuras interativas.
 
-**Status:** fase 3 (estrutura do repositório). Veja o [roadmap](docs/ROADMAP.md).
+**Status:** fase 6 (estudos de caso). Veja o [roadmap](docs/ROADMAP.md).
 
 ## Stack prevista
 Astro (estático) · TypeScript · ilhas React · CSS com tokens · Motion · Playwright + axe + Lighthouse CI.

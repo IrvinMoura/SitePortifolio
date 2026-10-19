@@ -31,6 +31,7 @@ Portfólio profissional de Irvin Marques, desenvolvedor independente. Conceito *
 - **Componentes:** `.astro` por padrão; React só em `src/components/islands/`, hidratado com `client:visible`.
 - **Acessibilidade:** HTML semântico primeiro; ARIA só quando não houver elemento nativo.
 - **Sem abstração antecipada:** crie um componente ou utilitário quando houver um uso real.
+- **Texto com link ou destaque no meio:** o Prettier quebra linhas em volta de `<a>`/`<strong>`, e o build do Astro transforma isso em espaço sobrando ("link ,") ou faltando ("a<strong>"). Use `{' '}` antes do elemento, ou `<!-- prettier-ignore -->` com a frase em uma linha quando houver pontuação logo depois. O teste `home.spec.ts` detecta os dois casos.
 - **Commits:** Conventional Commits (`feat:`, `fix:`, `docs:`…), pequenos e focados.
 
 ## Comandos

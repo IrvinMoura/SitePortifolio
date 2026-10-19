@@ -33,7 +33,7 @@
 | I-05 | Copiar e-mail | Clique | Copia e mostra "copiado" por 2 s (`aria-live`) | Clipboard API | Botão nativo | Igual | Link `mailto:` | MVP |
 | I-06 | Link com sublinhado desenhado | Hover/foco | Sublinhado cresce da esquerda | CSS (`background-size`) | Mesmo efeito no `:focus-visible` | Sublinhado fixo | Sublinhado fixo | MVP |
 | I-07 | Alternar tema | Clique | Troca papel ↔ cianotipia | CSS custom properties; `startViewTransition` se disponível | Botão nativo com `aria-pressed` | Troca instantânea | Segue o sistema | MVP |
-| I-08 | **Figura-assinatura** | Clique/arraste/tecla no hero | Ver especificação abaixo | SVG + ilha React (`client:visible`) + Motion | Completa por teclado | Mostra estados lado a lado, sem animação | Imagem estática "antes → depois" com legenda | MVP (teste de 5 s adiado; figura mantida) |
+| I-08 | **Figura-assinatura** | Clique/arraste/tecla no hero | Ver especificação abaixo | SVG + ilha React (`client:visible`) + Motion | Completa por teclado | Mostra estados lado a lado, sem animação | Imagem estática "antes → depois" com legenda | Estática (os dois estados lado a lado) na fase 5 ✅; alternância interativa na fase 7. Teste de 5 s adiado |
 | I-09 | Figuras de memorial | Interação do usuário | Específico de cada figura | Ilha por figura, carregada quando visível | Obrigatório | Obrigatório | Imagem + legenda descritiva | Por projeto |
 | I-10 | Animações scroll-driven | Scroll | Apenas detalhes (ex.: barra de progresso de leitura) | `animation-timeline` dentro de `@supports` | n/a | Desligado | Sem barra | Pós-MVP |
 

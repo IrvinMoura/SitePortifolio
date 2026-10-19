@@ -1,0 +1,135 @@
+---
+// Seção "Como trabalho" da página inicial: frentes de trabalho e etapas de um projeto.
+// Texto aprovado no protótipo da fase 2.
+const offers = [
+  {
+    title: 'Sites únicos, feitos para você',
+    text: 'Nada de template. Cada site é desenhado e construído para a sua marca, o seu público e o que ele precisa fazer: apresentar, vender, agendar ou captar clientes.',
+  },
+  {
+    title: 'Automação de processos',
+    text: 'Copiar pedidos, conferir planilhas, mandar o mesmo e-mail pela décima vez: o trabalho repetitivo passa para o software, e a sua equipe volta a cuidar do que importa.',
+  },
+  {
+    title: 'Sistemas e integrações',
+    text: 'Painéis, cadastros e conexões entre as ferramentas que você já usa, para que a informação do negócio esteja num só lugar e sempre atualizada.',
+  },
+];
+
+const steps = [
+  {
+    title: 'Entender o processo',
+    text: 'Uma conversa para mapear como o trabalho acontece hoje: quem faz o quê, onde estão as cópias, as conferências e os atrasos.',
+    out: 'Um mapa do processo atual e uma proposta escrita.',
+  },
+  {
+    title: 'Definir o escopo',
+    text: 'Escopo, prazo e o que fica de fora, tudo por escrito. Começo pelo menor sistema que já resolve uma parte real do problema.',
+    out: 'Escopo fechado e cronograma em etapas.',
+  },
+  {
+    title: 'Construir em ciclos curtos',
+    text: 'Uma versão funcionando ao fim de cada ciclo, para você testar com dados reais e corrigir o rumo cedo.',
+    out: 'Acesso a cada versão para testar.',
+  },
+  {
+    title: 'Entregar e documentar',
+    text: 'Publicação, documentação de uso e passagem de conhecimento para a equipe.',
+    out: 'Sistema no ar, documentação e código-fonte.',
+  },
+  {
+    title: 'Acompanhar',
+    text: 'Ajustes depois do uso real e evolução combinada.',
+    out: 'Período de suporte definido na proposta.',
+  },
+];
+---
+
+<ul class="offers wide">
+  {offers.map((offer, i) => (
+    <li class="offer">
+      <span class="kicker accent-ink">{String.fromCharCode(65 + i)}</span>
+      <h3 class="subheading">{offer.title}</h3>
+      <p class="muted">{offer.text}</p>
+    </li>
+  ))}
+</ul>
+
+<h3 class="kicker steps-title wide">Como um projeto acontece</h3>
+<ol class="steps wide">
+  {steps.map((step, i) => (
+    <li class="step">
+      <span class="kicker accent-ink step-n">Etapa {i + 1}</span>
+      <h4 class="step-title">{step.title}</h4>
+      <p class="muted">{step.text}</p>
+      <p class="out">
+        <span class="kicker">Você recebe</span>
+        {step.out}
+      </p>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .offers {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 0 2rem;
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+  }
+  .offer {
+    display: grid;
+    gap: 0.5rem;
+    align-content: start;
+    padding: 1.1rem 0 1.6rem;
+    border-top: 2px solid var(--ink);
+  }
+  .offer p,
+  .step p {
+    font-size: 0.98rem;
+  }
+  .steps-title {
+    margin-top: 2.5rem;
+    font-weight: 400;
+  }
+  .steps {
+    list-style: none;
+    padding: 0;
+    border-top: 1px solid var(--ink);
+  }
+  .step {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.45rem 2rem;
+    padding: 1.3rem 0 1.4rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .step-title {
+    font-family: var(--font-serif);
+    font-size: var(--step-1);
+    font-weight: var(--display-weight);
+    line-height: 1.2;
+  }
+  .out {
+    display: grid;
+    gap: 0.1rem;
+    font-size: 0.92rem;
+  }
+  @media (min-width: 48rem) {
+    .step {
+      grid-template-columns: 5.5rem minmax(0, 1fr) minmax(0, 15rem);
+    }
+    .step-n {
+      grid-row: 1 / 3;
+      padding-top: 0.45rem;
+    }
+    .out {
+      grid-column: 3;
+      grid-row: 1 / 3;
+      align-self: start;
+      padding-top: 0.3rem;
+    }
+  }
+</style>

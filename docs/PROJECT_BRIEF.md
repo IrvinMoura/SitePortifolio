@@ -57,10 +57,11 @@ Princípio: frases concretas e verificáveis. Nada de "apaixonado por tecnologia
 | Item | Estado |
 |---|---|
 | Nome exibido | **Irvin Marques** (decidido) |
-| Foto | Área reservada no Sobre; foto pendente |
+| Foto | Pendente. Não aparece no site até existir (sem espaço vazio em produção) |
+| LinkedIn, currículo PDF | Pendentes. Só GitHub (IrvinMoura) aparece por enquanto |
 | Marca / estúdio | **Phainon**: nome planejado, empresa ainda não criada; apresentar como "em estruturação" |
 | E-mail | Provisório: e-mail pessoal; trocar por e-mail profissional quando houver domínio |
-| Texto do Sobre | Texto de exemplo, sinalizado; Irvin vai substituir |
+| Texto do Sobre | Provisório, escrito só com fatos informados (fase 5, em `src/pages/sobre.astro` e na seção 04 da home); Irvin vai substituir |
 | Domínio (`nome.dev` + `.com.br`?) | Pendente (fase 3) |
 | Hospedagem | **Vercel** ([ADR 007](decisions/007-hospedagem-vercel.md)) |
 | Famílias tipográficas e cor de acento | **Expressivo** (Fraunces · Geist · Geist Mono) + **laranja-sinal** (decidido) |

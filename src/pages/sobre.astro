@@ -1,0 +1,115 @@
+---
+import Button from '../components/base/Button.astro';
+import ContactBlock from '../components/base/ContactBlock.astro';
+import PersonSchema from '../components/base/PersonSchema.astro';
+import MarginNote from '../components/memorial/MarginNote.astro';
+import SpecSheet from '../components/memorial/SpecSheet.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../lib/site';
+
+// Texto provisório escrito a partir do que o Irvin informou; ele vai substituir
+// (docs/PROJECT_BRIEF.md › Hipóteses e pendências). A foto entra quando existir:
+// não há espaço reservado vazio em produção.
+const facts = [
+  { label: 'Atuação', value: SITE.jobTitle },
+  { label: 'Formação', value: 'Ciência da Computação, em fase final' },
+  { label: 'Fuso horário', value: 'UTC−3 (horário de Brasília)' },
+  { label: 'Idioma', value: 'Português' },
+];
+---
+
+<BaseLayout
+  title="Sobre"
+  description="Quem é Irvin Marques: desenvolvedor independente e estudante de Ciência da Computação, focado em sites, automações e sistemas para pequenos e médios negócios."
+>
+  <PersonSchema slot="head" />
+
+  <section class="sheet wrap page" aria-labelledby="titulo">
+    <p class="label kicker">
+      <span class="num">04</span> Sobre
+    </p>
+    <h1 class="display wide" id="titulo">
+      Irvin Marques
+    </h1>
+    <p class="lede">
+      Desenvolvedor independente. Construo sites, automações e sistemas sob medida para pequenos e
+      médios negócios.
+    </p>
+    <SpecSheet items={facts} class="wide" />
+  </section>
+
+  <section class="sheet wrap section" aria-labelledby="h-quem">
+    <p class="label kicker">
+      <span class="num">4.1</span> Quem sou
+    </p>
+    <h2 class="heading" id="h-quem">
+      Software que encontra a rotina de trabalho.
+    </h2>
+    <div class="prose">
+      <p>
+        Sou estudante de Ciência da Computação em fase final e estou estruturando a{' '}
+        <strong>Phainon</strong>, meu estúdio de desenvolvimento, para atender pequenos e médios
+        negócios com sites, automações e sistemas sob medida.
+      </p>
+      <p>
+        Gosto do ponto em que o software encontra a rotina de trabalho: o site que traz clientes, a
+        planilha que vira sistema, a tarefa repetitiva que some do dia de alguém.
+      </p>
+    </div>
+    <MarginNote kicker="Phainon">
+      Nome do estúdio que estou estruturando. Ainda não é uma empresa aberta.
+    </MarginNote>
+  </section>
+
+  <section class="sheet wrap section" aria-labelledby="h-agora">
+    <p class="label kicker">
+      <span class="num">4.2</span> Agora
+    </p>
+    <h2 class="heading" id="h-agora">
+      No que estou trabalhando.
+    </h2>
+    <ul class="prose list">
+      <!-- prettier-ignore -->
+      <li>Este site, documentado como o <a class="link" href="/memoriais/este-site">Memorial 001</a>.</li>
+      <li>
+        Os primeiros projetos demonstrativos, começando por uma automação de planilha para sistema.
+      </li>
+    </ul>
+    <!-- prettier-ignore -->
+    <MarginNote>O andamento fica no <a class="link" href="/registro">registro público</a>, com datas.</MarginNote>
+  </section>
+
+  <section class="sheet wrap section" aria-labelledby="h-contato">
+    <p class="label kicker">
+      <span class="num">4.3</span> Contato
+    </p>
+    <h2 class="heading" id="h-contato">
+      Vamos conversar.
+    </h2>
+    <ContactBlock class="wide" />
+    <p>
+      <Button href="/#como-trabalho" variant="secondary">
+        Ver como trabalho
+      </Button>
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-block: clamp(3rem, 2rem + 5vw, 6rem) var(--space-section);
+  }
+  .page .label {
+    padding-top: 0.55rem;
+  }
+  .list {
+    padding-left: 1.2rem;
+    list-style: square;
+  }
+  .list li + li {
+    margin-top: 0.5rem;
+  }
+  .list li::marker {
+    color: var(--accent-ink);
+  }
+</style>

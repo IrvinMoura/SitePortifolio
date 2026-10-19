@@ -1,14 +1,17 @@
 ---
 import { getCollection } from 'astro:content';
+import Button from '../components/base/Button.astro';
 import ContactBlock from '../components/base/ContactBlock.astro';
+import PersonSchema from '../components/base/PersonSchema.astro';
+import FlowFigure from '../components/home/FlowFigure.astro';
+import HowIWork from '../components/home/HowIWork.astro';
 import LogList from '../components/memorial/LogList.astro';
+import MarginNote from '../components/memorial/MarginNote.astro';
 import MemorialList from '../components/memorial/MemorialList.astro';
 import Section from '../components/memorial/Section.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { publishedFirst } from '../lib/content';
 
-// Página inicial com os componentes da fase 4. Apresentação completa, Fig. 0,
-// "Como trabalho" e "Sobre" chegam na fase 5.
 const memoriais = publishedFirst(await getCollection('memoriais'), {
   includeDrafts: import.meta.env.DEV,
 });
@@ -16,6 +19,8 @@ const registro = await getCollection('registro');
 ---
 
 <BaseLayout>
+  <PersonSchema slot="head" />
+
   <section class="sheet wrap hero" aria-labelledby="titulo">
     <p class="label kicker">
       <span class="num">00</span> Apresentação
@@ -24,6 +29,24 @@ const registro = await getCollection('registro');
       Construo sistemas web, automações e integrações para empresas que ainda resolvem tudo na
       planilha.
     </h1>
+    <p class="lede">
+      Sou Irvin Marques, desenvolvedor independente e estudante de Ciência da Computação em fase
+      final. Transformo processos manuais e repetitivos em software que a equipe usa todos os dias.
+    </p>
+    <!-- prettier-ignore -->
+    <MarginNote>Este site é o meu primeiro projeto documentado. Como ele foi pensado está no <a class="link" href="/memoriais/este-site">Memorial 001</a>.</MarginNote>
+    <div class="cta">
+      <p class="kicker status">Disponível para primeiros projetos</p>
+      <div class="actions">
+        <Button href="#contato" arrow>
+          Conversar sobre um projeto
+        </Button>
+        <Button href="/memoriais/este-site" variant="secondary">
+          Ler o Memorial 001
+        </Button>
+      </div>
+    </div>
+    <FlowFigure />
   </section>
 
   {memoriais.length > 0 && (
@@ -33,9 +56,34 @@ const registro = await getCollection('registro');
       label="Memoriais"
       title="Projetos documentados do problema ao resultado."
     >
+      <MarginNote kicker="Como ler">
+        Cada memorial declara a sua natureza: cliente, acadêmico, demonstrativo ou projeto próprio.
+      </MarginNote>
       <MemorialList entries={memoriais} class="wide" />
     </Section>
   )}
+
+  <Section
+    id="como-trabalho"
+    number="02"
+    label="Como trabalho"
+    title="Tecnologia sob medida para quem toca o próprio negócio."
+  >
+    <p class="lede">
+      Trabalho ao lado de pequenos e médios empreendedores para que a tecnologia trabalhe por eles,
+      e não o contrário. Nenhum projeto sai de um molde: cada um começa do zero, a partir do jeito
+      que o seu negócio funciona.
+    </p>
+    <MarginNote kicker="Para quem">
+      Lojas, escritórios, clínicas, prestadores de serviço: negócios em que o dono ainda resolve
+      muita coisa na mão.
+    </MarginNote>
+    <HowIWork />
+    <MarginNote>
+      Esta é a forma de trabalho que proponho. Ela será revisada com os primeiros projetos, e as
+      mudanças entram no registro.
+    </MarginNote>
+  </Section>
 
   <Section
     id="registro"
@@ -43,10 +91,32 @@ const registro = await getCollection('registro');
     label="Em construção"
     title="Registro público do que está sendo feito."
   >
+    <MarginNote kicker="Por que existe">
+      Prefiro mostrar o trabalho acontecendo a esperar que tudo esteja pronto. Cada entrada é
+      datada.
+    </MarginNote>
     <LogList entries={registro} limit={5} class="wide" />
     <p>
       <a class="link" href="/registro">
         Ver o registro completo
+      </a>
+    </p>
+  </Section>
+
+  <Section
+    id="sobre"
+    number="04"
+    label="Sobre"
+    title="Engenharia de software a serviço do dia a dia das empresas."
+  >
+    <p class="prose">
+      Sou estudante de Ciência da Computação em fase final e estou estruturando a Phainon, meu
+      estúdio de desenvolvimento, para atender pequenos e médios negócios com sites, automações e
+      sistemas sob medida.
+    </p>
+    <p>
+      <a class="link" href="/sobre">
+        Mais sobre mim
       </a>
     </p>
   </Section>
@@ -57,6 +127,9 @@ const registro = await getCollection('registro');
     label="Contato"
     title="Tem um processo que toma tempo demais da sua equipe? Vamos conversar."
   >
+    <p class="lede">
+      Respondo por e-mail. Conte em poucas linhas o que acontece hoje no seu negócio.
+    </p>
     <ContactBlock class="wide" />
   </Section>
 </BaseLayout>
@@ -67,5 +140,26 @@ const registro = await getCollection('registro');
   }
   .hero .label {
     padding-top: 0.55rem;
+  }
+  .cta {
+    display: grid;
+    gap: 0.75rem;
+  }
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+  }
+  .status::before {
+    content: '';
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
   }
 </style>

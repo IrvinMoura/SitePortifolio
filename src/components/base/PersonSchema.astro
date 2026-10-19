@@ -1,0 +1,18 @@
+---
+import { SITE } from '../../lib/site';
+
+// Dados estruturados (schema.org/Person) para buscadores. Só fatos verificáveis.
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: SITE.name,
+  jobTitle: SITE.jobTitle,
+  description: SITE.description,
+  url: new URL('/', Astro.site).href,
+  email: `mailto:${SITE.email}`,
+  sameAs: SITE.profiles.map((p) => p.href),
+  knowsLanguage: 'pt-BR',
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(person)} />

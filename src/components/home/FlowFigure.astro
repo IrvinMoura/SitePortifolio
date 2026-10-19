@@ -1,0 +1,153 @@
+---
+// Fig. 0 — figura-assinatura (INTERACTIONS I-08), versão estática: os dois estados lado a lado.
+// É também o fallback sem JS / com movimento reduzido. A alternância interativa chega na fase 7.
+interface Step {
+  title: string;
+  detail: string;
+  tag?: string;
+}
+
+const before: Step[] = [
+  { title: 'Pedido chega por mensagem', detail: 'WhatsApp, e-mail ou telefone' },
+  { title: 'Alguém copia para a planilha', detail: 'À mão, campo por campo' },
+  { title: 'Outra pessoa confere', detail: 'Procurando erro de digitação' },
+  {
+    title: 'Erro encontrado',
+    detail: 'O pedido volta e o trabalho se repete',
+    tag: '↺ volta ao 02',
+  },
+];
+const after: Step[] = [
+  { title: 'Pedido entra por formulário ou API', detail: 'Os dados já chegam estruturados' },
+  { title: 'Validação automática', detail: 'Erros são barrados na entrada' },
+  { title: 'Registro no sistema', detail: 'Uma única fonte de verdade' },
+  { title: 'Painel atualizado', detail: 'E a equipe é avisada', tag: '✓ concluído' },
+];
+const states = [
+  { id: 'hoje', label: 'Como é hoje', steps: before, last: 'alert' },
+  { id: 'sistema', label: 'Com um sistema', steps: after, last: 'done' },
+] as const;
+---
+
+<figure class="flow wide" aria-labelledby="fig0-cap">
+  {states.map((state) => (
+    <div class="state" data-state={state.id}>
+      <p class="kicker state-label" id={`fig0-${state.id}`}>
+        {state.label}
+      </p>
+      <ol class="nodes" aria-labelledby={`fig0-${state.id}`}>
+        {state.steps.map((step, i) => (
+          <li class:list={['node', i === state.steps.length - 1 && state.last]}>
+            <span class="node-n">{String(i + 1).padStart(2, '0')}</span>
+            <span class="node-t">{step.title}</span>
+            <span class="node-m">{step.detail}</span>
+            {step.tag && <span class="node-tag">{step.tag}</span>}
+          </li>
+        ))}
+      </ol>
+    </div>
+  ))}
+  <figcaption class="cap" id="fig0-cap">
+    <b>Fig. 0</b> — O mesmo pedido, hoje e com um sistema sob medida. É esse tipo de problema que eu
+    resolvo: tirar das pessoas o trabalho repetitivo e passar para o software.
+  </figcaption>
+</figure>
+
+<style>
+  .flow {
+    display: grid;
+    gap: 1.75rem;
+    margin-top: 1.5rem;
+    padding: clamp(1rem, 0.6rem + 1.5vw, 1.75rem);
+    border: 1px solid var(--rule);
+    background: var(--paper-2);
+  }
+  .state-label {
+    margin-bottom: 0.75rem;
+  }
+  .nodes {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: minmax(0, 1fr);
+    list-style: none;
+    padding: 0;
+  }
+  .node {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding: 0.8rem 0.9rem 0.9rem;
+    border: 1px solid var(--rule-strong);
+    border-radius: 2px;
+    background: var(--paper);
+  }
+  /* conectores: verticais no celular, horizontais a partir de 48rem */
+  .node:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 1.4rem;
+    top: 100%;
+    width: 1px;
+    height: 1.25rem;
+    background: var(--rule-strong);
+  }
+  .node-n {
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    letter-spacing: 0.06em;
+    color: var(--ink-muted);
+  }
+  .node-t {
+    font-weight: 500;
+    line-height: 1.3;
+  }
+  .node-m {
+    font-size: var(--step--1);
+    line-height: 1.4;
+    color: var(--ink-muted);
+  }
+  .node-tag {
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--accent-ink);
+    margin-top: 0.15rem;
+  }
+  .alert {
+    border-style: dashed;
+    border-color: var(--accent);
+  }
+  .done {
+    border-color: var(--accent);
+    box-shadow: inset 0 0 0 1px var(--accent);
+  }
+  .alert .node-n,
+  .done .node-n {
+    color: var(--accent-ink);
+  }
+  .cap {
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    line-height: 1.5;
+    color: var(--ink-muted);
+    max-width: 46rem;
+  }
+  .cap b {
+    font-weight: 500;
+    color: var(--ink);
+  }
+  @media (min-width: 48rem) {
+    .nodes {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1.5rem;
+    }
+    .node:not(:last-child)::after {
+      left: 100%;
+      top: 1.4rem;
+      width: 1.5rem;
+      height: 1px;
+    }
+  }
+</style>

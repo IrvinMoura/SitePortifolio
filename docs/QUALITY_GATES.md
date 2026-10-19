@@ -44,5 +44,6 @@
 - [ ] OG image confere em LinkedIn, WhatsApp e X (ferramentas de preview).
 - [ ] Cabeçalhos de segurança: nota A em securityheaders.com.
 - [ ] 404 funciona; sitemap e robots corretos; `noindex` ausente em produção.
+- [ ] Canonical, `og:url`, sitemap e robots usam o domínio de produção real (`SITE_URL`), sem barra final. O Lighthouse não detecta canonical em domínio errado.
 - [ ] Analytics sem cookies ativo; nenhum banner necessário.
 - [ ] Currículo PDF atualizado e acessível (com tags).

@@ -3,6 +3,7 @@ import { Font } from 'astro:assets';
 import '../styles/base.css';
 import '../styles/tokens.css';
 import { SITE } from '../lib/site';
+import { canonicalPath } from '../lib/url';
 
 interface Props {
   title?: string;
@@ -12,7 +13,7 @@ interface Props {
 
 const { title, description = SITE.description, noindex = false } = Astro.props;
 const fullTitle = title ? `${title} · ${SITE.name}` : `${SITE.name} — desenvolvedor independente`;
-const canonical = new URL(Astro.url.pathname, Astro.site);
+const canonical = new URL(canonicalPath(Astro.url.pathname), Astro.site);
 ---
 
 <!doctype html>

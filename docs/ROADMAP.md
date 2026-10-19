@@ -8,7 +8,7 @@
 |---|---|---|---|---|---|---|
 | 1 | Pesquisa e requisitos | ✅ | Base de decisão | [RESEARCH.md](RESEARCH.md), [PROJECT_BRIEF.md](PROJECT_BRIEF.md) | Direção escolhida | Direção C ✅ · lançar sem projetos ✅ |
 | 2 | Direção criativa | ✅ | Validar o visual antes do código | **Protótipo estático** de home + Memorial 001 (`prototype/`, pronto) | Protótipo aprovado | Tipografia ✅ · acento ✅ · nome ✅ · teste de 5 s adiado (figura mantida) · textos finais |
-| 3 | Arquitetura | 🔵 | Esqueleto do repositório | Git + repo Astro/TS, CI, deploy de preview, schemas de conteúdo | Build e deploy de preview verdes; gates no CI | Hospedagem ✅ (Vercel) · domínio (pode ficar para a fase 10) |
+| 3 | Arquitetura | ✅ | Esqueleto do repositório | Git + repo Astro/TS, CI, deploy de preview, schemas de conteúdo | Build e deploy de preview verdes; gates no CI | Hospedagem ✅ (Vercel) · domínio (pode ficar para a fase 10) |
 | 4 | Sistema visual | ⬜ | Tokens e componentes base | `tokens.css`, tipografia, grid com margem, componentes de [DESIGN.md](DESIGN.md), página interna `/_kitchen` | Componentes com foco, tema escuro e teste visual | — |
 | 5 | Home e navegação | ⬜ | Primeira versão completa | Home, header/footer, 404, `/sobre`, `/registro`, SEO base | Conteúdo real em tudo; teclado ok | Textos da home e do sobre |
 | 6 | Memorial 001 (este site) | ⬜ | Primeiro estudo de caso | Template de memorial + `este-site.mdx` | Passa no checklist de memorial | Texto do memorial |

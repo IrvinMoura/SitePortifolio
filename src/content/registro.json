@@ -34,5 +34,11 @@
     "date": "2026-10-18",
     "type": "site",
     "title": "Estrutura do repositório Astro montada (fase 3)."
+  },
+  {
+    "id": "2026-10-18-deploy",
+    "date": "2026-10-18",
+    "type": "site",
+    "title": "Primeira versão no ar na Vercel, com CI verificando tipos, testes, acessibilidade e Lighthouse."
   }
 ]

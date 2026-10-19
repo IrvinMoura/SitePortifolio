@@ -13,6 +13,9 @@ const site =
 export default defineConfig({
   site,
   output: 'static',
+  // URLs sem barra final (/registro), uma por página: evita conteúdo duplicado. Ver vercel.json.
+  trailingSlash: 'never',
+  build: { format: 'file' },
   integrations: [mdx(), react(), sitemap()],
   i18n: {
     defaultLocale: 'pt-BR',

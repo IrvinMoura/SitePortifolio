@@ -4,8 +4,8 @@
       "staticDistDir": "./dist",
       "url": [
         "http://localhost/",
-        "http://localhost/memoriais/este-site/",
-        "http://localhost/registro/"
+        "http://localhost/memoriais/este-site.html",
+        "http://localhost/registro.html"
       ],
       "numberOfRuns": 3
     },

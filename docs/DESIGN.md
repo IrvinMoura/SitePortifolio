@@ -29,14 +29,14 @@ O conteúdo continua sendo prova: cada projeto tem um memorial com natureza decl
 Avaliadas no protótipo e descartadas: Knewave e Sedgwick Ave Display. Regras: no máximo 5 arquivos de fonte (orçamento em [QUALITY_GATES.md](QUALITY_GATES.md)); kanji novo precisa entrar na lista de glifos, ou cai na fonte do sistema; `tabular-nums` em fichas e datas.
 
 ### Cor
-| Token | Noite sumi (padrão) | Washi (claro) | Uso |
-|---|---|---|---|
-| `--paper` / `--paper-2` | quase preto azulado | papel creme | Fundo / superfícies |
-| `--ink` / `--ink-muted` | papel claro | tinta quase preta | Texto / texto secundário |
-| `--rule` | fio escuro | fio bege | Separadores |
-| `--accent` / `--accent-ink` | **vermelho shu** | shu mais fechado | Selo, botão principal, números de cena, foco |
+| Token | Noite sumi | Uso |
+|---|---|---|
+| `--paper` / `--paper-2` | quase preto azulado | Fundo / superfícies |
+| `--ink` / `--ink-muted` | papel claro | Texto / texto secundário |
+| `--rule` | fio escuro | Separadores |
+| `--accent` / `--accent-ink` / `--accent-fill` | **vermelho shu** | Selo, botão principal, números de cena, foco; `--accent-fill` atrás de texto claro |
 
-Regras: o vermelho é o selo, não o fundo: aparece no selo, no botão principal, no portão dos projetos e nos números. Contraste AA (texto ≥ 4,5:1, UI ≥ 3:1). O tema padrão é noite; washi pela alternância, persistida.
+Regras: o vermelho é o selo, não o fundo: aparece no selo, no botão principal, no portão dos projetos e nos números. Contraste AA (texto ≥ 4,5:1, UI ≥ 3:1). O site tem um só papel, o noite: sem tema claro nem alternância.
 
 ### Textura e forma
 - Grão de papel em toda a página (SVG `feTurbulence` em `body::before`, sem imagem externa).
@@ -50,13 +50,14 @@ Regras: o vermelho é o selo, não o fundo: aparece no selo, no botão principal
 - **Eixo do rolo (jiku)**: barra de progresso na lateral, com o kanji da cena atual.
 
 ## Componentes
-Visíveis juntos, nos dois papéis, em `/interno/componentes` (só em `npm run dev` e no build de teste).
+Visíveis juntos em `/interno/componentes` (só em `npm run dev` e no build de teste).
 
 | Componente | Arquivo | Responsabilidade |
 |---|---|---|
-| `SceneHead` | `home/SceneHead.astro` | Cabeça de cena: kanji, rótulo e título pintado |
+| `Scene` | `home/Scene.astro` | Cena da home: kanji, rótulo, título pintado e conteúdo |
 | `ProjectGates` | `home/ProjectGates.astro` | Projetos atrás do portão torii; não renderiza nada se vazio |
 | `ToriiGate` | `home/ToriiGate.astro` | Desenho do portão (largo e alto) com o número do projeto |
+| `Makimono` | `home/Makimono.astro` | Pergaminho do Sobre que desenrola a foto |
 | `InkScript` | `base/InkScript.astro` | Tinta dos títulos `.brush`, eixo do rolo e travessia do portão |
 | `Section` | `memorial/Section.astro` | Seção numerada (páginas internas): rótulo, título e conteúdo |
 | `MarginNote` | `memorial/MarginNote.astro` | Nota na coluna direita (desktop) ou bloco em linha (celular) |
@@ -68,7 +69,6 @@ Visíveis juntos, nos dois papéis, em `/interno/componentes` (só em `npm run d
 | `LogList` | `memorial/LogList.astro` | Registro público, do mais recente ao mais antigo |
 | `ContactBlock` | `base/ContactBlock.astro` | E-mail copiável e perfis; só canais que existem |
 | `Button` | `base/Button.astro` | Link ou botão, primário (shu) ou secundário, seta opcional |
-| `ThemeToggle` + `ThemeInit` | `base/` | Noite ↔ washi persistido, sem flash na carga |
 | `SkipLink`, `SiteHeader`, `SiteFooter` | `base/` | Estrutura de todas as páginas |
 
 Estilos globais em camadas (`src/styles/`): `base.css` (camadas, reset, base, grão), `tokens.css`, `layout.css` (`.wrap`, `.sheet`, `.mem`, `.scene`) e `typography.css` (`.display`, `.heading`, `.subheading`, `.lede`, `.prose`, `.kicker`, `.link`, `.brush`). Estilos de componente ficam com escopo no próprio `.astro`.

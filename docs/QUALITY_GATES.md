@@ -6,7 +6,7 @@
 | Métrica | Limite | Meta | Onde medir |
 |---|---|---|---|
 | JS na home (gzip) | ≤ 150 KB | < 50 KB | Lighthouse CI / relatório de build |
-| JS em página sem ilha | Só os scripts pequenos de tema, copiar, tinta e eixo do rolo (ADR 008) | — | Build |
+| JS em página sem ilha | Só os scripts pequenos de copiar, tinta, eixo do rolo e pergaminho (ADR 008) | — | Build |
 | LCP (mobile, 4G simulado) | < 2,5 s | < 2,0 s | Lighthouse CI |
 | CLS | < 0,1 | < 0,05 | Lighthouse CI |
 | INP / TBT | TBT < 200 ms | < 100 ms | Lighthouse CI |
@@ -20,7 +20,7 @@
 - [ ] Navegável por teclado, com foco visível e ordem lógica.
 - [ ] Funciona com `prefers-reduced-motion: reduce` e sem JS (conteúdo visível).
 - [ ] Testado em 360 px, 768 px e 1440 px; sem scroll horizontal.
-- [ ] Temas claro e escuro conferidos.
+- [ ] Papel noite conferido (o site não tem tema claro, ADR 008).
 - [ ] Interações novas registradas em [INTERACTIONS.md](INTERACTIONS.md).
 - [ ] Dependência nova → ADR em `docs/decisions/`.
 - [ ] Screenshots visuais atualizados intencionalmente (não aceitar diffs sem revisar).

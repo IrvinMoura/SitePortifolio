@@ -70,7 +70,6 @@ const cards = await Promise.all(
                     sizes="(min-width: 48rem) 15rem, 11rem"
                     width="1280"
                     height="800"
-                    loading="lazy"
                     decoding="async"
                     alt={thumb.alt}
                   />
@@ -207,8 +206,12 @@ const cards = await Promise.all(
     overflow: hidden;
     background: var(--paper-2);
   }
+  /* Sem loading="lazy" nem display: contents no <picture>: dentro da abertura com overflow
+     hidden, alguns navegadores não carregavam a imagem e mostravam só o texto alternativo. */
   .torii-view picture {
-    display: contents;
+    display: block;
+    width: 100%;
+    height: 100%;
   }
   .torii-view img {
     width: 100%;

@@ -2,6 +2,14 @@ import { expect, test } from '@playwright/test';
 import { ROUTES } from './routes';
 
 for (const route of ROUTES) {
+  test(`${route} não tem rolagem horizontal`, async ({ page }) => {
+    await page.goto(route);
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    );
+    expect(overflow).toBeLessThanOrEqual(0);
+  });
+
   test(`${route} carrega com título, idioma e um único h1`, async ({ page }) => {
     const response = await page.goto(route);
     expect(response?.status()).toBe(200);
@@ -42,15 +50,11 @@ test('títulos visíveis sem JavaScript', async ({ browser }) => {
   await context.close();
 });
 
-test('alternar para o papel washi persiste entre páginas', async ({ page }) => {
+test('site só tem o papel noite, sem alternância de tema', async ({ page }) => {
   await page.goto('/');
-  const toggle = page.getByRole('button', { name: /Papel claro/ });
-  await expect(toggle).toHaveAttribute('aria-pressed', 'false');
-  await toggle.click();
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
-  await expect(toggle).toHaveAttribute('aria-pressed', 'true');
-  await page.goto('/registro');
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+  await expect(page.locator('[data-theme-toggle]')).toHaveCount(0);
+  const scheme = await page.evaluate(() => getComputedStyle(document.documentElement).colorScheme);
+  expect(scheme).toBe('dark');
 });
 
 test('índice do memorial marca a seção atual', async ({ page }) => {

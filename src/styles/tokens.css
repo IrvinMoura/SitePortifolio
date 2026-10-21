@@ -4,7 +4,7 @@
  * do Astro (astro.config.ts). Valores portados do protótipo Emaki (ADR 008).
  */
 @layer tokens {
-  /* papel noite sumi: o padrão */
+  /* papel noite sumi: o único tema do site (a versão clara washi saiu em 21/10/2026) */
   :root {
     --paper: #121319;
     --paper-2: #1a1b22;
@@ -62,24 +62,5 @@
     --ink-step: 190ms;
 
     color-scheme: dark;
-  }
-
-  /* papel washi: claro, escolhido pela alternância de tema */
-  :root[data-theme='light'] {
-    --paper: #ede6d6;
-    --paper-2: #e4dbc8;
-    --ink: #1b1a17;
-    --ink-muted: #5d584e;
-    --rule: #cfc5b1;
-    --rule-strong: #a99f8b;
-    --wash: 27 26 23;
-    --accent: #c0362a;
-    --accent-ink: #a52b20;
-    --accent-soft: rgb(192 54 42 / 0.18);
-    --gate-dark: #2a2219;
-    --plaque: #1b1a17;
-    --grain-blend: multiply;
-    --grain-opacity: 0.09;
-    color-scheme: light;
   }
 }

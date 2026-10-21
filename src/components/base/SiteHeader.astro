@@ -1,6 +1,5 @@
 ---
 import { SITE } from '../../lib/site';
-import ThemeToggle from './ThemeToggle.astro';
 
 // As cenas da home; páginas internas (sobre, registro, memoriais) ficam no rodapé.
 const links = [
@@ -30,7 +29,6 @@ const path = Astro.url.pathname.replace(/\.html$/, '');
       ))}
     </ul>
   </nav>
-  <ThemeToggle />
 </header>
 
 <style>
@@ -91,9 +89,6 @@ const path = Astro.url.pathname.replace(/\.html$/, '');
       order: 3;
       width: 100%;
       margin-left: 0;
-    }
-    .site-header :global(.theme-toggle) {
-      margin-left: auto;
     }
   }
 </style>

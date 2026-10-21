@@ -6,13 +6,14 @@ interface Props {
   kanji: string;
   label: string;
   title: string;
-  class?: string;
+  /** Primeira cena, logo abaixo da abertura: sem fio em cima e mais perto do hero. */
+  first?: boolean;
 }
-const { id, kanji, label, title, class: className } = Astro.props;
+const { id, kanji, label, title, first = false } = Astro.props;
 ---
 
 <section
-  class:list={['wrap scene', className]}
+  class:list={['wrap scene', { first }]}
   id={id}
   aria-labelledby={`h-${id}`}
   data-scene={kanji}
@@ -34,6 +35,10 @@ const { id, kanji, label, title, class: className } = Astro.props;
     position: relative;
     padding-block: var(--space-section);
     border-top: 1px solid var(--rule);
+  }
+  .first {
+    border-top: 0;
+    padding-top: 1rem;
   }
   .scene-head {
     display: grid;

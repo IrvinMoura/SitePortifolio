@@ -1,22 +1,33 @@
 import { expect, test } from '@playwright/test';
 import { ROUTES } from './routes';
 
-test('página inicial tem as seções 00 a 05 na ordem', async ({ page }) => {
+test('página inicial tem a abertura e as cenas um a quatro na ordem', async ({ page }) => {
   await page.goto('/');
   const ids = await page
     .locator('main > section[id]')
     .evaluateAll((sections) => sections.map((s) => s.id));
-  expect(ids).toEqual(['memoriais', 'como-trabalho', 'registro', 'sobre', 'contato']);
-  await expect(page.getByRole('heading', { level: 1 })).toContainText('sistemas web');
+  expect(ids).toEqual(['projetos', 'o-que-faco', 'sobre', 'contato']);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Irvin Marques');
 });
 
-test('Fig. 0 mostra os dois estados, com quatro etapas cada', async ({ page }) => {
+test('cada projeto abre a página do seu memorial', async ({ page }) => {
   await page.goto('/');
-  for (const name of ['Como é hoje', 'Com um sistema']) {
-    const list = page.getByRole('list', { name });
-    await expect(list).toBeVisible();
-    await expect(list.getByRole('listitem')).toHaveCount(4);
-  }
+  const work = page.locator('#projetos a[data-gate]').first();
+  await expect(work).toHaveAttribute('href', '/memoriais/este-site');
+  await work.click();
+  await expect(page).toHaveURL(/\/memoriais\/este-site/);
+});
+
+test('títulos pintados mantêm o texto inteiro', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.getByRole('heading', { name: 'O que eu faço', level: 2 })).toBeVisible();
+  await expect(page.locator('#h-sobre')).toHaveText('O pintor da obra');
+});
+
+test('as etapas de um projeto são uma lista de cinco itens', async ({ page }) => {
+  await page.goto('/');
+  const strip = page.getByRole('list', { name: 'Como um projeto anda' });
+  await expect(strip.getByRole('listitem')).toHaveCount(5);
 });
 
 test('dados estruturados da pessoa são JSON válido', async ({ page }) => {

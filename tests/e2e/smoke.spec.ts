@@ -30,19 +30,27 @@ test('/memoriais não existe com menos de 3 memoriais', async ({ page }) => {
 test('conteúdo visível com movimento reduzido', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await page.goto('/');
-  await expect(page.locator('h1')).toBeVisible();
+  await expect(page.locator('h1 .w').first()).toHaveCSS('opacity', '1');
 });
 
-test('alternar tema troca o tema e persiste entre páginas', async ({ page }) => {
-  await page.emulateMedia({ colorScheme: 'light' });
+test('títulos visíveis sem JavaScript', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
   await page.goto('/');
-  const toggle = page.getByRole('button', { name: 'Tema escuro' });
+  await expect(page.locator('h1')).toBeVisible();
+  await expect(page.locator('#h-contato')).toBeVisible();
+  await context.close();
+});
+
+test('alternar para o papel washi persiste entre páginas', async ({ page }) => {
+  await page.goto('/');
+  const toggle = page.getByRole('button', { name: /Papel claro/ });
   await expect(toggle).toHaveAttribute('aria-pressed', 'false');
   await toggle.click();
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
   await expect(toggle).toHaveAttribute('aria-pressed', 'true');
   await page.goto('/registro');
-  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
 });
 
 test('índice do memorial marca a seção atual', async ({ page }) => {

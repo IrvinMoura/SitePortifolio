@@ -1,0 +1,165 @@
+---
+// Tinta dos títulos (INTERACTIONS I-11) e eixo do rolo, o jiku (I-12). Vale em todas as páginas:
+// qualquer elemento com a classe .brush é pintado quando entra na tela. Seções com
+// data-scene="<kanji>" dão nome à cena atual no eixo.
+---
+
+<svg class="defs" width="0" height="0" aria-hidden="true" focusable="false">
+  <filter id="bleed" x="-10%" y="-10%" width="120%" height="120%">
+    <feTurbulence
+      type="fractalNoise"
+      baseFrequency="0.045"
+      numOctaves="2"
+      seed="7"
+      result="n"
+    ></feTurbulence>
+    <feDisplacementMap
+      in="SourceGraphic"
+      in2="n"
+      scale="12"
+      xChannelSelector="R"
+      yChannelSelector="G"
+    ></feDisplacementMap>
+  </filter>
+</svg>
+
+<div class="jiku" aria-hidden="true" data-jiku>
+  <i></i>
+  <b lang="ja" data-jiku-label></b>
+</div>
+
+<script>
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // Quebra cada título em palavras (no texto vertical, em caracteres) para pintar uma a uma.
+  // O texto continua o mesmo no DOM; leitores de tela leem o título inteiro.
+  const brushes = [...document.querySelectorAll<HTMLElement>('.brush')];
+  for (const el of brushes) {
+    const vertical = el.classList.contains('tate');
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    const nodes: Text[] = [];
+    while (walker.nextNode()) {
+      const node = walker.currentNode as Text;
+      if (!node.parentElement?.closest('[data-ink-skip]')) nodes.push(node);
+    }
+    let i = 0;
+    for (const node of nodes) {
+      const parts = vertical
+        ? [...(node.textContent ?? '')]
+        : (node.textContent ?? '').split(/(\s+)/);
+      const fragment = document.createDocumentFragment();
+      for (const part of parts) {
+        if (!part.trim()) {
+          fragment.append(part);
+          continue;
+        }
+        const span = document.createElement('span');
+        span.className = 'w';
+        span.style.setProperty('--i', String(i++));
+        span.textContent = part;
+        fragment.append(span);
+      }
+      node.replaceWith(fragment);
+    }
+  }
+
+  if (!reduced && 'IntersectionObserver' in window) {
+    for (const el of brushes) el.classList.add('pending');
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.classList.replace('pending', 'paint');
+          observer.unobserve(entry.target);
+        }
+      },
+      { rootMargin: '0px 0px -12% 0px' },
+    );
+    // Espera a fonte de pincel, mas no máximo 1 s: o título nunca fica oculto por rede lenta.
+    Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 1000))]).then(() => {
+      for (const el of brushes) observer.observe(el);
+    });
+  }
+
+  // Eixo do rolo: progresso da leitura e o kanji da cena atual.
+  const bar = document.querySelector<HTMLElement>('[data-jiku]');
+  const label = document.querySelector<HTMLElement>('[data-jiku-label]');
+  const scenes = [...document.querySelectorAll<HTMLElement>('[data-scene]')];
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    if (!bar || !label) return;
+    const max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.setProperty('--p', max > 0 ? (scrollY / max).toFixed(4) : '0');
+    let current = scenes[0];
+    for (const scene of scenes)
+      if (scene.getBoundingClientRect().top < innerHeight * 0.4) current = scene;
+    label.textContent = current?.dataset.scene ?? '';
+  };
+  addEventListener(
+    'scroll',
+    () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(update);
+    },
+    { passive: true },
+  );
+  addEventListener('resize', update, { passive: true });
+  bar?.classList.add('on');
+  update();
+</script>
+
+<style>
+  .defs {
+    position: absolute;
+  }
+  /* Sem JS o eixo não aparece: ele só faz sentido atualizado pelo script. */
+  .jiku {
+    display: none;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: var(--rule);
+    z-index: 40;
+  }
+  .jiku:global(.on) {
+    display: block;
+  }
+  .jiku i {
+    position: absolute;
+    inset: 0;
+    background: var(--accent);
+    transform-origin: top;
+    transform: scaleY(var(--p, 0));
+  }
+  .jiku b {
+    position: fixed;
+    left: 14px;
+    bottom: 18px;
+    font: 400 1.6rem/1 var(--font-jp);
+    color: var(--accent-ink);
+    writing-mode: vertical-rl;
+  }
+  @media (max-width: 47.99rem) {
+    .jiku {
+      width: 100%;
+      height: 3px;
+      bottom: auto;
+    }
+    .jiku i {
+      transform-origin: left;
+      transform: scaleX(var(--p, 0));
+    }
+    .jiku b {
+      display: none;
+    }
+  }
+  @media print {
+    .jiku:global(.on) {
+      display: none;
+    }
+  }
+</style>

@@ -6,28 +6,53 @@ import { SITE } from '../../lib/site';
   <div class="wrap inner">
     <p>
       <span class="name">{SITE.name}</span>
+      <span lang="ja" aria-hidden="true">
+        {' '}
+        · 絵巻
+      </span>
       <br />
       Desenvolvedor independente.
     </p>
     <!-- prettier-ignore -->
     <p>Site estático feito com Astro e TypeScript. Como ele foi pensado está no <a class="link" href="/memoriais/este-site">Memorial 001</a>.</p>
+    <nav aria-label="Rodapé">
+      <ul>
+        <li>
+          <a class="link" href="/sobre">
+            Sobre
+          </a>
+        </li>
+        <li>
+          <a class="link" href="/registro">
+            Registro
+          </a>
+        </li>
+      </ul>
+    </nav>
   </div>
 </footer>
 
 <style>
   .site-footer {
-    border-top: 1px solid var(--ink);
-    padding-block: 2.5rem 4rem;
+    border-top: 1px solid var(--rule);
+    padding-block: 2.5rem 6rem;
     font-size: var(--step--1);
     color: var(--ink-muted);
   }
   .inner {
     display: grid;
     gap: 1rem 3rem;
-    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
   }
   .name {
     color: var(--ink);
-    font-weight: 500;
+    font-weight: 700;
+  }
+  ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1.3rem;
+    list-style: none;
+    padding: 0;
   }
 </style>

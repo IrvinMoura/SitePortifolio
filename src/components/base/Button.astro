@@ -36,12 +36,11 @@ const classes = ['btn', variant, className];
     align-items: center;
     gap: 0.6rem;
     font-size: 0.95rem;
-    font-weight: 500;
+    font-weight: 700;
     line-height: 1.2;
     text-decoration: none;
     padding: 0.8rem 1.15rem;
     border: 1px solid var(--ink);
-    border-radius: 2px;
     background: none;
     cursor: pointer;
     transition:
@@ -49,17 +48,18 @@ const classes = ['btn', variant, className];
       color var(--dur-instant);
   }
   .primary {
-    background: var(--ink);
-    color: var(--paper);
+    background: var(--accent-fill);
+    border-color: var(--accent-fill);
+    color: var(--seal-text);
   }
   .primary:hover {
-    background: color-mix(in oklch, var(--ink) 85%, var(--accent));
+    background: color-mix(in oklch, var(--accent-fill) 88%, black);
   }
   .secondary:hover {
     background: var(--paper-2);
   }
   .arrow {
-    transition: transform var(--dur-fast) var(--ease-out);
+    transition: transform 0.25s var(--ease-spring);
   }
   .btn:hover .arrow {
     transform: translateX(3px);

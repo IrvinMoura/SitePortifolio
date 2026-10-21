@@ -1,0 +1,55 @@
+---
+// Cena do rolo (場面): número em kanji, rótulo e título pintado a pincel. O kanji é ornamento;
+// o rótulo em português diz o mesmo para quem não lê japonês.
+interface Props {
+  id: string;
+  kanji: string;
+  label: string;
+  title: string;
+  class?: string;
+}
+const { id, kanji, label, title, class: className } = Astro.props;
+---
+
+<section
+  class:list={['wrap scene', className]}
+  id={id}
+  aria-labelledby={`h-${id}`}
+  data-scene={kanji}
+>
+  <div class="scene-head">
+    <span class="scene-num" lang="ja" aria-hidden="true">
+      {kanji}
+    </span>
+    <p class="kicker">{label}</p>
+    <h2 class="brush" id={`h-${id}`}>
+      {title}
+    </h2>
+  </div>
+  <slot />
+</section>
+
+<style>
+  .scene {
+    position: relative;
+    padding-block: var(--space-section);
+    border-top: 1px solid var(--rule);
+  }
+  .scene-head {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.5rem 1.5rem;
+    align-items: end;
+    margin-bottom: 2.5rem;
+  }
+  .scene-num {
+    grid-row: span 2;
+    font: 400 var(--step-scene) / 1 var(--font-jp);
+    color: var(--accent-ink);
+  }
+  h2 {
+    font-size: var(--step-3);
+    line-height: 1.08;
+    max-width: 18ch;
+  }
+</style>

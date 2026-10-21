@@ -1,22 +1,22 @@
 @layer typography {
-  /* Títulos: serifa (Fraunces) em três tamanhos; valem em qualquer elemento */
+  /* Títulos: pincel (Kaushan Script) em três tamanhos; valem em qualquer elemento */
   .display,
   .heading,
   .subheading {
-    font-family: var(--font-serif);
-    font-weight: var(--display-weight);
-    letter-spacing: var(--display-tracking);
+    font-family: var(--font-brush);
+    font-weight: 400;
     text-wrap: balance;
   }
   .display {
     font-size: var(--step-4);
-    line-height: 1.04;
-    max-width: 21ch;
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    max-width: 12ch;
   }
   .heading {
     font-size: var(--step-3);
     line-height: 1.08;
-    max-width: 24ch;
+    max-width: 18ch;
   }
   .subheading {
     font-size: var(--step-2);
@@ -25,13 +25,9 @@
 
   /* Texto de abertura e leitura longa */
   .lede {
-    font-family: var(--font-serif);
     font-size: var(--step-1);
-    line-height: 1.5;
-    max-width: 36rem;
-  }
-  .prose {
-    font-family: var(--font-serif);
+    line-height: 1.6;
+    max-width: 34rem;
   }
   .prose > * + * {
     margin-top: 1em;
@@ -42,7 +38,7 @@
     font-family: var(--font-mono);
     font-size: var(--step--2);
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.12em;
     color: var(--ink-muted);
   }
   .kicker .num,
@@ -70,10 +66,6 @@
   }
 
   /* Texto do memorial vindo do MDX */
-  /* Só elementos vindos do Markdown (sem classe); componentes mantêm a própria fonte. */
-  .mem > :is(p, ul, ol, blockquote):not([class]) {
-    font-family: var(--font-serif);
-  }
   .mem > h2 {
     font-size: var(--step-2);
     line-height: 1.15;
@@ -103,5 +95,87 @@
   .mem code {
     font-family: var(--font-mono);
     font-size: 0.88em;
+  }
+}
+
+/*
+ * Tinta (INTERACTIONS I-11): títulos .brush pintados palavra por palavra.
+ * InkScript.astro quebra o texto em .w e aplica .pending/.paint; sem o script, nada disto vale
+ * e o título aparece normalmente. Fora das camadas para vencer a cor/opacidade dos componentes.
+ */
+.brush .w {
+  display: inline-block;
+}
+.brush.pending .w {
+  opacity: 0;
+}
+.brush.paint .w {
+  mask-image: linear-gradient(100deg, #000 30%, rgb(0 0 0 / 0.55) 38%, transparent 46%);
+  mask-size: 320% 100%;
+  mask-repeat: no-repeat;
+  animation: ink var(--ink-dur) cubic-bezier(0.55, 0.05, 0.25, 1) both;
+  animation-delay: calc(var(--i) * var(--ink-step));
+}
+.tate.brush.paint .w {
+  mask-image: linear-gradient(190deg, #000 30%, rgb(0 0 0 / 0.55) 38%, transparent 46%);
+  mask-size: 100% 320%;
+  animation-name: ink-tate;
+}
+@keyframes ink {
+  0% {
+    mask-position: 100% 0;
+    filter: url(#bleed) blur(1.2px);
+    opacity: 0.25;
+  }
+  35% {
+    filter: url(#bleed) blur(0);
+  }
+  /* a borda borrada some cedo: as letras assentam enquanto o pincel ainda passa */
+  40% {
+    filter: none;
+  }
+  65% {
+    opacity: 1;
+  }
+  100% {
+    mask-position: 0 0;
+    filter: none;
+    opacity: 1;
+  }
+}
+@keyframes ink-tate {
+  0% {
+    mask-position: 0 100%;
+    filter: url(#bleed) blur(1.2px);
+    opacity: 0.25;
+  }
+  35% {
+    filter: url(#bleed) blur(0);
+  }
+  /* a borda borrada some cedo: as letras assentam enquanto o pincel ainda passa */
+  40% {
+    filter: none;
+  }
+  65% {
+    opacity: 1;
+  }
+  100% {
+    mask-position: 0 0;
+    filter: none;
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .brush.pending .w {
+    opacity: 1;
+  }
+  .brush.paint .w {
+    animation: none;
+    mask-image: none;
+  }
+}
+@media print {
+  .brush.pending .w {
+    opacity: 1;
   }
 }

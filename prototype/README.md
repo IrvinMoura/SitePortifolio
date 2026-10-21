@@ -1,3 +1,10 @@
+# Protótipos
+
+## Emaki (nova direção em teste, out/2026)
+`prototype/emaki/`: o site como um rolo narrativo japonês. Títulos pintados a pincel palavra por palavra quando cada cena aparece, kanji das cenas e nome em katakana com Yuji Syuku, selo vermelho, papel noite (escuro) ou washi (claro). O painel troca a fonte de pincel (Kaushan Script, Knewave, Sedgwick Ave Display), o papel, o acento (vermelho shu ou violeta) e a intensidade da pincelada.
+
+Abra http://localhost:4322/emaki/ com `npm run prototype`.
+
 # Protótipo — fase 2
 
 Protótipo estático e **descartável** da home e do Memorial 001, feito para validar a direção visual antes do código de produção. Não é a base do site final; ao fim da fase 2 ele será removido ou arquivado.

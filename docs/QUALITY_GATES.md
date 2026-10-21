@@ -6,7 +6,7 @@
 | Métrica | Limite | Meta | Onde medir |
 |---|---|---|---|
 | JS na home (gzip) | ≤ 150 KB | < 50 KB | Lighthouse CI / relatório de build |
-| JS em página sem ilha | 0 KB próprios (exceto tema e copiar) | — | Build |
+| JS em página sem ilha | Só os scripts pequenos de tema, copiar, tinta e eixo do rolo (ADR 008) | — | Build |
 | LCP (mobile, 4G simulado) | < 2,5 s | < 2,0 s | Lighthouse CI |
 | CLS | < 0,1 | < 0,05 | Lighthouse CI |
 | INP / TBT | TBT < 200 ms | < 100 ms | Lighthouse CI |

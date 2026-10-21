@@ -1,88 +1,81 @@
 # Design — direção e sistema visual
 
-> Direção aprovada em 18/10/2026 ([ADR 001](decisions/001-direcao-memorial.md)).
-> **Fonte da verdade dos valores:** `src/styles/tokens.css` (criado na fase 4). Este documento explica o *porquê* e as regras de uso; não duplique valores aqui depois que os tokens existirem.
+> Direção aprovada em 21/10/2026 ([ADR 008](decisions/008-direcao-emaki.md)), substituindo a direção Memorial ([ADR 001](decisions/001-direcao-memorial.md)).
+> **Fonte da verdade dos valores:** `src/styles/tokens.css`. Este documento explica o *porquê* e as regras de uso; não duplique valores aqui.
 
-## Conceito: Memorial
-O **memorial descritivo** é o documento da engenharia brasileira que explica o que foi construído, por quê e com quais especificações. O portfólio adota essa linguagem: seções numeradas, fichas técnicas, anotações na margem e **figuras que funcionam**.
+## Conceito: Emaki
+O *emaki* é o rolo narrativo japonês: a história se desenrola em cenas, lida em sequência. O site adota essa linguagem: a home é um rolo com **cenas numeradas em kanji** (序 abertura, 一 a 四), títulos **pintados a pincel**, tinta sumi sobre papel e um **selo vermelho** que assina o trabalho.
 
-Ele deve ler como um bom documento técnico e se usar como um produto bem feito. A personalidade aparece nos detalhes (notas de margem, rodapés, numeração, o changelog), não em efeitos.
+O conteúdo continua sendo prova: cada projeto tem um memorial com natureza declarada, ficha técnica e decisões. O vocabulário "memorial" segue nas rotas e no schema.
 
 ## Princípios
 1. **Prova antes de promessa.** Toda afirmação aponta para algo que pode ser visto, usado ou lido.
-2. **Uma ideia por tela.** Hierarquia clara; o olho sabe onde começar.
-3. **Movimento explica, não enfeita.** Animação só para dar continuidade, retornar uma ação ou demonstrar um sistema (ver [INTERACTIONS.md](INTERACTIONS.md)).
-4. **Rigor com calor humano.** Precisão tipográfica e tom de conversa; humor discreto nas notas de margem.
+2. **Uma cena por vez.** Cada seção é uma cena com número, título e uma ideia.
+3. **A tinta acompanha a leitura.** O pincel pinta o título quando a cena aparece; nada além disso se move sozinho (ver [INTERACTIONS.md](INTERACTIONS.md)).
+4. **O japonês é ornamento.** Kanji e katakana nunca carregam informação que não esteja também em português; ficam com `aria-hidden` ou com `lang="ja"` e rótulo.
 5. **Cresce sem redesign.** Todo componente funciona com 0, 1 ou 20 itens.
-6. **Acessível por padrão.** Contraste, foco e teclado fazem parte do design, não de uma revisão final.
+6. **Acessível por padrão.** Contraste, foco e teclado fazem parte do design.
 
 ## Linguagem visual
 
-### Grid
-- 12 colunas no desktop: **texto em ~7 colunas + coluna de margem** (2–3 colunas) para notas, fichas e numeração.
-- Largura de leitura: 60–75 caracteres.
-- Abaixo de ~900 px, a margem colapsa: notas viram blocos em linha (toque para expandir).
-- Layout por container queries quando um componente muda de forma conforme o espaço.
-
-### Tipografia (combinação "Expressivo", escolhida em 18/10/2026)
-| Papel | Uso | Família (licença OFL, auto-hospedada) |
+### Tipografia
+| Papel | Uso | Família (OFL, auto-hospedada) |
 |---|---|---|
-| **Serifa de texto** | Títulos, posicionamento, leitura longa | **Fraunces** (pesos estáticos 400 e 600; a versão variável passava de 120 KB; tracking −0,025em nos títulos) |
-| **Grotesca** | UI, navegação, botões, legendas | **Geist** |
-| **Mono** | Numeração `00`–`05`, fichas técnicas, anotações, código | **Geist Mono** |
+| **Pincel** (`--font-brush`) | Títulos e nomes de projeto | **Kaushan Script** |
+| **Pincel japonês** (`--font-jp`) | Números de cena, katakana do nome, eixo do rolo | **Yuji Syuku**, só com os glifos usados (lista em `astro.config.ts`) |
+| **Texto** (`--font-sans`) | Leitura, UI, botões | **Zen Kaku Gothic New** 400 e 700 |
+| **Mono** (`--font-mono`) | Rótulos (kicker), fichas, datas, código | **IBM Plex Mono** 400 |
 
-Avaliadas e descartadas no protótipo: Literário (Newsreader · Inter · JetBrains Mono) e Técnico (Source Serif 4 · IBM Plex Sans · IBM Plex Mono).
+Avaliadas no protótipo e descartadas: Knewave e Sedgwick Ave Display. Regras: no máximo 5 arquivos de fonte (orçamento em [QUALITY_GATES.md](QUALITY_GATES.md)); kanji novo precisa entrar na lista de glifos, ou cai na fonte do sistema; `tabular-nums` em fichas e datas.
 
-Regras: escala fluida com `clamp()`; no máximo 3 famílias e 5 arquivos de fonte; usar `font-variant-numeric: tabular-nums` em fichas e datas.
-
-### Cor (acento escolhido em 18/10/2026; valores de partida em `prototype/styles.css`)
-| Token | Claro ("papel") | Escuro ("cianotipia") | Uso |
+### Cor
+| Token | Noite sumi (padrão) | Washi (claro) | Uso |
 |---|---|---|---|
-| `--color-paper` | off-white quente, `oklch(97% 0.01 85)` | azul-tinta profundo, `oklch(22% 0.04 255)` | Fundo |
-| `--color-ink` | quase preto, `oklch(22% 0.01 85)` | papel claro, `oklch(93% 0.01 240)` | Texto |
-| `--color-ink-muted` | cinza quente | azul acinzentado | Texto secundário, notas |
-| `--color-rule` | linha fina, baixo contraste | linha fina clara | Fios, grid, separadores |
-| `--color-accent` | **laranja-sinal**, `oklch(67% 0.18 50)`; para texto, `--color-accent-ink` `oklch(52% 0.16 45)` (contraste AA) | `oklch(78% 0.15 62)` | Anotação, foco, estado ativo, interação |
+| `--paper` / `--paper-2` | quase preto azulado | papel creme | Fundo / superfícies |
+| `--ink` / `--ink-muted` | papel claro | tinta quase preta | Texto / texto secundário |
+| `--rule` | fio escuro | fio bege | Separadores |
+| `--accent` / `--accent-ink` | **vermelho shu** | shu mais fechado | Selo, botão principal, números de cena, foco |
 
-Regras: o acento é **raro** (anotação, foco e interação), nunca área grande; sem gradientes decorativos, brilhos ou neon; contraste AA mínimo (texto ≥ 4,5:1, UI ≥ 3:1). Tema escuro segue `prefers-color-scheme`, com alternância manual persistida.
+Regras: o vermelho é o selo, não o fundo: aparece no selo, no botão principal, no portão dos projetos e nos números. Contraste AA (texto ≥ 4,5:1, UI ≥ 3:1). O tema padrão é noite; washi pela alternância, persistida.
 
-### Espaçamento e forma
-- Escala de espaço em múltiplos de 4 px, com tokens semânticos (`--space-section`, `--space-block`, `--space-inline`).
-- Fios de 1 px em vez de sombras; cantos retos ou de raio mínimo (é um documento, não um app de cards).
-- Imagens e figuras com legenda numerada ("Fig. 1.2 — …").
+### Textura e forma
+- Grão de papel em toda a página (SVG `feTurbulence` em `body::before`, sem imagem externa).
+- Fios de 1 px; cantos retos. Os rolos (kakejiku) têm barras de madeira em cima e embaixo.
 
 ### Assinaturas visuais
-- **Numeração de seção** em mono (`00`, `01`, …) alinhada à margem.
-- **Notas de margem** com marcador de acento.
-- **Ficha técnica** no topo de cada memorial.
-- **Figura-assinatura** no hero (ver [INTERACTIONS.md](INTERACTIONS.md)).
+- **Selo "IM"** no cabeçalho, levemente girado.
+- **Números de cena** em kanji, grandes, em acento.
+- **Nome em katakana** na vertical (アーヴィン・マルケス) na abertura.
+- **Projetos atrás de um portão torii** com a captura de tela na abertura do portão.
+- **Eixo do rolo (jiku)**: barra de progresso na lateral, com o kanji da cena atual.
 
-## Componentes (fase 4)
-Visíveis juntos, nos dois temas, em `/interno/componentes` (só em `npm run dev` e no build de teste).
+## Componentes
+Visíveis juntos, nos dois papéis, em `/interno/componentes` (só em `npm run dev` e no build de teste).
 
 | Componente | Arquivo | Responsabilidade |
 |---|---|---|
-| `Section` | `memorial/Section.astro` | Seção numerada da folha: rótulo na margem, título e conteúdo |
-| `MarginNote` | `memorial/MarginNote.astro` | Nota na coluna direita (desktop) ou bloco em linha (celular), alinhada ao parágrafo anterior |
+| `SceneHead` | `home/SceneHead.astro` | Cabeça de cena: kanji, rótulo e título pintado |
+| `ProjectGates` | `home/ProjectGates.astro` | Projetos atrás do portão torii; não renderiza nada se vazio |
+| `ToriiGate` | `home/ToriiGate.astro` | Desenho do portão (largo e alto) com o número do projeto |
+| `InkScript` | `base/InkScript.astro` | Tinta dos títulos `.brush`, eixo do rolo e travessia do portão |
+| `Section` | `memorial/Section.astro` | Seção numerada (páginas internas): rótulo, título e conteúdo |
+| `MarginNote` | `memorial/MarginNote.astro` | Nota na coluna direita (desktop) ou bloco em linha (celular) |
 | `SpecSheet` | `memorial/SpecSheet.astro` | Ficha técnica em pares rótulo/valor |
 | `NatureBadge` | `memorial/NatureBadge.astro` | Rótulo da natureza do projeto |
-| `Figure` | `memorial/Figure.astro` | Figura com legenda numerada; o conteúdo vem pelo slot |
+| `Figure` | `memorial/Figure.astro` | Figura com legenda numerada |
 | `Toc` | `memorial/Toc.astro` | Índice do memorial com a seção atual destacada |
-| `MemorialList` | `memorial/MemorialList.astro` | Lista de memoriais; não renderiza nada se vazia |
+| `MemorialList` | `memorial/MemorialList.astro` | Lista de memoriais (página `/memoriais`) |
 | `LogList` | `memorial/LogList.astro` | Registro público, do mais recente ao mais antigo |
-| `ContactBlock` | `base/ContactBlock.astro` | E-mail copiável e fuso; só canais que existem |
-| `Button` | `base/Button.astro` | Link ou botão, primário ou secundário, seta opcional |
-| `ThemeToggle` + `ThemeInit` | `base/` | Alternância de tema persistida, sem flash na carga |
+| `ContactBlock` | `base/ContactBlock.astro` | E-mail copiável e perfis; só canais que existem |
+| `Button` | `base/Button.astro` | Link ou botão, primário (shu) ou secundário, seta opcional |
+| `ThemeToggle` + `ThemeInit` | `base/` | Noite ↔ washi persistido, sem flash na carga |
 | `SkipLink`, `SiteHeader`, `SiteFooter` | `base/` | Estrutura de todas as páginas |
 
-Estilos globais em camadas (`src/styles/`): `base.css` (ordem das camadas, reset, base), `tokens.css`, `layout.css` (`.wrap`, `.sheet`, `.mem`) e `typography.css` (`.display`, `.heading`, `.subheading`, `.lede`, `.prose`, `.kicker`, `.link`). Estilos de componente ficam com escopo no próprio `.astro`.
-
-Sem abstrações antecipadas: um componente só é criado quando é usado em pelo menos um lugar real.
+Estilos globais em camadas (`src/styles/`): `base.css` (camadas, reset, base, grão), `tokens.css`, `layout.css` (`.wrap`, `.sheet`, `.mem`, `.scene`) e `typography.css` (`.display`, `.heading`, `.subheading`, `.lede`, `.prose`, `.kicker`, `.link`, `.brush`). Estilos de componente ficam com escopo no próprio `.astro`.
 
 ## Voz e conteúdo
 - PT-BR claro, frases curtas, primeira pessoa.
 - Linguagem de negócio na abertura de cada memorial; jargão só nas seções técnicas.
-- Notas de margem podem ter humor; o texto principal não depende delas.
 
 ## Anti-padrões (não fazer)
-Bento de cards idênticos · gradientes e glassmorphism decorativos · ícones de tecnologia como prova de competência · barras de habilidade · cursor customizado substituindo o nativo · texto que só aparece após animação · seções vazias ou "em breve".
+Japonês que carrega informação sem tradução · fontes de pincel em texto corrido · vermelho em áreas grandes · bento de cards idênticos · gradientes e glassmorphism decorativos · ícones de tecnologia como prova · texto que só aparece após animação · seções vazias ou "em breve".

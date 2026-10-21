@@ -18,6 +18,41 @@ test('cada projeto abre a página do seu memorial', async ({ page }) => {
   await expect(page).toHaveURL(/\/memoriais\/este-site/);
 });
 
+test('miniatura do projeto carrega dentro do portão', async ({ page }) => {
+  await page.goto('/');
+  const img = page.locator('#projetos .torii-view img').first();
+  await expect(img).not.toHaveAttribute('loading', 'lazy');
+  await img.scrollIntoViewIfNeeded();
+  await expect
+    .poll(() => img.evaluate((el: HTMLImageElement) => el.naturalWidth))
+    .toBeGreaterThan(0);
+  const box = await img.boundingBox();
+  expect(box?.width).toBeGreaterThan(50);
+});
+
+test('pergaminho do Sobre abre e enrola pelo botão', async ({ page }) => {
+  await page.goto('/');
+  const toggle = page.locator('[data-maki-toggle]');
+  const paper = page.locator('#maki-paper');
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  await expect.poll(async () => (await paper.boundingBox())?.height ?? 0).toBeLessThan(20);
+  await toggle.click();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+  await expect(toggle).toHaveText('Enrolar');
+  await expect.poll(async () => (await paper.boundingBox())?.height ?? 0).toBeGreaterThan(200);
+  await toggle.click();
+  await expect(toggle).toHaveText('Clique aqui');
+});
+
+test('sem JavaScript o pergaminho aparece aberto e sem botão', async ({ browser }) => {
+  const context = await browser.newContext({ javaScriptEnabled: false });
+  const page = await context.newPage();
+  await page.goto('/');
+  await expect(page.locator('[data-maki-toggle]')).toBeHidden();
+  expect((await page.locator('#maki-paper').boundingBox())?.height ?? 0).toBeGreaterThan(200);
+  await context.close();
+});
+
 test('títulos pintados mantêm o texto inteiro', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByRole('heading', { name: 'O que eu faço', level: 2 })).toBeVisible();

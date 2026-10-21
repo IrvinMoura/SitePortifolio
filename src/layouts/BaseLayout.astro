@@ -8,7 +8,6 @@ import InkScript from '../components/base/InkScript.astro';
 import SiteFooter from '../components/base/SiteFooter.astro';
 import SiteHeader from '../components/base/SiteHeader.astro';
 import SkipLink from '../components/base/SkipLink.astro';
-import ThemeInit from '../components/base/ThemeInit.astro';
 import { SITE } from '../lib/site';
 import { canonicalPath } from '../lib/url';
 
@@ -28,7 +27,10 @@ const canonical = new URL(canonicalPath(Astro.url.pathname), Astro.site);
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <ThemeInit />
+    <!-- Marca que o JS roda, antes da pintura: o pergaminho só começa fechado quando dá para abrir. -->
+    <script is:inline>
+      document.documentElement.classList.add('js');
+    </script>
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />

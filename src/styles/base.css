@@ -52,7 +52,7 @@
     background: var(--paper);
     overflow-x: clip;
   }
-  /* grão do papel (washi): textura fixa por cima de tudo, sem capturar cliques */
+  /* grão do papel: textura fixa por cima de tudo, sem capturar cliques */
   body::before {
     content: '';
     position: fixed;

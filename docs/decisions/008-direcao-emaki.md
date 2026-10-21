@@ -6,7 +6,7 @@
 **Decisão:** adotar o Emaki em todo o site, com as opções escolhidas no protótipo:
 - **Pincel:** Kaushan Script nos títulos latinos; Yuji Syuku (só os glifos usados) no japonês.
 - **Texto:** Zen Kaku Gothic New (400 e 700); rótulos em IBM Plex Mono 400.
-- **Papel:** noite sumi (escuro) por padrão; washi (claro) pela alternância de tema, persistida.
+- **Papel:** só noite sumi (escuro). A versão clara washi chegou a ser implementada e foi retirada a pedido do Irvin em 21/10/2026: o site não tem alternância de tema.
 - **Acento:** vermelho shu. **Pincelada:** expressiva (1200 ms por palavra, 190 ms entre elas), com o borrão só no começo de cada palavra: no protótipo as letras ficavam tortas até o fim.
 - **Home em cenas:** 序 abertura · 一 Projetos · 二 O que eu faço · 三 Sobre · 四 Contato.
 - O conteúdo continua o mesmo de antes: memoriais com natureza declarada, registro público, contato. O vocabulário "memorial" segue nas rotas e no schema.
@@ -15,6 +15,6 @@
 
 **Consequências:**
 - Saem a figura-assinatura Fig. 0 (I-08) e a grade com notas de margem na home; o template de memorial mantém índice, notas e ficha técnica, com a pele nova.
-- Entram as interações I-11 a I-14 de [INTERACTIONS.md](../INTERACTIONS.md). Elas somam um script pequeno em todas as páginas; o orçamento "0 KB próprios em página sem ilha" passa a aceitar tema, copiar, tinta e eixo do rolo.
-- O pergaminho com a foto (makimono) fica de fora até existir uma foto real: não há espaço reservado vazio em produção.
+- Entram as interações I-11 a I-14 de [INTERACTIONS.md](../INTERACTIONS.md). Elas somam um script pequeno em todas as páginas; o orçamento "0 KB próprios em página sem ilha" passa a aceitar copiar, tinta, eixo do rolo e pergaminho.
+- O pergaminho com a foto (makimono, I-15) entra com um espaço reservado ("Sua foto aqui") até existir a foto real. É uma exceção à regra de não publicar espaço reservado, aprovada pelo Irvin em 21/10/2026.
 - O texto do Memorial 001 que descreve a direção visual precisa ser revisto na fase 6.

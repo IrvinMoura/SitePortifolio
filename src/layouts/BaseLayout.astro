@@ -4,6 +4,7 @@ import '../styles/base.css';
 import '../styles/tokens.css';
 import '../styles/layout.css';
 import '../styles/typography.css';
+import InkScript from '../components/base/InkScript.astro';
 import SiteFooter from '../components/base/SiteFooter.astro';
 import SiteHeader from '../components/base/SiteHeader.astro';
 import SkipLink from '../components/base/SkipLink.astro';
@@ -44,12 +45,14 @@ const canonical = new URL(canonicalPath(Astro.url.pathname), Astro.site);
     <meta name="twitter:card" content="summary" />
     <slot name="head" />
 
-    <Font cssVariable="--font-serif" preload={[{ weight: 400 }]} />
-    <Font cssVariable="--font-sans" />
+    <Font cssVariable="--font-brush" preload />
+    <Font cssVariable="--font-jp" />
+    <Font cssVariable="--font-sans" preload={[{ weight: 400 }]} />
     <Font cssVariable="--font-mono" />
   </head>
   <body>
     <SkipLink />
+    <InkScript />
     <SiteHeader />
     <main id="conteudo">
       <slot />

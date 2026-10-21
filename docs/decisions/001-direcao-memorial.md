@@ -1,5 +1,5 @@
 # 001 — Direção criativa "Memorial"
-**Status:** Aceito · 18/10/2026
+**Status:** Substituído por [008](008-direcao-emaki.md) · 18/10/2026
 
 **Contexto:** a Fase 0 comparou três direções: A "Bancada" (bento modular inspirado em braydoncoyer.dev), B "Fluxo" (diagrama interativo guiado por scroll) e C "Memorial" (caderno técnico). Detalhes em [RESEARCH.md](../RESEARCH.md).
 

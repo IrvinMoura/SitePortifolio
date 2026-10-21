@@ -1,39 +1,51 @@
 /*
  * Tokens de design — fonte da verdade dos valores visuais (docs/DESIGN.md explica o porquê).
- * Famílias tipográficas (--font-serif, --font-sans, --font-mono) vêm da API de fontes do Astro
- * (astro.config.ts). Valores de partida portados do protótipo da fase 2; refinados na fase 4.
+ * Famílias tipográficas (--font-brush, --font-jp, --font-sans, --font-mono) vêm da API de fontes
+ * do Astro (astro.config.ts). Valores portados do protótipo Emaki (ADR 008).
  */
 @layer tokens {
+  /* papel noite sumi: o padrão */
   :root {
-    --display-weight: 400;
-    --display-tracking: -0.025em;
+    --paper: #121319;
+    --paper-2: #1a1b22;
+    --ink: #ece6d8;
+    --ink-muted: #a39e92;
+    --rule: #2d2e36;
+    --rule-strong: #4a4b54;
+    /* tinta da aguada do hero, em canais RGB para usar com rgb() */
+    --wash: 236 230 216;
 
-    /* cor: papel (claro) */
-    --paper: oklch(97.6% 0.008 85);
-    --paper-2: oklch(94.8% 0.011 85);
-    --ink: oklch(23% 0.012 85);
-    --ink-muted: oklch(46% 0.012 85);
-    --rule: oklch(87% 0.012 85);
-    --rule-strong: oklch(68% 0.012 85);
+    /* acento: vermelho shu */
+    --accent: #d8432f;
+    --accent-ink: #f06a52;
+    --accent-soft: rgb(216 67 47 / 0.22);
+    /* fundo de selo e botão: mais fechado, para o texto claro passar de 4,5:1 */
+    --accent-fill: #c0362a;
+    --seal-text: #fff4ea;
 
-    /* acento: laranja-sinal */
-    --accent: oklch(67% 0.18 50);
-    --accent-ink: oklch(52% 0.16 45);
-    --accent-soft: oklch(67% 0.18 50 / 0.16);
+    /* portão torii */
+    --gate-dark: #0b0b0e;
+    --plaque: #0f1014;
+    --plaque-text: #e8d9a8;
+
+    /* grão do papel */
+    --grain-blend: screen;
+    --grain-opacity: 0.05;
 
     /* escala tipográfica fluida */
     --step--2: 0.75rem;
-    --step--1: clamp(0.82rem, 0.8rem + 0.1vw, 0.9rem);
-    --step-0: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
-    --step-1: clamp(1.25rem, 1.12rem + 0.6vw, 1.5rem);
-    --step-2: clamp(1.55rem, 1.3rem + 1.1vw, 2.15rem);
-    --step-3: clamp(2rem, 1.5rem + 2.2vw, 3.2rem);
-    --step-4: clamp(2.4rem, 1.55rem + 3.8vw, 4.6rem);
+    --step--1: clamp(0.85rem, 0.82rem + 0.1vw, 0.92rem);
+    --step-0: 1.0625rem;
+    --step-1: clamp(1.05rem, 1rem + 0.4vw, 1.3rem);
+    --step-2: clamp(1.7rem, 1.4rem + 1.2vw, 2.4rem);
+    --step-3: clamp(2.1rem, 1.5rem + 3vw, 4.2rem);
+    --step-4: clamp(3rem, 1.6rem + 6.4vw, 7.6rem);
+    --step-scene: clamp(3rem, 2.2rem + 3.4vw, 5rem);
 
     /* espaço */
-    --space-section: clamp(4rem, 3rem + 5vw, 7.5rem);
+    --space-section: clamp(4rem, 3rem + 5vw, 8rem);
     --space-block: clamp(1.5rem, 1.2rem + 1.2vw, 2.5rem);
-    --gutter: clamp(1rem, 0.5rem + 3vw, 2.75rem);
+    --gutter: clamp(1.25rem, 1rem + 3vw, 3.5rem);
     --measure: 40rem;
 
     /* movimento (docs/INTERACTIONS.md) */
@@ -42,36 +54,32 @@
     --dur-base: 320ms;
     --dur-slow: 480ms;
     --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
-    --ease-in-out: cubic-bezier(0.6, 0, 0.2, 1);
+    --ease-in-out: cubic-bezier(0.65, 0, 0.25, 1);
+    --ease-spring: cubic-bezier(0.3, 1.6, 0.5, 1);
 
-    color-scheme: light;
-  }
+    /* tinta dos títulos (I-11): pincelada expressiva */
+    --ink-dur: 1200ms;
+    --ink-step: 190ms;
 
-  /* tema escuro "cianotipia": segue o sistema, a menos que o usuário escolha claro */
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme='light']) {
-      --paper: oklch(21% 0.035 255);
-      --paper-2: oklch(25% 0.04 255);
-      --ink: oklch(94% 0.012 240);
-      --ink-muted: oklch(76% 0.025 240);
-      --rule: oklch(34% 0.04 255);
-      --rule-strong: oklch(50% 0.04 255);
-      --accent: oklch(78% 0.15 62);
-      --accent-ink: oklch(80% 0.14 62);
-      --accent-soft: oklch(78% 0.15 62 / 0.16);
-      color-scheme: dark;
-    }
-  }
-  :root[data-theme='dark'] {
-    --paper: oklch(21% 0.035 255);
-    --paper-2: oklch(25% 0.04 255);
-    --ink: oklch(94% 0.012 240);
-    --ink-muted: oklch(76% 0.025 240);
-    --rule: oklch(34% 0.04 255);
-    --rule-strong: oklch(50% 0.04 255);
-    --accent: oklch(78% 0.15 62);
-    --accent-ink: oklch(80% 0.14 62);
-    --accent-soft: oklch(78% 0.15 62 / 0.16);
     color-scheme: dark;
+  }
+
+  /* papel washi: claro, escolhido pela alternância de tema */
+  :root[data-theme='light'] {
+    --paper: #ede6d6;
+    --paper-2: #e4dbc8;
+    --ink: #1b1a17;
+    --ink-muted: #5d584e;
+    --rule: #cfc5b1;
+    --rule-strong: #a99f8b;
+    --wash: 27 26 23;
+    --accent: #c0362a;
+    --accent-ink: #a52b20;
+    --accent-soft: rgb(192 54 42 / 0.18);
+    --gate-dark: #2a2219;
+    --plaque: #1b1a17;
+    --grain-blend: multiply;
+    --grain-opacity: 0.09;
+    color-scheme: light;
   }
 }

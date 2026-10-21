@@ -1,43 +1,27 @@
 ---
 import { SITE } from '../../lib/site';
 
-// Lista de contato. Só mostra canais que existem de fato (sem links pendentes em produção).
+// Linha de contato. Só mostra canais que existem de fato (sem links pendentes em produção).
 interface Props {
   class?: string;
 }
 const { class: className } = Astro.props;
 ---
 
-<dl class:list={['contact', className]}>
-  <div>
-    <dt class="kicker">E-mail</dt>
-    <dd>
-      <a class="link" href={`mailto:${SITE.email}`}>
-        {SITE.email}
-      </a>
-      <button class="copy" type="button" data-copy={SITE.email}>
-        Copiar
-      </button>
-      <span class="status" aria-live="polite" data-copy-status></span>
-    </dd>
-  </div>
-  {SITE.profiles.length > 0 && (
-    <div>
-      <dt class="kicker">Perfis</dt>
-      <dd>
-        {SITE.profiles.map((p) => (
-          <a class="link" href={p.href} rel="me">
-            {p.label}
-          </a>
-        ))}
-      </dd>
-    </div>
-  )}
-  <div>
-    <dt class="kicker">Fuso horário</dt>
-    <dd>UTC−3 (horário de Brasília)</dd>
-  </div>
-</dl>
+<div class:list={['contact', className]}>
+  <a class="link" href={`mailto:${SITE.email}`}>
+    {SITE.email}
+  </a>
+  <button class="copy" type="button" data-copy={SITE.email}>
+    Copiar e-mail
+  </button>
+  <span class="status" aria-live="polite" data-copy-status></span>
+  {SITE.profiles.map((p) => (
+    <a class="link" href={p.href} rel="me">
+      {p.label} <span aria-hidden="true">↗</span>
+    </a>
+  ))}
+</div>
 
 <script>
   // INTERACTIONS I-05: copia e confirma por 2 s; sem JS, o link mailto continua funcionando.
@@ -61,31 +45,21 @@ const { class: className } = Astro.props;
 
 <style>
   .contact {
-    border-top: 1px solid var(--ink);
-  }
-  .contact > div {
-    display: grid;
-    grid-template-columns: 8rem minmax(0, 1fr);
-    gap: 0.5rem 1rem;
-    padding: 0.95rem 0;
-    border-bottom: 1px solid var(--rule);
-    align-items: center;
-  }
-  dd {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 0.5rem 1rem;
+    gap: 0.8rem 1.2rem;
+    font-size: 1.15rem;
   }
   .copy {
     font-family: var(--font-mono);
-    font-size: var(--step--2);
+    font-size: 0.7rem;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     background: none;
+    color: var(--ink);
     border: 1px solid var(--rule-strong);
-    border-radius: 2px;
-    padding: 0.3rem 0.55rem;
+    padding: 0.4rem 0.7rem;
     cursor: pointer;
   }
   .copy:hover {
@@ -93,12 +67,7 @@ const { class: className } = Astro.props;
   }
   .status {
     font-family: var(--font-mono);
-    font-size: var(--step--2);
+    font-size: 0.75rem;
     color: var(--accent-ink);
-  }
-  @media (max-width: 35rem) {
-    .contact > div {
-      grid-template-columns: 1fr;
-    }
   }
 </style>

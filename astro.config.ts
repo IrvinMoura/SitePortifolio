@@ -22,32 +22,44 @@ export default defineConfig({
     locales: ['pt-BR'],
     routing: { prefixDefaultLocale: false },
   },
-  // Fontes auto-hospedadas pelo Astro (baixadas no build), com fallbacks métricos.
+  // Fontes auto-hospedadas pelo Astro (baixadas no build), com fallbacks métricos. ADR 008.
+  // Orçamento: 5 arquivos (docs/QUALITY_GATES.md).
   fonts: [
     {
       provider: fontProviders.fontsource(),
-      name: 'Fraunces',
-      cssVariable: '--font-serif',
-      // Pesos estáticos: a versão variável (eixo opsz) passa de 120 KB e estoura o orçamento de fontes.
-      weights: [400, 600],
+      name: 'Kaushan Script',
+      cssVariable: '--font-brush',
+      weights: [400],
       styles: ['normal'],
       subsets: ['latin'],
-      fallbacks: ['Georgia', 'serif'],
+      fallbacks: ['cursive'],
+    },
+    {
+      // Só os glifos usados: a fonte japonesa inteira passa de 4 MB. Kanji novo entra aqui.
+      provider: fontProviders.google(),
+      name: 'Yuji Syuku',
+      cssVariable: '--font-jp',
+      weights: [400],
+      styles: ['normal'],
+      fallbacks: ['serif'],
+      options: {
+        experimental: { glyphs: ['序一二三四五壱弐参絵巻頁無アーヴィン・マルケス'] },
+      },
     },
     {
       provider: fontProviders.fontsource(),
-      name: 'Geist',
+      name: 'Zen Kaku Gothic New',
       cssVariable: '--font-sans',
-      weights: ['400 600'],
+      weights: [400, 700],
       styles: ['normal'],
       subsets: ['latin'],
       fallbacks: ['system-ui', 'sans-serif'],
     },
     {
       provider: fontProviders.fontsource(),
-      name: 'Geist Mono',
+      name: 'IBM Plex Mono',
       cssVariable: '--font-mono',
-      weights: ['400 500'],
+      weights: [400],
       styles: ['normal'],
       subsets: ['latin'],
       fallbacks: ['ui-monospace', 'monospace'],

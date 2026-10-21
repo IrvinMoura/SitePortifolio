@@ -6,7 +6,7 @@
 1. **Movimento só com função:** continuidade (de onde veio / para onde vai), retorno de uma ação, ou demonstração de um sistema.
 2. **Conteúdo nunca depende de animação.** Todo texto está visível sem JS e sob `prefers-reduced-motion: reduce`.
 3. **Sem scroll-jacking**, sem smooth scroll artificial, sem preloader.
-4. **Curto:** a maioria das transições fica entre 120 e 320 ms; nada passa de 600 ms, exceto a figura-assinatura, que é controlada pelo usuário.
+4. **Curto:** a maioria das transições fica entre 120 e 320 ms; nada passa de 600 ms, exceto a tinta dos títulos (I-11, 1200 ms por palavra, só uma vez) e a travessia do portão (I-13), que é disparada pelo usuário.
 5. **Animar apenas `transform`, `opacity`, `clip-path`.** Nada de animar layout.
 6. **Loops só com controle** (pausar/reproduzir) e pausados fora da viewport.
 7. **Teclado e toque têm paridade com hover.** Nenhuma informação existe só no hover.
@@ -32,12 +32,18 @@
 | I-04 | Nota de margem | — (estática) | Sempre visível: coluna direita no desktop, bloco em linha no celular. O popover previsto foi descartado na fase 4: esconder a nota atrás de um clique piorava a leitura sem ganho | CSS grid | Não precisa de interação | Igual | Igual | MVP ✅ |
 | I-05 | Copiar e-mail | Clique | Copia e mostra "copiado" por 2 s (`aria-live`) | Clipboard API | Botão nativo | Igual | Link `mailto:` | MVP |
 | I-06 | Link com sublinhado desenhado | Hover/foco | Sublinhado cresce da esquerda | CSS (`background-size`) | Mesmo efeito no `:focus-visible` | Sublinhado fixo | Sublinhado fixo | MVP |
-| I-07 | Alternar tema | Clique | Troca papel ↔ cianotipia | CSS custom properties; `startViewTransition` se disponível | Botão nativo com `aria-pressed` | Troca instantânea | Segue o sistema | MVP |
-| I-08 | **Figura-assinatura** | Clique/arraste/tecla no hero | Ver especificação abaixo | SVG + ilha React (`client:visible`) + Motion | Completa por teclado | Mostra estados lado a lado, sem animação | Imagem estática "antes → depois" com legenda | Estática (os dois estados lado a lado) na fase 5 ✅; alternância interativa na fase 7. Teste de 5 s adiado |
+| I-07 | Alternar tema | Clique | Troca noite sumi ↔ washi | CSS custom properties; `startViewTransition` se disponível | Botão nativo com `aria-pressed` | Troca instantânea | Papel noite | MVP |
+| ~~I-08~~ | ~~Figura-assinatura~~ (removida pelo ADR 008) | Clique/arraste/tecla no hero | Ver especificação abaixo | SVG + ilha React (`client:visible`) + Motion | Completa por teclado | Mostra estados lado a lado, sem animação | Imagem estática "antes → depois" com legenda | Estática (os dois estados lado a lado) na fase 5 ✅; alternância interativa na fase 7. Teste de 5 s adiado |
 | I-09 | Figuras de memorial | Interação do usuário | Específico de cada figura | Ilha por figura, carregada quando visível | Obrigatório | Obrigatório | Imagem + legenda descritiva | Por projeto |
-| I-10 | Animações scroll-driven | Scroll | Apenas detalhes (ex.: barra de progresso de leitura) | `animation-timeline` dentro de `@supports` | n/a | Desligado | Sem barra | Pós-MVP |
+| I-10 | Animações scroll-driven | Scroll | Apenas detalhes | `animation-timeline` dentro de `@supports` | n/a | Desligado | Sem efeito | Pós-MVP (a barra de progresso virou o I-12) |
+| I-11 | **Tinta nos títulos** | Título `.brush` entra na viewport | Cada palavra é pintada da esquerda para a direita (máscara em gradiente + borrão SVG só no começo da pincelada), 1200 ms por palavra, 190 ms entre elas, **uma vez**. Espera a fonte de pincel por no máximo 1 s | Classe via IntersectionObserver; `mask-image` + `@keyframes` | n/a | Sem animação, título visível desde o início | Título visível (o estado oculto só é aplicado pelo próprio script); impressão sempre mostra | MVP ✅ |
+| I-12 | Eixo do rolo (jiku) | Scroll | Barra de acento na lateral cresce com a leitura; no desktop mostra o kanji da cena atual | `transform: scaleY` atualizado em `requestAnimationFrame` | Decorativa (`aria-hidden`) | Igual (não há deslocamento de conteúdo) | Sem barra | MVP ✅ |
+| I-13 | Travessia do portão | Clique em um projeto | O torii cresce e some enquanto a captura atrás dele ocupa a tela (≈ 700 ms); então a página do memorial abre | Web Animations API e navegação ao fim | Link nativo; Enter funciona igual; Ctrl/⌘/clique do meio abrem em nova aba sem animação | Navega direto | Link normal | MVP ✅ |
+| I-14 | Etapas que desenrolam para o lado | Scroll horizontal de quem lê | Lista das etapas de um projeto em faixa horizontal com `scroll-snap` | CSS (`overflow-x`, `scroll-snap-type: x proximity`) | Faixa focável (`tabindex=0`), setas rolam | Igual | Igual | MVP ✅ |
 
-## Especificação: figura-assinatura (I-08)
+## Especificação: figura-assinatura (I-08, removida)
+> Mantida como histórico. Saiu da home com a direção Emaki ([ADR 008](decisions/008-direcao-emaki.md)).
+
 **Objetivo:** em até 5 s, o visitante entende o que o Irvin faz: transformar processo manual em sistema.
 
 **Estados:**

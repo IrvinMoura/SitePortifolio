@@ -1,0 +1,84 @@
+---
+// Portão torii desenhado em SVG, com o número do projeto na placa. Duas versões: larga (desktop,
+// viewBox 400x300) e alta (celular, 300x420), cuja abertura fica em pé como a tela do telefone.
+// A abertura do portão é posicionada em ProjectGates.astro com as mesmas coordenadas.
+interface Props {
+  number: string;
+}
+const { number } = Astro.props;
+---
+
+<svg class="torii-gate gate-wide" viewBox="0 0 400 300" aria-hidden="true" focusable="false">
+  <!-- kasagi: a viga de cima, com as pontas curvadas para o alto -->
+  <path class="gate-dark" d="M-4 18 Q200 40 404 18 L402 28 Q200 50 -2 28 Z"></path>
+  <path class="gate-red" d="M-2 28 Q200 50 402 28 L394 44 Q200 64 6 44 Z"></path>
+  <!-- shimaki -->
+  <rect class="gate-red" x="34" y="56" width="332" height="11"></rect>
+  <!-- gakuzuka e a placa (gaku) com o número do projeto -->
+  <rect class="gate-red" x="190" y="66" width="20" height="32"></rect>
+  <rect class="gate-plaque" x="173" y="68" width="54" height="30" rx="2"></rect>
+  <text class="gate-num" x="200" y="88" text-anchor="middle">
+    {number}
+  </text>
+  <!-- nuki: a viga de baixo, atravessando os pilares -->
+  <rect class="gate-red" x="18" y="98" width="364" height="13"></rect>
+  <!-- hashira: os pilares, levemente inclinados -->
+  <path class="gate-red" d="M70 62 L94 62 L98 292 L64 292 Z"></path>
+  <path class="gate-red" d="M306 62 L330 62 L336 292 L302 292 Z"></path>
+  <!-- kamaki: as bases escuras -->
+  <rect class="gate-dark" x="60" y="276" width="42" height="18" rx="2"></rect>
+  <rect class="gate-dark" x="298" y="276" width="42" height="18" rx="2"></rect>
+</svg>
+<svg class="torii-gate gate-tall" viewBox="0 0 300 420" aria-hidden="true" focusable="false">
+  <path class="gate-dark" d="M-4 18 Q150 36 304 18 L302 28 Q150 46 -2 28 Z"></path>
+  <path class="gate-red" d="M-2 28 Q150 46 302 28 L296 42 Q150 58 4 42 Z"></path>
+  <rect class="gate-red" x="26" y="54" width="248" height="10"></rect>
+  <rect class="gate-red" x="140" y="63" width="20" height="32"></rect>
+  <rect class="gate-plaque" x="124" y="66" width="52" height="28" rx="2"></rect>
+  <text class="gate-num" x="150" y="85" text-anchor="middle">
+    {number}
+  </text>
+  <rect class="gate-red" x="12" y="96" width="276" height="13"></rect>
+  <path class="gate-red" d="M56 60 L78 60 L82 412 L52 412 Z"></path>
+  <path class="gate-red" d="M222 60 L244 60 L248 412 L218 412 Z"></path>
+  <rect class="gate-dark" x="46" y="398" width="40" height="18" rx="2"></rect>
+  <rect class="gate-dark" x="214" y="398" width="40" height="18" rx="2"></rect>
+</svg>
+
+<style>
+  .torii-gate {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .gate-tall {
+    display: none;
+  }
+  @media (max-width: 47.99rem) {
+    .gate-wide {
+      display: none;
+    }
+    .gate-tall {
+      display: block;
+    }
+  }
+  .gate-red {
+    fill: var(--accent);
+  }
+  .gate-dark {
+    fill: var(--gate-dark);
+  }
+  .gate-plaque {
+    fill: var(--plaque);
+    stroke: var(--accent);
+    stroke-width: 2;
+  }
+  .gate-num {
+    fill: var(--plaque-text);
+    font: 400 13px var(--font-mono);
+    letter-spacing: 0.08em;
+  }
+</style>

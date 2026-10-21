@@ -1,26 +1,24 @@
 ---
-// INTERACTIONS I-07. O tema inicial é aplicado antes da pintura por ThemeInit.astro.
+// INTERACTIONS I-07: papel noite (padrão) ↔ washi. O tema salvo é aplicado antes da pintura por
+// ThemeInit.astro.
 ---
 
 <button class="theme-toggle" type="button" aria-pressed="false" data-theme-toggle>
-  <span class="dot" aria-hidden="true"></span>
-  Tema escuro
+  <span class="sr-only">Papel claro:</span> Washi
 </button>
 
 <script>
   const KEY = 'theme';
   const root = document.documentElement;
-  const media = matchMedia('(prefers-color-scheme: dark)');
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
 
-  const isDark = () => (root.dataset.theme ? root.dataset.theme === 'dark' : media.matches);
+  const isLight = () => root.dataset.theme === 'light';
 
   for (const button of document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]')) {
-    const sync = () => button.setAttribute('aria-pressed', String(isDark()));
+    const sync = () => button.setAttribute('aria-pressed', String(isLight()));
     sync();
-    media.addEventListener('change', sync);
     button.addEventListener('click', () => {
-      const next = isDark() ? 'light' : 'dark';
+      const next = isLight() ? 'dark' : 'light';
       const apply = () => {
         root.dataset.theme = next;
         sync();
@@ -38,31 +36,22 @@
 
 <style>
   .theme-toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
     font-family: var(--font-mono);
-    font-size: var(--step--2);
+    font-size: 0.7rem;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     background: none;
+    color: var(--ink);
     border: 1px solid var(--rule-strong);
-    border-radius: 2px;
-    padding: 0.4rem 0.65rem;
+    padding: 0.35rem 0.6rem;
     cursor: pointer;
     transition: border-color var(--dur-instant);
   }
   .theme-toggle:hover {
     border-color: var(--ink);
   }
-  .dot {
-    width: 0.6rem;
-    height: 0.6rem;
-    border-radius: 50%;
-    border: 1px solid currentColor;
-    background: linear-gradient(90deg, currentColor 50%, transparent 50%);
-  }
-  .theme-toggle[aria-pressed='true'] .dot {
-    background: currentColor;
+  .theme-toggle[aria-pressed='true'] {
+    background: var(--ink);
+    color: var(--paper);
   }
 </style>

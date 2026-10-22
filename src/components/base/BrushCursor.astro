@@ -1,0 +1,182 @@
+---
+// Cursor de tinta (INTERACTIONS I-20): uma gota preta segue o mouse e deixa um rastro curto de
+// pinceladas. Só com mouse e sem movimento reduzido; sem JS, fica o cursor do sistema. O laço de
+// animação para sozinho quando o rastro some. A fumaça (I-16) continua por baixo.
+---
+
+<div class="ink-cursor" aria-hidden="true" data-ink-cursor>
+  <span></span>
+</div>
+<canvas class="ink-trail" aria-hidden="true" data-ink-trail></canvas>
+
+<script>
+  const dot = document.querySelector<HTMLElement>('[data-ink-cursor]');
+  const canvas = document.querySelector<HTMLCanvasElement>('[data-ink-trail]');
+  const ctx = canvas?.getContext('2d');
+  const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+
+  const LIFE = 420; // ms até uma pincelada sumir
+  const INTERACTIVE = 'a, button, summary, label, [role="button"], [tabindex]:not([tabindex="-1"])';
+
+  interface Point {
+    x: number;
+    y: number;
+    t: number;
+    w: number;
+  }
+
+  if (dot && canvas && ctx && finePointer.matches && !reduced.matches) {
+    const color = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+    const root = document.documentElement;
+    const points: Point[] = [];
+    let running = false;
+    let last: Point | null = null;
+    let dpr = 1;
+
+    const resize = () => {
+      dpr = Math.min(devicePixelRatio || 1, 2);
+      canvas.width = Math.ceil(innerWidth * dpr);
+      canvas.height = Math.ceil(innerHeight * dpr);
+    };
+    resize();
+    addEventListener('resize', resize, { passive: true });
+
+    // Um traço afinando: corpo e duas cerdas finas ao lado, para parecer pincel seco.
+    const stroke = (a: Point, b: Point, k: number) => {
+      const w = b.w * k;
+      const dx = b.x - a.x;
+      const dy = b.y - a.y;
+      const len = Math.hypot(dx, dy) || 1;
+      const nx = (-dy / len) * w * 0.6;
+      const ny = (dx / len) * w * 0.6;
+      ctx.globalAlpha = 0.75 * k;
+      ctx.lineWidth = w;
+      ctx.beginPath();
+      ctx.moveTo(a.x, a.y);
+      ctx.lineTo(b.x, b.y);
+      ctx.stroke();
+      ctx.globalAlpha = 0.5 * k * k;
+      ctx.lineWidth = Math.max(w * 0.22, 0.8);
+      for (const s of [1, -1]) {
+        ctx.beginPath();
+        ctx.moveTo(a.x + nx * s, a.y + ny * s);
+        ctx.lineTo(b.x + nx * s, b.y + ny * s);
+        ctx.stroke();
+      }
+    };
+
+    const frame = (now: number) => {
+      while (points.length && now - points[0]!.t > LIFE) points.shift();
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.strokeStyle = color || '#d8432f';
+      // pontas retas: as redondas se sobrepõem nas emendas e marcam pontos no traço
+      ctx.lineCap = 'butt';
+      for (let i = 1; i < points.length; i++) {
+        const a = points[i - 1]!;
+        const b = points[i]!;
+        // o rastro se separa quando o mouse para e volta a andar
+        if (b.t - a.t > 80) continue;
+        stroke(a, b, 1 - (now - b.t) / LIFE);
+      }
+      if (points.length) requestAnimationFrame(frame);
+      else running = false;
+    };
+
+    const add = (x: number, y: number, t: number) => {
+      const speed = last ? Math.hypot(x - last.x, y - last.y) / Math.max(t - last.t, 1) : 0;
+      // mais rápido, pincelada mais grossa (px por ms → largura de 3 a 10 px)
+      const w = Math.min(3 + speed * 5, 10);
+      const p = { x, y, t, w: last ? last.w * 0.6 + w * 0.4 : w };
+      points.push(p);
+      last = p;
+    };
+
+    addEventListener(
+      'pointermove',
+      (e) => {
+        if (e.pointerType !== 'mouse') return;
+        root.classList.add('ink-cursor-on');
+        dot.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`;
+        dot.classList.remove('away');
+        const events = e.getCoalescedEvents?.() ?? [e];
+        for (const ev of events.length ? events : [e]) {
+          add(ev.clientX, ev.clientY, performance.now());
+        }
+        if (!running) {
+          running = true;
+          requestAnimationFrame(frame);
+        }
+      },
+      { passive: true },
+    );
+    addEventListener('pointerover', (e) => {
+      const target = e.target as Element | null;
+      dot.classList.toggle('hover', !!target?.closest?.(INTERACTIVE));
+    });
+    addEventListener('pointerdown', () => dot.classList.add('press'));
+    addEventListener('pointerup', () => dot.classList.remove('press'));
+    document.addEventListener('mouseleave', () => {
+      dot.classList.add('away');
+      last = null;
+    });
+  }
+</script>
+
+<style>
+  .ink-cursor,
+  .ink-trail {
+    position: fixed;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 90;
+  }
+  .ink-trail {
+    width: 100vw;
+    height: 100vh;
+    z-index: 89;
+  }
+  .ink-cursor {
+    display: none;
+  }
+  :global(.ink-cursor-on) .ink-cursor {
+    display: block;
+  }
+  /* sem cursor do sistema só depois do primeiro movimento de mouse, quando a gota já existe */
+  :global(.ink-cursor-on),
+  :global(.ink-cursor-on *) {
+    cursor: none !important;
+  }
+  .ink-cursor span {
+    position: absolute;
+    left: -7px;
+    top: -7px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--cursor-ink);
+    box-shadow: 0 0 0 1.5px var(--ink);
+    transition:
+      transform var(--dur-fast) var(--ease-out),
+      background-color var(--dur-fast),
+      box-shadow var(--dur-fast),
+      opacity var(--dur-fast);
+  }
+  .ink-cursor:global(.hover) span {
+    transform: scale(2.2);
+    background: color-mix(in srgb, var(--cursor-ink) 35%, transparent);
+    box-shadow: 0 0 0 0.7px var(--accent);
+  }
+  .ink-cursor:global(.press) span {
+    transform: scale(0.75);
+  }
+  .ink-cursor:global(.hover.press) span {
+    transform: scale(1.8);
+  }
+  .ink-cursor:global(.away) span {
+    opacity: 0;
+  }
+</style>

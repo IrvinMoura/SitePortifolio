@@ -23,6 +23,9 @@
     --accent-fill: #c0362a;
     --seal-text: #fff4ea;
 
+    /* cursor de tinta (INTERACTIONS I-20): mais escuro que o papel, com contorno em --ink */
+    --cursor-ink: #050507;
+
     /* portão torii */
     --gate-dark: #0b0b0e;
     --plaque: #0f1014;

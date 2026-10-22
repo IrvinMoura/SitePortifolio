@@ -110,6 +110,24 @@ test('o mouse solta fumaça no fundo; com movimento reduzido, não', async ({ pa
   expect(await smokePixels(page)).toBe(0);
 });
 
+test('com mouse o cursor vira gota de tinta; com movimento reduzido, fica o do sistema', async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(isMobile, 'O cursor de tinta só existe com mouse.');
+  const cursor = page.locator('[data-ink-cursor] span');
+  await page.goto('/');
+  for (let x = 200; x <= 500; x += 25) await page.mouse.move(x, 400);
+  await expect(cursor).toBeVisible();
+  expect(await page.evaluate(() => getComputedStyle(document.body).cursor)).toBe('none');
+
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+  for (let x = 200; x <= 500; x += 25) await page.mouse.move(x, 400);
+  await expect(cursor).toBeHidden();
+  expect(await page.evaluate(() => getComputedStyle(document.body).cursor)).not.toBe('none');
+});
+
 test('títulos pintados mantêm o texto inteiro', async ({ page }) => {
   await page.goto('/');
   await expect(page.getByRole('heading', { name: 'O que eu faço', level: 2 })).toBeVisible();

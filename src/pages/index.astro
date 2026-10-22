@@ -8,27 +8,29 @@ import ProjectGates from '../components/home/ProjectGates.astro';
 import Scene from '../components/home/Scene.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { publishedFirst } from '../lib/content';
+import { SITE } from '../lib/site';
 
 const memoriais = publishedFirst(await getCollection('memoriais'), {
   includeDrafts: import.meta.env.DEV,
 });
 
-// Textos aprovados no protótipo Emaki (ADR 008).
+// Textos aprovados no protótipo Emaki (ADR 008). Trechos entre *asteriscos* ganham a pincelada de
+// destaque (INTERACTIONS I-22).
 const services = [
   {
     kanji: '壱',
     title: 'Sites',
-    text: 'Desenvolvo sites a partir da identidade e dos objetivos de cada negócio, com atenção ao desempenho no celular, à presença nas buscas do Google e a caminhos claros para o visitante entrar em contato.',
+    text: '*Desenvolvo sites* a partir da identidade e dos objetivos de cada negócio, com atenção ao desempenho no celular, à presença nas buscas do Google e a caminhos claros para o visitante entrar em contato.',
   },
   {
     kanji: '弐',
     title: 'Automações',
-    text: 'Analiso o processo de ponta a ponta para encontrar onde estão o retrabalho, as tarefas repetitivas e os pontos em que a informação se perde. A partir desse diagnóstico, defino a automação de maior impacto na operação: integrar sistemas, eliminar digitação manual ou disparar avisos no momento certo.',
+    text: 'Analiso o processo de ponta a ponta para encontrar onde estão o retrabalho, as tarefas repetitivas e os pontos em que a informação se perde. A partir desse diagnóstico, defino a *automação de maior impacto* na operação: integrar sistemas, eliminar digitação manual ou disparar avisos no momento certo.',
   },
   {
     kanji: '参',
     title: 'Sistemas',
-    text: 'Desenvolvo sistemas web sob medida para centralizar a operação: cadastro de clientes, gestão de pedidos, controle de estoque e painéis com os indicadores do negócio. Cada sistema segue as regras e o fluxo de trabalho da empresa, com acesso pelo navegador, de qualquer lugar.',
+    text: 'Desenvolvo sistemas web *sob medida* para centralizar a operação: cadastro de clientes, gestão de pedidos, controle de estoque e painéis com os indicadores do negócio. Cada sistema segue as regras e o fluxo de trabalho da empresa, com acesso pelo navegador, de qualquer lugar.',
   },
 ];
 
@@ -110,9 +112,9 @@ const steps = [
         Irvin Marques
       </h1>
       <p class="lede">
-        Faço sites, automações e sistemas para negócios pequenos e médios. Antes de escrever código,
-        quero entender como o trabalho acontece hoje: quem faz o quê, onde as coisas se perdem e o
-        que toma tempo demais.
+        Faço <strong class="mark">sites, automações e sistemas</strong> para negócios pequenos e
+        médios. Antes de escrever código, quero entender como o trabalho acontece hoje: quem faz o
+        quê, onde as coisas se perdem e o que toma tempo demais.
       </p>
       <div class="actions">
         {memoriais.length > 0 && (
@@ -123,7 +125,7 @@ const steps = [
             </span>
           </Button>
         )}
-        <Button href="#contato" variant="secondary" arrow>
+        <Button href={`mailto:${SITE.email}`} variant="secondary" arrow>
           Mandar um e-mail
         </Button>
       </div>
@@ -155,7 +157,11 @@ const steps = [
             {s.kanji}
           </span>
           <h3 class="brush">{s.title}</h3>
-          <p>{s.text}</p>
+          <p>
+            {s.text
+              .split('*')
+              .map((part, i) => (i % 2 ? <strong class="mark">{part}</strong> : part))}
+          </p>
         </li>
       ))}
     </ul>
@@ -194,10 +200,8 @@ const steps = [
           Sou Irvin Marques, programador baiano, formando em Ciência da Computação e apaixonado por
           tecnologia e pela cultura japonesa, que inspira a estética deste site.
         </p>
-        <p class="muted">
-          Se o seu negócio ainda depende de planilha, papel ou mensagem de WhatsApp para funcionar,
-          eu vou ajudar a transformar essa rotina em uma ferramenta simples, feita sob medida.
-        </p>
+        <!-- prettier-ignore -->
+        <p class="muted">Se o seu negócio ainda depende de planilha, papel ou mensagem de WhatsApp para funcionar, <strong class="mark">eu vou ajudar</strong> a transformar essa rotina em uma ferramenta simples, <strong class="mark">feita sob medida</strong>.</p>
       </div>
       <Makimono />
     </div>

@@ -65,25 +65,21 @@ test('no celular o menu abre pelo botão e fecha ao escolher uma opção ou com 
   await expect(toggle).toBeFocused();
 });
 
-test('pergaminho do Sobre abre e enrola pelo botão', async ({ page }) => {
+test('pergaminho do Sobre abre sozinho quando entra na tela', async ({ page }) => {
   await page.goto('/');
-  const toggle = page.locator('[data-maki-toggle]');
+  const roll = page.locator('.makimono');
   const paper = page.locator('#maki-paper');
-  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  await expect(roll).toHaveAttribute('data-open', 'false');
   await expect.poll(async () => (await paper.boundingBox())?.height ?? 0).toBeLessThan(20);
-  await toggle.click();
-  await expect(toggle).toHaveAttribute('aria-expanded', 'true');
-  await expect(toggle).toHaveText('Enrolar');
+  await roll.scrollIntoViewIfNeeded();
+  await expect(roll).toHaveAttribute('data-open', 'true');
   await expect.poll(async () => (await paper.boundingBox())?.height ?? 0).toBeGreaterThan(200);
-  await toggle.click();
-  await expect(toggle).toHaveText('Clique aqui');
 });
 
-test('sem JavaScript o pergaminho aparece aberto e sem botão', async ({ browser }) => {
+test('sem JavaScript o pergaminho aparece aberto', async ({ browser }) => {
   const context = await browser.newContext({ javaScriptEnabled: false });
   const page = await context.newPage();
   await page.goto('/');
-  await expect(page.locator('[data-maki-toggle]')).toBeHidden();
   expect((await page.locator('#maki-paper').boundingBox())?.height ?? 0).toBeGreaterThan(200);
   await context.close();
 });

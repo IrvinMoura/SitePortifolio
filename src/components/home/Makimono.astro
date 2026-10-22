@@ -1,21 +1,13 @@
 ---
 // Pergaminho (makimono) que desenrola a foto (INTERACTIONS I-15). No desktop o rolo fechado fica
 // centrado na altura do texto e abre para cima e para baixo por cima da página, sem empurrar
-// nada; no celular abre no fluxo. Sem JS o rolo aparece aberto e o botão some.
+// nada; no celular abre no fluxo. Abre sozinho, uma vez, pouco depois de entrar na tela. Sem JS o
+// rolo aparece aberto.
 // Espaço reservado aprovado pelo Irvin em 21/10/2026 até existir a foto real.
 ---
 
 <div class="maki-slot">
   <div class="makimono" data-open="false">
-    <button
-      class="maki-toggle"
-      type="button"
-      aria-expanded="false"
-      aria-controls="maki-paper"
-      data-maki-toggle
-    >
-      <span class="maki-label">Clique aqui</span>
-    </button>
     <span class="rod" aria-hidden="true"></span>
     <div class="maki-paper" id="maki-paper">
       <div class="maki-inner">
@@ -29,17 +21,20 @@
 </div>
 
 <script>
-  for (const toggle of document.querySelectorAll<HTMLButtonElement>('[data-maki-toggle]')) {
-    const maki = toggle.closest<HTMLElement>('.makimono');
-    const label = toggle.querySelector('.maki-label');
-    toggle.addEventListener('click', () => {
-      if (!maki || !label) return;
-      const open = maki.dataset.open !== 'true';
-      maki.dataset.open = String(open);
-      toggle.setAttribute('aria-expanded', String(open));
-      label.textContent = open ? 'Enrolar' : 'Clique aqui';
-    });
-  }
+  // Espera o rolo ficar bem à vista e abre depois de uma pausa, como quem desenrola com calma.
+  const DELAY = 700;
+  const rolls = document.querySelectorAll<HTMLElement>('.makimono');
+  const observer = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        observer.unobserve(entry.target);
+        setTimeout(() => ((entry.target as HTMLElement).dataset.open = 'true'), DELAY);
+      }
+    },
+    { threshold: 0.6 },
+  );
+  for (const roll of rolls) observer.observe(roll);
 </script>
 
 <style>
@@ -107,51 +102,6 @@
     letter-spacing: 0.08em;
     text-transform: uppercase;
   }
-  .maki-toggle {
-    display: none;
-    position: absolute;
-    inset: 0;
-    z-index: 3;
-    place-items: center;
-    padding: 0;
-    background: none;
-    border: 0;
-    color: var(--ink);
-    cursor: pointer;
-  }
-  :global(.js) .maki-toggle {
-    display: grid;
-  }
-  .maki-label {
-    padding: 0.2rem 0.9rem 0.3rem;
-    font-family: var(--font-brush);
-    font-size: 1.35rem;
-    background: var(--accent-fill);
-    color: var(--seal-text);
-    transform: rotate(-3deg);
-    box-shadow: 0 6px 16px -8px #000a;
-    transition: transform 0.5s cubic-bezier(0.3, 1.6, 0.45, 1);
-  }
-  .maki-toggle:hover .maki-label {
-    transform: rotate(2deg) scale(1.05);
-  }
-  /* aberto: o botão desce para baixo do rolo e vira "Enrolar" discreto */
-  .makimono[data-open='true'] .maki-toggle {
-    inset: auto auto -3.2rem 50%;
-    translate: -50% 0;
-  }
-  .makimono[data-open='true'] .maki-label {
-    padding: 0.35rem 0.6rem;
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    background: none;
-    color: var(--ink-muted);
-    border: 1px solid var(--rule-strong);
-    box-shadow: none;
-    transform: none;
-  }
   @media (min-width: 40.01rem) {
     .maki-slot {
       position: relative;
@@ -173,8 +123,7 @@
     }
   }
   @media (prefers-reduced-motion: reduce) {
-    .maki-paper,
-    .maki-label {
+    .maki-paper {
       transition: none;
     }
   }

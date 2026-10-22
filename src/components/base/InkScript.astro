@@ -1,7 +1,7 @@
 ---
-// Tinta dos títulos (INTERACTIONS I-11) e eixo do rolo, o jiku (I-12). Vale em todas as páginas:
-// qualquer elemento com a classe .brush é pintado quando entra na tela. Seções com
-// data-scene="<kanji>" dão nome à cena atual no eixo.
+// Tinta dos títulos (INTERACTIONS I-11), pinceladas em destaque (I-22) e eixo do rolo, o jiku
+// (I-12). Vale em todas as páginas: qualquer elemento com a classe .brush é pintado quando entra
+// na tela. Seções com data-scene="<kanji>" dão nome à cena atual no eixo.
 ---
 
 <svg class="defs" width="0" height="0" aria-hidden="true" focusable="false">
@@ -76,9 +76,33 @@
       { rootMargin: '0px 0px -12% 0px' },
     );
     // Espera a fonte de pincel, mas no máximo 1 s: o título nunca fica oculto por rede lenta.
-    Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 1000))]).then(() => {
-      for (const el of brushes) observer.observe(el);
-    });
+    // Com a abertura do logo (I-21) na tela, espera ela sumir para o hero não pintar escondido.
+    const intro = document.documentElement.classList.contains('intro') ? 1300 : 0;
+    Promise.race([document.fonts.ready, new Promise((r) => setTimeout(r, 1000))])
+      .then(() => new Promise((r) => setTimeout(r, intro)))
+      .then(() => {
+        for (const el of brushes) observer.observe(el);
+      });
+  }
+
+  // Pinceladas em destaque (I-22): pinta por baixo das palavras-chave quando entram na tela.
+  const marks = document.querySelectorAll<HTMLElement>('.mark');
+  if (!reduced && 'IntersectionObserver' in window) {
+    const markObserver = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          entry.target.classList.add('inked');
+          markObserver.unobserve(entry.target);
+        }
+      },
+      { rootMargin: '0px 0px -15% 0px' },
+    );
+    // Com a abertura do logo (I-21) na tela, espera ela sumir, como os títulos.
+    const wait = document.documentElement.classList.contains('intro') ? 1300 : 0;
+    setTimeout(() => marks.forEach((mark) => markObserver.observe(mark)), wait);
+  } else {
+    for (const mark of marks) mark.classList.add('inked');
   }
 
   // Eixo do rolo: progresso da leitura e o kanji da cena atual.

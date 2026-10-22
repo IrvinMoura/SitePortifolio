@@ -1,0 +1,60 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../../assets/brand/logo-im.webp';
+
+// Abertura com o logo (INTERACTIONS I-21): o IM é pintado da esquerda para a direita e a tela some.
+// Só existe com a classe .intro no <html> (aplicada no <head> do BaseLayout); é puro CSS, não
+// bloqueia cliques e a página já está carregada por baixo.
+---
+
+<div class="intro-loader" aria-hidden="true">
+  <Image src={logo} alt="" widths={[160, 320]} sizes="10rem" loading="eager" />
+</div>
+
+<style>
+  .intro-loader {
+    display: none;
+  }
+  :global(.intro) .intro-loader {
+    display: grid;
+    place-items: center;
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: var(--paper);
+    pointer-events: none;
+    animation: intro-out 450ms var(--ease-in-out) 1150ms forwards;
+  }
+  .intro-loader img {
+    width: 10rem;
+    height: auto;
+    mask-image: linear-gradient(110deg, #000 40%, rgb(0 0 0 / 0.5) 48%, transparent 56%);
+    mask-size: 320% 100%;
+    mask-repeat: no-repeat;
+    animation: intro-paint 1000ms cubic-bezier(0.55, 0.05, 0.25, 1) 100ms both;
+  }
+  @keyframes intro-paint {
+    0% {
+      mask-position: 100% 0;
+      filter: url(#bleed) blur(1.2px);
+      opacity: 0.3;
+    }
+    40% {
+      filter: none;
+    }
+    60% {
+      opacity: 1;
+    }
+    100% {
+      mask-position: 0 0;
+      filter: none;
+      opacity: 1;
+    }
+  }
+  @keyframes intro-out {
+    to {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+</style>

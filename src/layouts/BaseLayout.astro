@@ -6,6 +6,7 @@ import '../styles/layout.css';
 import '../styles/typography.css';
 import BrushCursor from '../components/base/BrushCursor.astro';
 import InkScript from '../components/base/InkScript.astro';
+import IntroLoader from '../components/base/IntroLoader.astro';
 import SiteFooter from '../components/base/SiteFooter.astro';
 import SmokeBackground from '../components/base/SmokeBackground.astro';
 import SiteHeader from '../components/base/SiteHeader.astro';
@@ -30,8 +31,20 @@ const canonical = new URL(canonicalPath(Astro.url.pathname), Astro.site);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <!-- Marca que o JS roda, antes da pintura: o pergaminho só começa fechado quando dá para abrir. -->
+    <!-- Abertura com o logo (INTERACTIONS I-21): só na primeira página da visita, sem movimento reduzido. -->
     <script is:inline>
       document.documentElement.classList.add('js');
+      try {
+        if (
+          !sessionStorage.getItem('im-intro') &&
+          !matchMedia('(prefers-reduced-motion: reduce)').matches
+        ) {
+          document.documentElement.classList.add('intro');
+          sessionStorage.setItem('im-intro', '1');
+        }
+      } catch {
+        // sem sessionStorage (modo privado restrito): segue sem abertura
+      }
     </script>
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
@@ -58,6 +71,7 @@ const canonical = new URL(canonicalPath(Astro.url.pathname), Astro.site);
   </head>
   <body>
     <SkipLink />
+    <IntroLoader />
     <SmokeBackground />
     <BrushCursor />
     <InkScript />

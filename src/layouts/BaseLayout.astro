@@ -19,7 +19,7 @@ interface Props {
 }
 
 const { title, description = SITE.description, noindex = false } = Astro.props;
-const fullTitle = title ? `${title} · ${SITE.name}` : `${SITE.name} — desenvolvedor independente`;
+const fullTitle = title ? `${title} · ${SITE.name}` : SITE.name;
 const canonical = new URL(canonicalPath(Astro.url.pathname), Astro.site);
 ---
 

@@ -64,12 +64,11 @@ MDX (conteúdo) ──► Astro build (SSG) ──► HTML/CSS estático + ilhas
 | Rota | Conteúdo | Condição | Fase |
 |---|---|---|---|
 | `/` | 序 Abertura · 一 Projetos (cada portão abre o site do projeto) · 二 O que eu faço · 三 Sobre · 四 Contato | Projetos lista o que existir (no lançamento, só "este site") | MVP |
-| `/sobre` | Formação, foco, experiência verificável, currículo PDF | — | MVP |
-| `/registro` | Changelog/diário completo | ≥ 1 entrada | MVP |
+| `/privacidade`, `/termos` | Política de privacidade (LGPD) e termos de uso, linkados no rodapé | — | MVP |
 | `/lab`, `/notas`, `/en/…` | Experimentos, artigos, inglês | Quando houver conteúdo | Pós-MVP |
 | `404`, `sitemap.xml`, `robots.txt` | Infra | — | MVP |
 
-Contato é a seção `#contato` da home (sem página própria no MVP).
+Contato é a seção `#contato` da home (sem página própria no MVP). `/sobre` e `/registro` saíram em 21/10/2026; a Vercel redireciona para a home (vercel.json).
 
 **Regra de renderização condicional:** componentes de lista recebem a collection filtrada e **não renderizam nada** (nem título) quando ela está vazia.
 
@@ -113,7 +112,7 @@ Sem corpo MDX: o projeto não tem página própria; o card na home leva a `links
 ## SEO e compartilhamento
 - `<title>` e description por página; canonical; `hreflang` quando houver `en`.
 - OG image por página, gerada no build.
-- JSON-LD: `Person` (home/sobre), `Article` ou `CreativeWork` (memoriais).
+- JSON-LD: `Person` (home), `Article` ou `CreativeWork` (memoriais).
 - `sitemap.xml` via `@astrojs/sitemap`; `robots.txt`.
 
 ## Segurança

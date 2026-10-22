@@ -1,0 +1,59 @@
+---
+import LegalPage from '../components/base/LegalPage.astro';
+import { SITE } from '../lib/site';
+---
+
+<LegalPage
+  title="Política de privacidade"
+  description="Como este site trata dados pessoais: sem cookies, sem rastreamento e sem formulários."
+  updated="2026-10-21"
+>
+  <p>
+    Esta política explica quais dados pessoais este site trata, por que e quais são os seus
+    direitos, nos termos da Lei Geral de Proteção de Dados (Lei nº 13.709/2018, LGPD).
+  </p>
+
+  <h2>Quem é o responsável</h2>
+  <!-- prettier-ignore -->
+  <p>O site é mantido por {SITE.name}, que é o controlador dos dados tratados aqui. Para qualquer assunto sobre privacidade, escreva para <a class="link" href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+
+  <h2>O que este site não faz</h2>
+  <ul>
+    <li>Não usa cookies.</li>
+    <li>Não usa ferramentas de análise de audiência, pixels de anúncio ou rastreadores.</li>
+    <li>Não tem formulários nem cadastro.</li>
+    <li>Não carrega fontes, scripts ou imagens de terceiros: tudo é servido pelo próprio site.</li>
+  </ul>
+
+  <h2>Dados tratados</h2>
+  <p>
+    <strong>Registros de acesso.</strong> O site é hospedado pela Vercel, que registra dados
+    técnicos de cada acesso, como endereço IP, data e hora, página pedida e navegador. Esses
+    registros servem para entregar as páginas, manter o serviço seguro e evitar abusos, e são
+    tratados pela Vercel conforme a política de privacidade dela. A base legal é o legítimo
+    interesse em manter o site no ar e protegido.
+  </p>
+  <p>
+    <strong>Contato por e-mail.</strong> Se você escrever para mim, recebo o seu endereço de e-mail,
+    o seu nome e o que você decidir contar na mensagem. Uso esses dados só para responder e, se for
+    o caso, conversar sobre um projeto. Guardo as mensagens enquanto a conversa ou o projeto estiver
+    em andamento e pelo tempo exigido por obrigações legais. Nada é vendido ou repassado a
+    terceiros.
+  </p>
+
+  <h2>Links para outros sites</h2>
+  <p>
+    O site tem links para Instagram, GitHub, LinkedIn e para os sites dos projetos. Ao abrir um
+    desses links, você passa a estar sujeito às políticas de privacidade de cada serviço.
+  </p>
+
+  <h2>Seus direitos</h2>
+  <!-- prettier-ignore -->
+  <p>Você pode pedir a qualquer momento a confirmação de que trato dados seus, o acesso, a correção ou a exclusão deles, além das demais garantias do artigo 18 da LGPD. Basta escrever para <a class="link" href={`mailto:${SITE.email}`}>{SITE.email}</a>. Se achar que seu pedido não foi atendido, você também pode recorrer à Autoridade Nacional de Proteção de Dados (ANPD).</p>
+
+  <h2>Mudanças nesta política</h2>
+  <p>
+    Se o site passar a tratar dados de outra forma, esta página será atualizada antes, com a nova
+    data no topo.
+  </p>
+</LegalPage>

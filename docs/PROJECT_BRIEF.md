@@ -34,9 +34,9 @@ Princípio: frases concretas e verificáveis. Nada de "apaixonado por tecnologia
 
 ## Escopo do MVP
 - Home: posicionamento, figura-assinatura, Memorial 001, Como trabalho, Em construção (changelog), Sobre resumido, Contato.
-- `/sobre` com currículo em PDF.
+- ~~`/sobre`~~ e ~~`/registro`~~: removidas em 21/10/2026; o Sobre fica só na seção da home.
 - `/memoriais/este-site`: estudo de caso do próprio portfólio (rotas em [ARCHITECTURE.md](ARCHITECTURE.md)).
-- `/registro`: changelog / diário público.
+- `/privacidade` e `/termos`: política de privacidade (LGPD) e termos de uso.
 - 404, SEO, OG images, sitemap, tema claro/escuro, acessibilidade completa.
 - Conteúdo em **PT-BR**; arquitetura preparada para inglês.
 
@@ -61,7 +61,7 @@ Princípio: frases concretas e verificáveis. Nada de "apaixonado por tecnologia
 | LinkedIn, currículo PDF | Pendentes. Só GitHub (IrvinMoura) aparece por enquanto |
 | Marca / estúdio | **Phainon**: nome planejado, empresa ainda não criada; apresentar como "em estruturação" |
 | E-mail | Provisório: e-mail pessoal; trocar por e-mail profissional quando houver domínio |
-| Texto do Sobre | Provisório, escrito só com fatos informados (fase 5, em `src/pages/sobre.astro` e na seção 04 da home); Irvin vai substituir |
+| Texto do Sobre | Escrito com Irvin em 21/10/2026, na seção 三 da home |
 | Domínio (`nome.dev` + `.com.br`?) | Pendente (fase 3) |
 | Hospedagem | **Vercel** ([ADR 007](decisions/007-hospedagem-vercel.md)) |
 | Famílias tipográficas e cor de acento | **Expressivo** (Fraunces · Geist · Geist Mono) + **laranja-sinal** (decidido) |

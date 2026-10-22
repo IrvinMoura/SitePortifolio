@@ -26,7 +26,7 @@ Portfólio profissional de Irvin Marques, desenvolvedor independente. Conceito *
 7. Não faça commit, push ou deploy sem pedido explícito.
 
 ## Convenções
-- **Idiomas:** conteúdo e documentação em PT-BR; código, identificadores, nomes de arquivo de código e mensagens de commit em inglês. Slugs de rota em PT-BR (`/memoriais`, `/sobre`, `/registro`).
+- **Idiomas:** conteúdo e documentação em PT-BR; código, identificadores, nomes de arquivo de código e mensagens de commit em inglês. Slugs de rota em PT-BR (`/privacidade`, `/termos`).
 - **CSS:** valores visuais só via tokens de `src/styles/tokens.css`; `@layer` (reset, tokens, base, components, utilities); container queries para variação de componente.
 - **Componentes:** `.astro` por padrão; React só em `src/components/islands/`, hidratado com `client:visible`.
 - **Acessibilidade:** HTML semântico primeiro; ARIA só quando não houver elemento nativo.

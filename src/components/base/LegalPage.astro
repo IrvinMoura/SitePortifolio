@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+// Moldura das páginas legais (privacidade e termos): título pintado, data e texto corrido.
+interface Props {
+  title: string;
+  description: string;
+  /** Data da última atualização, no formato AAAA-MM-DD. */
+  updated: string;
+}
+const { title, description, updated } = Astro.props;
+const updatedLabel = new Date(`${updated}T12:00:00`).toLocaleDateString('pt-BR', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+});
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="sheet wrap page" aria-labelledby="titulo">
+    <h1 class="display brush wide" id="titulo">
+      {title}
+    </h1>
+    <p class="kicker">
+      Atualizada em <time datetime={updated}>{updatedLabel}</time>
+    </p>
+    <div class="prose legal">
+      <slot />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-block: clamp(3rem, 2rem + 5vw, 6rem) var(--space-section);
+  }
+  .page h1 {
+    font-size: var(--step-3);
+  }
+  .kicker {
+    margin-top: 1rem;
+  }
+  .legal {
+    margin-top: 2.5rem;
+    max-width: 68ch;
+  }
+  .legal :global(h2) {
+    margin-top: 2.5rem;
+    font-size: var(--step-2);
+    color: var(--ink);
+  }
+  .legal :global(ul) {
+    padding-left: 1.2rem;
+    list-style: square;
+  }
+  .legal :global(li + li) {
+    margin-top: 0.4rem;
+  }
+  .legal :global(li::marker) {
+    color: var(--accent-ink);
+  }
+</style>

@@ -1,0 +1,56 @@
+---
+import LegalPage from '../components/base/LegalPage.astro';
+import { SITE } from '../lib/site';
+---
+
+<LegalPage
+  title="Termos de uso"
+  description="Condições de uso do site de Irvin Marques."
+  updated="2026-10-21"
+>
+  <p>
+    Ao usar este site, você concorda com os termos abaixo. Se não concordar, por favor, não o
+    utilize.
+  </p>
+
+  <h2>Sobre o site</h2>
+  <p>
+    Este é o site profissional de {SITE.name}, desenvolvedor. Ele apresenta os serviços que ofereço
+    e os projetos em que trabalhei, e serve como canal de contato.
+  </p>
+
+  <h2>Conteúdo e propriedade intelectual</h2>
+  <p>
+    Textos, imagens, logotipo e identidade visual deste site pertencem a {SITE.name}, salvo quando
+    indicado de outra forma. Você pode compartilhar links para qualquer página. Copiar, reproduzir
+    ou usar esse conteúdo para outros fins depende de autorização por escrito.
+  </p>
+
+  <h2>Informações sobre serviços</h2>
+  <p>
+    As descrições de serviços e projetos têm caráter informativo e não são uma proposta comercial.
+    Prazos, valores e entregas de qualquer trabalho são definidos em proposta ou contrato próprio,
+    combinado diretamente comigo.
+  </p>
+
+  <h2>Links externos</h2>
+  <p>
+    O site tem links para redes sociais e para sites de projetos mantidos por terceiros. Não tenho
+    controle sobre esses sites e não respondo pelo conteúdo, pela disponibilidade ou pelas práticas
+    deles.
+  </p>
+
+  <h2>Disponibilidade</h2>
+  <p>
+    Faço o possível para manter o site no ar e com informações corretas, mas ele é oferecido como
+    está, sem garantia de funcionamento ininterrupto. O conteúdo pode mudar a qualquer momento.
+  </p>
+
+  <h2>Privacidade</h2>
+  <!-- prettier-ignore -->
+  <p>O tratamento de dados pessoais está descrito na <a class="link" href="/privacidade">política de privacidade</a>.</p>
+
+  <h2>Lei aplicável e contato</h2>
+  <!-- prettier-ignore -->
+  <p>Estes termos seguem a legislação brasileira. Dúvidas podem ser enviadas para <a class="link" href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+</LegalPage>

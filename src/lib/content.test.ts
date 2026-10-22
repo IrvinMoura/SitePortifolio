@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { memorialNumber, publishedFirst, shouldBuildIndex } from './content';
+import { memorialNumber, publishedFirst } from './content';
 
 const entry = (number: number, draft = false) => ({ id: `m${number}`, data: { number, draft } });
 
@@ -11,14 +11,6 @@ describe('publishedFirst', () => {
 
   it('inclui rascunhos quando pedido', () => {
     expect(publishedFirst([entry(1), entry(2, true)], { includeDrafts: true })).toHaveLength(2);
-  });
-});
-
-describe('shouldBuildIndex', () => {
-  it('só gera o índice com 3 ou mais memoriais', () => {
-    expect(shouldBuildIndex(0)).toBe(false);
-    expect(shouldBuildIndex(2)).toBe(false);
-    expect(shouldBuildIndex(3)).toBe(true);
   });
 });
 

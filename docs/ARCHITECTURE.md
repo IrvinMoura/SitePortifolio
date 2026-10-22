@@ -39,15 +39,16 @@ MDX (conteúdo) ──► Astro build (SSG) ──► HTML/CSS estático + ilhas
 ├─ vercel.json               cabeçalhos de segurança e cache
 ├─ src/
 │  ├─ content/
-│  │  ├─ memoriais/          um .mdx por projeto (inclui este-site.mdx)
+│  │  ├─ memoriais/          dados de cada projeto em .mdx, só frontmatter (ADR 009)
 │  │  ├─ registro.json       entradas do changelog/diário (loader file())
 │  │  └─ schemas.ts          schemas Zod puros (testados com Vitest)
 │  ├─ content.config.ts      schemas Zod das collections
 │  ├─ components/
-│  │  ├─ base/               Link, Button, SkipLink, InkScript…
-│  │  ├─ memorial/           Section, MarginNote, SpecSheet, Figure, Toc…
+│  │  ├─ base/               Button, SkipLink, InkScript, SmokeBackground…
+│  │  ├─ home/               Scene, ProjectGates, ToriiGate, Makimono
+│  │  ├─ memorial/           Section, MarginNote, SpecSheet, NatureBadge, LogList
 │  │  └─ islands/            componentes React interativos (figuras)
-│  ├─ layouts/               BaseLayout, MemorialLayout
+│  ├─ layouts/               BaseLayout
 │  ├─ pages/                 rotas (ver abaixo)
 │  ├─ styles/                base.css (camadas), tokens.css, layout.css, typography.css
 │  ├─ i18n/                  strings de UI (pt-BR agora, en depois)
@@ -62,9 +63,7 @@ MDX (conteúdo) ──► Astro build (SSG) ──► HTML/CSS estático + ilhas
 
 | Rota | Conteúdo | Condição | Fase |
 |---|---|---|---|
-| `/` | 00 Posicionamento + figura-assinatura · 01 Memoriais · 02 Como trabalho · 03 Em construção · 04 Sobre · 05 Contato | Seção 01 lista o que existir (no lançamento, só "este site") | MVP |
-| `/memoriais/[slug]` | Estudo de caso | Um por arquivo publicado | MVP (este-site) |
-| `/memoriais` | Índice filtrável por natureza e área | **Só gerada com ≥ 3 memoriais publicados** | Pós-MVP |
+| `/` | 序 Abertura · 一 Projetos (cada portão abre o site do projeto) · 二 O que eu faço · 三 Sobre · 四 Contato | Projetos lista o que existir (no lançamento, só "este site") | MVP |
 | `/sobre` | Formação, foco, experiência verificável, currículo PDF | — | MVP |
 | `/registro` | Changelog/diário completo | ≥ 1 entrada | MVP |
 | `/lab`, `/notas`, `/en/…` | Experimentos, artigos, inglês | Quando houver conteúdo | Pós-MVP |
@@ -95,7 +94,7 @@ Contato é a seção `#contato` da home (sem página própria no MVP).
   draft: boolean,                // draft não é publicado em produção
 }
 ```
-Corpo MDX segue o template de 10 seções (ver [QUALITY_GATES.md](QUALITY_GATES.md) › checklist de memorial).
+Sem corpo MDX: o projeto não tem página própria; o card na home leva a `links.demo` ([ADR 009](decisions/009-projetos-direto-ao-site.md)). Checklist em [QUALITY_GATES.md](QUALITY_GATES.md) › checklist de projeto.
 
 ### `registro` (`src/content/registro.json`, uma entrada por objeto com `id`)
 ```ts

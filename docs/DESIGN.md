@@ -6,7 +6,7 @@
 ## Conceito: Emaki
 O *emaki* é o rolo narrativo japonês: a história se desenrola em cenas, lida em sequência. O site adota essa linguagem: a home é um rolo com **cenas numeradas em kanji** (序 abertura, 一 a 四), títulos **pintados a pincel**, tinta sumi sobre papel e um **selo vermelho** que assina o trabalho.
 
-O conteúdo continua sendo prova: cada projeto tem um memorial com natureza declarada, ficha técnica e decisões. O vocabulário "memorial" segue nas rotas e no schema.
+O conteúdo continua sendo prova: cada projeto declara a natureza e o portão abre o projeto no ar ([ADR 009](decisions/009-projetos-direto-ao-site.md)). O nome "memoriais" sobrevive só na coleção de conteúdo, no código.
 
 ## Princípios
 1. **Prova antes de promessa.** Toda afirmação aponta para algo que pode ser visto, usado ou lido.
@@ -58,14 +58,12 @@ Visíveis juntos em `/interno/componentes` (só em `npm run dev` e no build de t
 | `ProjectGates` | `home/ProjectGates.astro` | Projetos atrás do portão torii; não renderiza nada se vazio |
 | `ToriiGate` | `home/ToriiGate.astro` | Desenho do portão (largo e alto) com o número do projeto |
 | `Makimono` | `home/Makimono.astro` | Pergaminho do Sobre que desenrola a foto |
-| `InkScript` | `base/InkScript.astro` | Tinta dos títulos `.brush`, eixo do rolo e travessia do portão |
+| `InkScript` | `base/InkScript.astro` | Tinta dos títulos `.brush` e eixo do rolo |
+| `SmokeBackground` | `base/SmokeBackground.astro` | Fumaça no fundo que segue o mouse |
 | `Section` | `memorial/Section.astro` | Seção numerada (páginas internas): rótulo, título e conteúdo |
 | `MarginNote` | `memorial/MarginNote.astro` | Nota na coluna direita (desktop) ou bloco em linha (celular) |
 | `SpecSheet` | `memorial/SpecSheet.astro` | Ficha técnica em pares rótulo/valor |
 | `NatureBadge` | `memorial/NatureBadge.astro` | Rótulo da natureza do projeto |
-| `Figure` | `memorial/Figure.astro` | Figura com legenda numerada |
-| `Toc` | `memorial/Toc.astro` | Índice do memorial com a seção atual destacada |
-| `MemorialList` | `memorial/MemorialList.astro` | Lista de memoriais (página `/memoriais`) |
 | `LogList` | `memorial/LogList.astro` | Registro público, do mais recente ao mais antigo |
 | `ContactBlock` | `base/ContactBlock.astro` | E-mail copiável e perfis; só canais que existem |
 | `Button` | `base/Button.astro` | Link ou botão, primário (shu) ou secundário, seta opcional |
@@ -75,7 +73,7 @@ Estilos globais em camadas (`src/styles/`): `base.css` (camadas, reset, base, gr
 
 ## Voz e conteúdo
 - PT-BR claro, frases curtas, primeira pessoa.
-- Linguagem de negócio na abertura de cada memorial; jargão só nas seções técnicas.
+- Linguagem de negócio no resumo de cada projeto.
 
 ## Anti-padrões (não fazer)
 Japonês que carrega informação sem tradução · fontes de pincel em texto corrido · vermelho em áreas grandes · bento de cards idênticos · gradientes e glassmorphism decorativos · ícones de tecnologia como prova · texto que só aparece após animação · seções vazias ou "em breve".

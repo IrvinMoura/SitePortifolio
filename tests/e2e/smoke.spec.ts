@@ -25,14 +25,16 @@ test('o primeiro Tab foca o link "Pular para o conteúdo"', async ({ page }) => 
   await expect(page.getByRole('link', { name: 'Pular para o conteúdo' })).toBeFocused();
 });
 
-test('Memorial 001 declara a natureza do projeto', async ({ page }) => {
-  await page.goto('/memoriais/este-site');
-  await expect(page.getByText('Projeto próprio')).toBeVisible();
+test('cada projeto na home declara a sua natureza', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('#projetos').getByText('Projeto próprio')).toBeVisible();
 });
 
-test('/memoriais não existe com menos de 3 memoriais', async ({ page }) => {
-  const response = await page.goto('/memoriais');
-  expect(response?.status()).toBe(404);
+test('não existem páginas de memorial', async ({ page }) => {
+  for (const path of ['/memoriais', '/memoriais/este-site']) {
+    const response = await page.goto(path);
+    expect(response?.status(), path).toBe(404);
+  }
 });
 
 test('conteúdo visível com movimento reduzido', async ({ page }) => {
@@ -55,12 +57,6 @@ test('site só tem o papel noite, sem alternância de tema', async ({ page }) =>
   await expect(page.locator('[data-theme-toggle]')).toHaveCount(0);
   const scheme = await page.evaluate(() => getComputedStyle(document.documentElement).colorScheme);
   expect(scheme).toBe('dark');
-});
-
-test('índice do memorial marca a seção atual', async ({ page }) => {
-  await page.setViewportSize({ width: 1280, height: 800 });
-  await page.goto('/memoriais/este-site#para-quem');
-  await expect(page.locator('.toc a[aria-current="true"]')).toHaveText(/Para quem/);
 });
 
 test('página interna de componentes não entra no sitemap', async ({ request }) => {

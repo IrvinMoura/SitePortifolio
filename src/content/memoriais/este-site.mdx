@@ -9,73 +9,11 @@ period:
   start: 2026-10-18
 areas: [site]
 stack: [Astro, TypeScript, React (ilhas), CSS]
+links:
+  demo: https://irvinmarques.vercel.app
+  repo: https://github.com/IrvinMoura/SitePortifolio
 featured: true
 updated: 2026-10-18
 ---
 
-import Figure from '../../components/memorial/Figure.astro';
-import MarginNote from '../../components/memorial/MarginNote.astro';
-
-{/* Versão de partida, portada do protótipo. O texto completo e as demais figuras entram na fase 6. */}
-
-## Contexto e problema
-
-Estou terminando a graduação em Ciência da Computação e quero trabalhar como desenvolvedor independente: sites, sistemas, automações, integrações e inteligência artificial aplicada. Para isso, preciso de um portfólio. O problema é que ainda não tenho projetos para mostrar.
-
-A saída mais comum seria preencher o site com projetos genéricos, números sem fonte e depoimentos vagos. Descartei isso desde o início: um portfólio que exagera perde justamente a confiança que deveria construir.
-
-<MarginNote kicker="Regra do projeto">Nenhuma métrica é publicada sem fonte. O build falha se isso acontecer.</MarginNote>
-
-## Para quem
-
-<Figure number="2.1" caption="Públicos em ordem de prioridade.">
-
-| Público | Precisa entender em 30 s | Ação esperada |
-| --- | --- | --- |
-| Cliente empresarial | Que problema eu resolvo, em linguagem de negócio | Iniciar uma conversa |
-| Recrutador ou tech lead | Posicionamento, stack e forma de pensar | Abrir GitHub, LinkedIn ou currículo |
-| Comunidade dev | Algo interessante para explorar | Acompanhar e compartilhar |
-
-</Figure>
-
-## Solução
-
-Antes de escrever código, pesquisei 11 portfólios de desenvolvedores e comparei três direções criativas. A escolhida trata o portfólio como um *memorial descritivo*: o documento da engenharia que explica o que foi construído, por quê e com quais especificações.
-
-Isso inverte a limitação. Em vez de depender de muitos projetos, o site depende de documentar bem cada um, e este é o primeiro.
-
-## Fluxos
-
-1. **Cliente:** apresentação → Fig. 0 → como trabalho → contato.
-2. **Recrutador:** apresentação → memorial → decisões técnicas → GitHub.
-
-Seções sem conteúdo real não aparecem. Quando o primeiro projeto demonstrativo estiver pronto, a lista de memoriais cresce sem mudar o layout.
-
-## Arquitetura
-
-Conteúdo em MDX no repositório → o Astro valida o schema e gera as páginas → HTML e CSS estáticos, com JavaScript só nas figuras interativas → CDN. Não há servidor, banco de dados nem autenticação, porque o site não precisa deles.
-
-## Decisões técnicas
-
-- **Astro com ilhas React**, em vez de Next.js: zero JavaScript por padrão; React só onde demonstra algo.
-- **CSS moderno com tokens**, em vez de Tailwind: mais controle tipográfico para um layout editorial.
-- **Movimento com CSS nativo primeiro**, em vez de GSAP e smooth scroll: o scroll nativo é melhor para leitura.
-- **Lançar sem projetos**, em vez de esperar ou usar “em breve”: presença agora e uma vitrine que cresce com prova real.
-
-## Qualidade
-
-As metas foram definidas antes do código e são verificadas automaticamente a cada mudança: JavaScript na página inicial abaixo de 50 KB, LCP abaixo de 2 s, CLS abaixo de 0,05, Lighthouse acima de 95 e zero violações de acessibilidade. São metas, não resultados: os números medidos entram aqui no lançamento, com link para o relatório.
-
-## Resultados e aprendizados
-
-Ainda não há resultados medidos: o site não foi lançado. A pesquisa, porém, já mudou decisões:
-
-- Muitos portfólios premiados são pesados. Um dos analisados transferiu cerca de 11,8 MB em 250 requisições e exibia uma tela de carregamento antes de qualquer conteúdo.
-- Revelar conteúdo durante o scroll pode deixar áreas vazias em leitura rápida no celular. Aqui, o conteúdo nunca depende de animação.
-- O site de referência principal nem mostra projetos na página inicial: a personalidade vem de detalhes consistentes, não de volume.
-
-## Próximos passos
-
-1. Construir o sistema visual (fase 4).
-2. Montar a página inicial e a navegação (fase 5).
-3. Publicar o primeiro projeto demonstrativo: automação de planilha para sistema.
+{/* Só os dados do projeto: o card na home leva direto ao site (ADR 009). O texto do antigo memorial está no histórico do git. */}

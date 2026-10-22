@@ -1,0 +1,174 @@
+---
+// Fumaça no fundo (INTERACTIONS I-16): onde o mouse passa, solta baforadas de tinta que seguem o
+// movimento, sobem, se espalham e somem. Só com mouse (não em toque), sem movimento reduzido e com
+// a aba visível. O laço de animação para sozinho quando não há fumaça na tela.
+---
+
+<canvas class="smoke" aria-hidden="true" data-smoke></canvas>
+
+<script>
+  const canvas = document.querySelector<HTMLCanvasElement>('[data-smoke]');
+  const ctx = canvas?.getContext('2d');
+  const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+
+  // Metade da resolução: a fumaça é desfocada por natureza e custa um quarto dos pixels.
+  const SCALE = 0.5;
+  const MAX = 160;
+  const SPACING = 14; // px de movimento do mouse por baforada
+
+  interface Puff {
+    x: number;
+    y: number;
+    vx: number;
+    vy: number;
+    size: number;
+    grow: number;
+    rot: number;
+    spin: number;
+    age: number;
+    life: number;
+    peak: number;
+    phase: number;
+  }
+
+  // Baforada irregular: alguns círculos borrados sobrepostos, desenhados uma vez só.
+  const makeSprite = (color: string) => {
+    const s = document.createElement('canvas');
+    s.width = s.height = 128;
+    const g = s.getContext('2d')!;
+    for (let i = 0; i < 7; i++) {
+      const x = 64 + (Math.random() - 0.5) * 36;
+      const y = 64 + (Math.random() - 0.5) * 36;
+      const r = 22 + Math.random() * 20;
+      const grad = g.createRadialGradient(x, y, 0, x, y, r);
+      grad.addColorStop(0, color);
+      grad.addColorStop(1, 'transparent');
+      g.globalAlpha = 0.35;
+      g.fillStyle = grad;
+      g.fillRect(0, 0, 128, 128);
+    }
+    return s;
+  };
+
+  if (canvas && ctx && finePointer.matches && !reduced.matches) {
+    const ink = getComputedStyle(document.documentElement).getPropertyValue('--ink').trim();
+    const sprite = makeSprite(ink || '#ece6d8');
+    const puffs: Puff[] = [];
+    let running = false;
+    let last: { x: number; y: number } | null = null;
+    let carry = 0;
+
+    const resize = () => {
+      canvas.width = Math.ceil(innerWidth * SCALE);
+      canvas.height = Math.ceil(innerHeight * SCALE);
+    };
+    resize();
+    addEventListener('resize', resize, { passive: true });
+
+    const spawn = (x: number, y: number, dx: number, dy: number) => {
+      if (puffs.length >= MAX) puffs.shift();
+      puffs.push({
+        x: x * SCALE,
+        y: y * SCALE,
+        vx: dx * SCALE * 0.06 + (Math.random() - 0.5) * 0.3,
+        vy: dy * SCALE * 0.06 - 0.15 - Math.random() * 0.2,
+        size: (26 + Math.random() * 30) * SCALE * 2,
+        grow: 1.006 + Math.random() * 0.006,
+        rot: Math.random() * Math.PI * 2,
+        spin: (Math.random() - 0.5) * 0.01,
+        age: 0,
+        life: 1600 + Math.random() * 1200,
+        peak: 0.07 + Math.random() * 0.07,
+        phase: Math.random() * Math.PI * 2,
+      });
+    };
+
+    let prev = 0;
+    const frame = (now: number) => {
+      const dt = Math.min(now - (prev || now), 50);
+      prev = now;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = puffs.length - 1; i >= 0; i--) {
+        const p = puffs[i]!;
+        p.age += dt;
+        if (p.age >= p.life) {
+          puffs.splice(i, 1);
+          continue;
+        }
+        const k = dt / 16.7;
+        p.vx = p.vx * 0.985 + Math.sin(p.age / 380 + p.phase) * 0.012 * k;
+        p.vy = p.vy * 0.985 - 0.004 * k;
+        p.x += p.vx * k;
+        p.y += p.vy * k;
+        p.size *= p.grow ** k;
+        p.rot += p.spin * k;
+        // entra rápido, some devagar
+        const t = p.age / p.life;
+        const alpha = p.peak * (t < 0.15 ? t / 0.15 : 1 - (t - 0.15) / 0.85);
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.drawImage(sprite, -p.size / 2, -p.size / 2, p.size, p.size);
+        ctx.restore();
+      }
+      if (puffs.length > 0) requestAnimationFrame(frame);
+      else {
+        running = false;
+        prev = 0;
+      }
+    };
+    const start = () => {
+      if (running) return;
+      running = true;
+      requestAnimationFrame(frame);
+    };
+
+    addEventListener(
+      'pointermove',
+      (event) => {
+        if (event.pointerType !== 'mouse') return;
+        const { clientX: x, clientY: y } = event;
+        if (!last) {
+          last = { x, y };
+          return;
+        }
+        const dx = x - last.x;
+        const dy = y - last.y;
+        carry += Math.hypot(dx, dy);
+        // uma baforada a cada SPACING px, distribuídas ao longo do trecho percorrido
+        const steps = Math.min(Math.floor(carry / SPACING), 6);
+        for (let i = 1; i <= steps; i++) {
+          const f = i / steps;
+          spawn(last.x + dx * f, last.y + dy * f, dx, dy);
+        }
+        carry -= steps * SPACING;
+        last = { x, y };
+        if (steps > 0) start();
+      },
+      { passive: true },
+    );
+    document.documentElement.addEventListener('pointerleave', () => {
+      last = null;
+    });
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) return;
+      puffs.length = 0;
+      last = null;
+    });
+  }
+</script>
+
+<style>
+  /* Atrás de todo o conteúdo; o fundo de papel fica no <html> para não cobrir o canvas. */
+  .smoke {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    pointer-events: none;
+  }
+</style>

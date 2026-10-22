@@ -34,6 +34,17 @@ test('miniatura do projeto carrega dentro do portão', async ({ page }) => {
   expect(box?.width).toBeGreaterThan(50);
 });
 
+test('voltar ao topo aparece só no fim da página e sobe até o cabeçalho', async ({ page }) => {
+  await page.goto('/');
+  const toTop = page.getByRole('link', { name: 'Voltar ao topo' });
+  await expect(toTop).toBeHidden();
+  await page.locator('.site-footer').scrollIntoViewIfNeeded();
+  await expect(toTop).toBeVisible();
+  await toTop.click();
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(0);
+  await expect(toTop).toBeHidden();
+});
+
 test('pergaminho do Sobre abre e enrola pelo botão', async ({ page }) => {
   await page.goto('/');
   const toggle = page.locator('[data-maki-toggle]');

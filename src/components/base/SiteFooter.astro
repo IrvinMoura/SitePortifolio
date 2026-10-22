@@ -30,7 +30,26 @@ import { SITE } from '../../lib/site';
       </ul>
     </nav>
   </div>
+  <div class="wrap">
+    <a class="to-top" href="#topo" aria-label="Voltar ao topo">
+      <span class="arrow" aria-hidden="true">
+        ↑
+      </span>
+      <span class="label">Voltar ao topo</span>
+    </a>
+  </div>
 </footer>
+
+<script>
+  // Voltar ao topo (INTERACTIONS I-18): com JS o link vira botão fixo, mostrado só no fim da página.
+  const footer = document.querySelector<HTMLElement>('.site-footer');
+  const button = footer?.querySelector<HTMLElement>('.to-top');
+  if (footer && button) {
+    new IntersectionObserver(([entry]) => {
+      button.classList.toggle('shown', entry!.isIntersecting);
+    }).observe(footer);
+  }
+</script>
 
 <style>
   .site-footer {
@@ -47,6 +66,63 @@ import { SITE } from '../../lib/site';
   .name {
     color: var(--ink);
     font-weight: 700;
+  }
+  /* Sem JS: link comum no fim do rodapé */
+  .to-top {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+    color: var(--ink);
+  }
+  /* Com JS: botão redondo fixo no canto, que aparece quando o rodapé entra na tela */
+  :global(.js) .to-top {
+    position: fixed;
+    right: var(--gutter);
+    bottom: 1.5rem;
+    z-index: 60;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    margin: 0;
+    border: 1.5px solid var(--accent);
+    border-radius: 50%;
+    background: var(--paper-2);
+    color: var(--accent-ink);
+    font-size: 1.25rem;
+    text-decoration: none;
+    box-shadow: 0 0.4rem 1.2rem rgb(0 0 0 / 0.35);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(1rem) scale(0.85);
+    /* sai rápido; a entrada (abaixo) é mais lenta e suave */
+    transition:
+      opacity var(--dur-fast) var(--ease-out),
+      transform var(--dur-fast) var(--ease-out),
+      background-color var(--dur-instant),
+      visibility 0s linear var(--dur-fast);
+  }
+  :global(.js) .to-top:global(.shown),
+  :global(.js) .to-top:focus-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition:
+      opacity var(--dur-slow) var(--ease-out),
+      transform var(--dur-slow) var(--ease-out),
+      background-color var(--dur-instant),
+      visibility 0s;
+  }
+  :global(.js) .to-top:hover {
+    background: var(--accent-soft);
+  }
+  :global(.js) .to-top .label {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
   ul {
     display: flex;

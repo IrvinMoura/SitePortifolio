@@ -5,7 +5,7 @@
 ## Regras gerais
 1. **Movimento só com função:** continuidade (de onde veio / para onde vai), retorno de uma ação, ou demonstração de um sistema.
 2. **Conteúdo nunca depende de animação.** Todo texto está visível sem JS e sob `prefers-reduced-motion: reduce`.
-3. **Sem scroll-jacking**, sem smooth scroll artificial, sem preloader.
+3. **Sem scroll-jacking**, sem smooth scroll artificial (biblioteca que reescreve a rolagem), sem preloader. A rolagem suave nativa (`scroll-behavior`) vale só para saltos por âncora (I-17).
 4. **Curto:** a maioria das transições fica entre 120 e 320 ms; nada passa de 600 ms, exceto a tinta dos títulos (I-11, 1200 ms por palavra, só uma vez) e a travessia do portão (I-13), que é disparada pelo usuário.
 5. **Animar apenas `transform`, `opacity`, `clip-path`.** Nada de animar layout, exceto o pergaminho (I-15), que anima a altura do papel e só é disparado por clique.
 6. **Loops só com controle** (pausar/reproduzir) e pausados fora da viewport.
@@ -31,7 +31,7 @@
 | ~~I-03~~ | ~~Índice com seção ativa~~ (removida pelo ADR 009, junto com a página de memorial) | — | — | — | — | — | — | — |
 | I-04 | Nota de margem | — (estática) | Sempre visível: coluna direita no desktop, bloco em linha no celular. O popover previsto foi descartado na fase 4: esconder a nota atrás de um clique piorava a leitura sem ganho | CSS grid | Não precisa de interação | Igual | Igual | MVP ✅ |
 | I-05 | Copiar e-mail | Clique | Copia e mostra "copiado" por 2 s (`aria-live`) | Clipboard API | Botão nativo | Igual | Link `mailto:` | MVP |
-| I-06 | Link com sublinhado desenhado | Hover/foco | Sublinhado cresce da esquerda | CSS (`background-size`) | Mesmo efeito no `:focus-visible` | Sublinhado fixo | Sublinhado fixo | MVP |
+| I-06 | Link com sublinhado desenhado | Hover/foco | Sublinhado cresce da esquerda. No menu do cabeçalho é vermelho (`--accent`), 2 px, e fica fixo na página atual | CSS (`background-size`) | Mesmo efeito no `:focus-visible` | Sublinhado fixo | Sublinhado fixo | MVP |
 | ~~I-07~~ | ~~Alternar tema~~ (removida em 21/10/2026: o site só tem o papel noite) | — | — | — | — | — | — | — |
 | ~~I-08~~ | ~~Figura-assinatura~~ (removida pelo ADR 008) | Clique/arraste/tecla no hero | Ver especificação abaixo | SVG + ilha React (`client:visible`) + Motion | Completa por teclado | Mostra estados lado a lado, sem animação | Imagem estática "antes → depois" com legenda | Estática (os dois estados lado a lado) na fase 5 ✅; alternância interativa na fase 7. Teste de 5 s adiado |
 | ~~I-09~~ | ~~Figuras de memorial~~ (removida pelo ADR 009) | — | — | — | — | — | — | — |
@@ -42,6 +42,8 @@
 | I-14 | Etapas que desenrolam para o lado | Scroll horizontal de quem lê | Lista das etapas de um projeto em faixa horizontal com `scroll-snap` | CSS (`overflow-x`, `scroll-snap-type: x proximity`) | Faixa focável (`tabindex=0`), setas rolam | Igual | Igual | MVP ✅ |
 | I-15 | Pergaminho do Sobre (makimono) | Clique no rolo | O rolo fechado desenrola a foto (1,1 s, `grid-template-rows` 0fr → 1fr); o botão vira "Enrolar" e fecha de novo. No desktop abre por cima da página, sem empurrar o texto | CSS + classe `.js` no `<html>` | Botão nativo com `aria-expanded` e `aria-controls` | Abre e fecha sem transição | Rolo aberto, sem botão | MVP ✅ |
 | I-16 | Fumaça no fundo | Movimento do mouse | Onde o mouse passa saem baforadas de tinta clara (opacidade máx. ~14%) que seguem a direção do movimento, sobem, crescem e somem em 1,6–2,8 s | `<canvas>` 2D fixo atrás do conteúdo, em meia resolução; `requestAnimationFrame` só enquanto há fumaça; máx. 160 baforadas | Decorativa (`aria-hidden`); não existe em toque (`pointer: fine` e `pointerType` mouse) | Desligada | Sem fumaça | MVP ✅ |
+| I-17 | Rolagem suave até a cena | Clique em link de âncora (menu do cabeçalho, "Ver projetos", voltar ao topo) | A página rola suavemente até o destino, com folga no topo | CSS nativo (`scroll-behavior: smooth`, `scroll-padding-top`) | Igual: Enter no link rola do mesmo jeito e o foco vai para o destino | Salto instantâneo | Salto instantâneo | MVP ✅ |
+| I-18 | Voltar ao topo | Rodapé entra na viewport (fim da página) | Botão redondo no tom do papel, com contorno e seta vermelhos, sobe e cresce suavemente no canto inferior direito (fade + translate/scale, `--dur-slow`; some em `--dur-fast`) e leva ao topo com a rolagem do I-17; some ao subir | Link `#topo` + classe via IntersectionObserver | Link nativo, focável; fica visível enquanto tem foco | Aparece sem transição | Link "Voltar ao topo" no fim do rodapé | MVP ✅ |
 
 ## Especificação: figura-assinatura (I-08, removida)
 > Mantida como histórico. Saiu da home com a direção Emaki ([ADR 008](decisions/008-direcao-emaki.md)).

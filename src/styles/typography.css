@@ -86,8 +86,14 @@
   mask-repeat: no-repeat;
   animation: ink var(--ink-dur) cubic-bezier(0.55, 0.05, 0.25, 1) both;
   animation-delay: calc(var(--i) * var(--ink-step));
+  /* a máscara corta na caixa da palavra; a folga deixa à mostra o traço que passa dela
+     (o "s" final de "Marques"), sem mudar o layout */
+  padding-inline: 0.15em 0.3em;
+  margin-inline: -0.15em -0.3em;
 }
 .tate.brush.paint .w {
+  padding-inline: 0;
+  margin-inline: 0;
   mask-image: linear-gradient(190deg, #000 30%, rgb(0 0 0 / 0.55) 38%, transparent 46%);
   mask-size: 100% 320%;
   animation-name: ink-tate;

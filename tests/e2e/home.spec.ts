@@ -45,6 +45,26 @@ test('voltar ao topo aparece só no fim da página e sobe até o cabeçalho', as
   await expect(toTop).toBeHidden();
 });
 
+test('no celular o menu abre pelo botão e fecha ao escolher uma opção ou com Esc', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 760 });
+  await page.goto('/');
+  const toggle = page.locator('.menu-toggle');
+  const nav = page.getByRole('navigation', { name: 'Principal' });
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  await expect(nav).toBeHidden();
+  await toggle.click();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+  await nav.getByRole('link', { name: 'Contato' }).click();
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  await expect(page).toHaveURL(/#contato$/);
+  await toggle.click();
+  await page.keyboard.press('Escape');
+  await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+  await expect(toggle).toBeFocused();
+});
+
 test('pergaminho do Sobre abre e enrola pelo botão', async ({ page }) => {
   await page.goto('/');
   const toggle = page.locator('[data-maki-toggle]');

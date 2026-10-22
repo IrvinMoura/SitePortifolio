@@ -17,10 +17,19 @@ const path = Astro.url.pathname.replace(/\.html$/, '');
   <a class="logo" href="/" aria-label={`IM, ${SITE.name}, início`}>
     <Image src={logo} alt="" widths={[64, 128]} sizes="3.25rem" loading="eager" />
   </a>
-  <nav class="nav" aria-label="Principal">
+  <button
+    class="menu-toggle"
+    type="button"
+    aria-expanded="false"
+    aria-controls="menu-principal"
+    aria-label="Menu"
+  >
+    <span aria-hidden="true"></span>
+  </button>
+  <nav class="nav" id="menu-principal" aria-label="Principal">
     <ul>
-      {links.map(({ href, label, match }) => (
-        <li>
+      {links.map(({ href, label, match }, i) => (
+        <li style={`--i: ${i}`}>
           <a href={href} aria-current={match && path.startsWith(match) ? 'page' : undefined}>
             {label}
           </a>
@@ -29,6 +38,32 @@ const path = Astro.url.pathname.replace(/\.html$/, '');
     </ul>
   </nav>
 </header>
+
+<script>
+  // Menu sanduíche no celular (INTERACTIONS I-19). Sem JS, as opções ficam em linha.
+  const header = document.querySelector<HTMLElement>('.site-header');
+  const toggle = header?.querySelector<HTMLButtonElement>('.menu-toggle');
+  if (header && toggle) {
+    const setOpen = (open: boolean) => {
+      header.classList.toggle('open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Fechar menu' : 'Menu');
+    };
+    toggle.addEventListener('click', () => setOpen(!header.classList.contains('open')));
+    header
+      .querySelectorAll('.nav a')
+      .forEach((a) => a.addEventListener('click', () => setOpen(false)));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && header.classList.contains('open')) {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+    document.addEventListener('click', (e) => {
+      if (!header.contains(e.target as Node)) setOpen(false);
+    });
+  }
+</script>
 
 <style>
   .site-header {
@@ -76,11 +111,135 @@ const path = Astro.url.pathname.replace(/\.html$/, '');
     color: var(--ink);
     background-size: 100% 2px;
   }
+  .menu-toggle {
+    display: none;
+  }
   @media (max-width: 47.99rem) {
     .nav {
       order: 3;
       width: 100%;
       margin-left: 0;
+    }
+
+    /* Com JS (INTERACTIONS I-19): botão de três traços e painel que se desenrola */
+    :global(.js) .site-header {
+      position: relative;
+      flex-wrap: nowrap;
+    }
+    :global(.js) .menu-toggle {
+      display: grid;
+      place-items: center;
+      margin-left: auto;
+      width: 2.75rem;
+      height: 2.75rem;
+      padding: 0;
+      border: 1px solid var(--rule-strong);
+      border-radius: 50%;
+      background: transparent;
+      color: var(--ink);
+      cursor: pointer;
+      transition: border-color var(--dur-instant);
+    }
+    :global(.js) .open .menu-toggle {
+      border-color: var(--accent);
+    }
+    /* três traços: o do meio é o span, os de cima e de baixo são as sombras dele */
+    .menu-toggle span,
+    .menu-toggle span::before,
+    .menu-toggle span::after {
+      display: block;
+      width: 1.1rem;
+      height: 1.5px;
+      background: currentColor;
+      border-radius: 1px;
+      transition:
+        transform var(--dur-base) var(--ease-in-out),
+        opacity var(--dur-fast);
+    }
+    .menu-toggle span {
+      position: relative;
+    }
+    .menu-toggle span::before,
+    .menu-toggle span::after {
+      content: '';
+      position: absolute;
+      left: 0;
+    }
+    .menu-toggle span::before {
+      transform: translateY(-0.4rem);
+    }
+    .menu-toggle span::after {
+      transform: translateY(0.4rem);
+    }
+    .open .menu-toggle span {
+      background: transparent;
+    }
+    .open .menu-toggle span::before {
+      background: var(--accent-ink);
+      transform: rotate(45deg);
+    }
+    .open .menu-toggle span::after {
+      background: var(--accent-ink);
+      transform: rotate(-45deg);
+    }
+
+    :global(.js) .nav {
+      position: absolute;
+      top: calc(100% - 0.25rem);
+      left: var(--gutter);
+      right: var(--gutter);
+      width: auto;
+      z-index: 65;
+      padding: 0.75rem 1.5rem 1.25rem;
+      background: var(--paper-2);
+      border: 1px solid var(--rule);
+      border-top: 2px solid var(--accent);
+      box-shadow: 0 1rem 2rem rgb(0 0 0 / 0.45);
+      visibility: hidden;
+      opacity: 0;
+      clip-path: inset(0 0 100% 0);
+      transition:
+        clip-path var(--dur-base) var(--ease-in-out),
+        opacity var(--dur-fast),
+        visibility 0s linear var(--dur-base);
+    }
+    :global(.js) .open .nav {
+      visibility: visible;
+      opacity: 1;
+      clip-path: inset(0 0 -2rem 0);
+      transition:
+        clip-path var(--dur-slow) var(--ease-out),
+        opacity var(--dur-fast),
+        visibility 0s;
+    }
+    :global(.js) .nav ul {
+      flex-direction: column;
+      gap: 0;
+      font-size: var(--step-1);
+    }
+    :global(.js) .nav li {
+      border-bottom: 1px solid var(--rule);
+      opacity: 0;
+      transform: translateY(-0.5rem);
+      transition:
+        opacity var(--dur-fast),
+        transform var(--dur-fast) var(--ease-out);
+    }
+    :global(.js) .nav li:last-child {
+      border-bottom: 0;
+    }
+    :global(.js) .open .nav li {
+      opacity: 1;
+      transform: none;
+      transition:
+        opacity var(--dur-base) var(--ease-out),
+        transform var(--dur-base) var(--ease-out);
+      transition-delay: calc(120ms + var(--i) * 40ms);
+    }
+    :global(.js) .nav a {
+      display: inline-block;
+      padding-block: 0.75rem 0.4rem;
+      margin-block: 0.15rem 0.35rem;
     }
   }
 </style>

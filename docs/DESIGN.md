@@ -54,7 +54,7 @@ Visíveis juntos em `/interno/componentes` (só em `npm run dev` e no build de t
 
 | Componente | Arquivo | Responsabilidade |
 |---|---|---|
-| `Scene` | `home/Scene.astro` | Cena da home: kanji, rótulo, título pintado e conteúdo |
+| `Scene` | `home/Scene.astro` | Cena da home: kanji, título pintado e conteúdo |
 | `ProjectGates` | `home/ProjectGates.astro` | Projetos atrás do portão torii; não renderiza nada se vazio |
 | `ToriiGate` | `home/ToriiGate.astro` | Desenho do portão (largo e alto) com o número do projeto |
 | `Makimono` | `home/Makimono.astro` | Pergaminho do Sobre que desenrola a foto |

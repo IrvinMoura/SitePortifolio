@@ -12,36 +12,15 @@ const { class: className } = Astro.props;
   <a class="link" href={`mailto:${SITE.email}`}>
     {SITE.email}
   </a>
-  <button class="copy" type="button" data-copy={SITE.email}>
-    Copiar e-mail
-  </button>
-  <span class="status" aria-live="polite" data-copy-status></span>
+  <a class="send" href={`mailto:${SITE.email}`}>
+    Enviar e-mail
+  </a>
   {SITE.profiles.map((p) => (
     <a class="link" href={p.href} rel="me">
       {p.label} <span aria-hidden="true">↗</span>
     </a>
   ))}
 </div>
-
-<script>
-  // INTERACTIONS I-05: copia e confirma por 2 s; sem JS, o link mailto continua funcionando.
-  for (const button of document.querySelectorAll<HTMLButtonElement>('[data-copy]')) {
-    const status = button.parentElement?.querySelector('[data-copy-status]');
-    let timer: number | undefined;
-    button.addEventListener('click', async () => {
-      try {
-        await navigator.clipboard.writeText(button.dataset.copy ?? '');
-        if (status) status.textContent = 'Copiado';
-      } catch {
-        if (status) status.textContent = 'Não foi possível copiar';
-      }
-      clearTimeout(timer);
-      timer = window.setTimeout(() => {
-        if (status) status.textContent = '';
-      }, 2000);
-    });
-  }
-</script>
 
 <style>
   .contact {
@@ -51,23 +30,20 @@ const { class: className } = Astro.props;
     gap: 0.8rem 1.2rem;
     font-size: 1.15rem;
   }
-  .copy {
+  /* abre o app de e-mail já endereçado (INTERACTIONS I-05) */
+  .send {
     font-family: var(--font-mono);
     font-size: 0.7rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    background: none;
     color: var(--ink);
+    text-decoration: none;
     border: 1px solid var(--rule-strong);
     padding: 0.4rem 0.7rem;
-    cursor: pointer;
+    transition: border-color var(--dur-instant);
   }
-  .copy:hover {
-    border-color: var(--ink);
-  }
-  .status {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--accent-ink);
+  .send:hover,
+  .send:focus-visible {
+    border-color: var(--accent);
   }
 </style>

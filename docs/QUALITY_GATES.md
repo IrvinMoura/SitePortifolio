@@ -6,7 +6,7 @@
 | Métrica | Limite | Meta | Onde medir |
 |---|---|---|---|
 | JS na home (gzip) | ≤ 150 KB | < 50 KB | Lighthouse CI / relatório de build |
-| JS em página sem ilha | Só os scripts pequenos de copiar, tinta, eixo do rolo e pergaminho (ADR 008) | — | Build |
+| JS em página sem ilha | Só os scripts pequenos de copiar, tinta, eixo do rolo, pergaminho e fumaça (ADR 008) | — | Build |
 | LCP (mobile, 4G simulado) | < 2,5 s | < 2,0 s | Lighthouse CI |
 | CLS | < 0,1 | < 0,05 | Lighthouse CI |
 | INP / TBT | TBT < 200 ms | < 100 ms | Lighthouse CI |
@@ -25,15 +25,14 @@
 - [ ] Dependência nova → ADR em `docs/decisions/`.
 - [ ] Screenshots visuais atualizados intencionalmente (não aceitar diffs sem revisar).
 
-## Checklist de memorial (estudo de caso)
-- [ ] Ficha técnica completa: natureza, status, papel, período, stack.
-- [ ] Natureza correta e visível. Fictício declarado como fictício.
+## Checklist de projeto ([ADR 009](decisions/009-projetos-direto-ao-site.md))
+- [ ] Dados completos: natureza, status, papel, período, stack.
+- [ ] Natureza correta e visível no card. Fictício declarado como fictício.
 - [ ] Toda métrica tem `source` verificável (o schema exige).
 - [ ] Nenhum depoimento, logo ou nome de cliente sem autorização.
-- [ ] Abertura em linguagem de negócio (um leigo entende o problema).
-- [ ] Seções do template: contexto e problema · público · solução · fluxos · arquitetura e stack · decisões (ADR curto) · interface · qualidade (só o que existe) · resultados/aprendizados · links.
-- [ ] Figuras com legenda, texto alternativo e fallback estático.
-- [ ] Links de demo e repositório funcionando (verificados no CI).
+- [ ] Resumo em linguagem de negócio (um leigo entende o que é).
+- [ ] Capturas reais do projeto (desktop 1280×800 e celular), com texto alternativo.
+- [ ] Link do site (`links.demo`) e do repositório funcionando.
 - [ ] Revisão ortográfica.
 
 ## Lançamento (fase 10)

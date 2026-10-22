@@ -4,7 +4,6 @@ import { expect, test } from '@playwright/test';
 // mudança visual for intencional, e revise as imagens no diff antes de commitar.
 const PAGES = [
   { name: 'componentes', path: '/interno/componentes' },
-  { name: 'memorial', path: '/memoriais/este-site' },
   { name: 'inicio', path: '/' },
   { name: 'sobre', path: '/sobre' },
 ];

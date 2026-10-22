@@ -3,7 +3,7 @@
 Orientações para agentes de IA (e pessoas) que trabalham neste repositório.
 
 ## O projeto
-Portfólio profissional de Irvin Marques, desenvolvedor independente. Conceito **Memorial**: caderno técnico autoral com seções numeradas, notas de margem e figuras interativas. Site estático em **Astro + TypeScript**, com **ilhas React** só onde há interação.
+Portfólio profissional de Irvin Marques, desenvolvedor independente. Conceito **Emaki** ([ADR 008](docs/decisions/008-direcao-emaki.md)): o site como rolo narrativo, com cenas numeradas em kanji, títulos pintados a pincel e projetos atrás de portões torii que abrem o site de cada projeto. Site estático em **Astro + TypeScript**, com **ilhas React** só onde há interação.
 
 ## Leia antes de mudar algo
 | Se a tarefa envolve… | Leia |
@@ -18,7 +18,7 @@ Portfólio profissional de Irvin Marques, desenvolvedor independente. Conceito *
 
 ## Regras inegociáveis
 1. **Nunca invente conteúdo:** projetos, clientes, métricas, depoimentos, logos, experiências ou resultados. Na falta de conteúdo real, deixe a seção sem renderizar e avise. Não use placeholders nem lorem ipsum em produção.
-2. Todo memorial declara sua **natureza** (`cliente`, `academico`, `demonstrativo`, `proprio`, `open-source`), e métricas exigem `source`.
+2. Todo projeto declara sua **natureza** (`cliente`, `academico`, `demonstrativo`, `proprio`, `open-source`), e métricas exigem `source`.
 3. **Conteúdo nunca depende de JS ou de animação.** Respeite `prefers-reduced-motion`.
 4. Toda interação nova entra primeiro em `docs/INTERACTIONS.md`, com fallback.
 5. **Dependência nova exige ADR** em `docs/decisions/`. Não adicionar sem ADR: Lenis, Three.js, GSAP, Tailwind, bibliotecas de UI, CMS, backend.

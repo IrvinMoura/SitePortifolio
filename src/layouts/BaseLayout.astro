@@ -6,6 +6,7 @@ import '../styles/layout.css';
 import '../styles/typography.css';
 import InkScript from '../components/base/InkScript.astro';
 import SiteFooter from '../components/base/SiteFooter.astro';
+import SmokeBackground from '../components/base/SmokeBackground.astro';
 import SiteHeader from '../components/base/SiteHeader.astro';
 import SkipLink from '../components/base/SkipLink.astro';
 import { SITE } from '../lib/site';
@@ -54,6 +55,7 @@ const canonical = new URL(canonicalPath(Astro.url.pathname), Astro.site);
   </head>
   <body>
     <SkipLink />
+    <SmokeBackground />
     <InkScript />
     <SiteHeader />
     <main id="conteudo">

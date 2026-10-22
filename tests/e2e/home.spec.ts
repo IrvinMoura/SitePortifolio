@@ -10,12 +10,16 @@ test('página inicial tem a abertura e as cenas um a quatro na ordem', async ({ 
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('Irvin Marques');
 });
 
-test('cada projeto abre a página do seu memorial', async ({ page }) => {
+test('o portão do projeto leva direto ao site no ar', async ({ page }) => {
+  // O destino é externo: a navegação é interceptada para o teste não depender da rede.
+  await page.route('https://irvinmarques.vercel.app/**', (route) =>
+    route.fulfill({ contentType: 'text/html', body: '<title>destino</title>' }),
+  );
   await page.goto('/');
   const work = page.locator('#projetos a[data-gate]').first();
-  await expect(work).toHaveAttribute('href', '/memoriais/este-site');
+  await expect(work).toHaveAttribute('href', 'https://irvinmarques.vercel.app');
   await work.click();
-  await expect(page).toHaveURL(/\/memoriais\/este-site/);
+  await expect(page).toHaveURL('https://irvinmarques.vercel.app/');
 });
 
 test('miniatura do projeto carrega dentro do portão', async ({ page }) => {
@@ -51,6 +55,28 @@ test('sem JavaScript o pergaminho aparece aberto e sem botão', async ({ browser
   await expect(page.locator('[data-maki-toggle]')).toBeHidden();
   expect((await page.locator('#maki-paper').boundingBox())?.height ?? 0).toBeGreaterThan(200);
   await context.close();
+});
+
+const smokePixels = (page: import('@playwright/test').Page) =>
+  page.evaluate(() => {
+    const canvas = document.querySelector<HTMLCanvasElement>('[data-smoke]')!;
+    const data = canvas.getContext('2d')!.getImageData(0, 0, canvas.width, canvas.height).data;
+    let painted = 0;
+    for (let i = 3; i < data.length; i += 4) if (data[i]! > 0) painted++;
+    return painted;
+  });
+
+test('o mouse solta fumaça no fundo; com movimento reduzido, não', async ({ page, isMobile }) => {
+  test.skip(isMobile, 'A fumaça só existe com mouse.');
+  await page.goto('/');
+  for (let x = 200; x <= 700; x += 25) await page.mouse.move(x, 400);
+  await expect.poll(() => smokePixels(page)).toBeGreaterThan(0);
+
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.goto('/');
+  for (let x = 200; x <= 700; x += 25) await page.mouse.move(x, 400);
+  await page.waitForTimeout(200);
+  expect(await smokePixels(page)).toBe(0);
 });
 
 test('títulos pintados mantêm o texto inteiro', async ({ page }) => {

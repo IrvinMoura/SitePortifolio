@@ -2,12 +2,7 @@
   "ci": {
     "collect": {
       "staticDistDir": "./dist",
-      "url": [
-        "http://localhost/",
-        "http://localhost/sobre.html",
-        "http://localhost/memoriais/este-site.html",
-        "http://localhost/registro.html"
-      ],
+      "url": ["http://localhost/", "http://localhost/sobre.html", "http://localhost/registro.html"],
       "numberOfRuns": 3
     },
     "assert": {

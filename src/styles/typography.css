@@ -64,38 +64,6 @@
       100% 1px,
       100% 2px;
   }
-
-  /* Texto do memorial vindo do MDX */
-  .mem > h2 {
-    font-size: var(--step-2);
-    line-height: 1.15;
-    margin-top: 3.5rem;
-    scroll-margin-top: 1.5rem;
-  }
-  .mem > h2:first-child {
-    margin-top: 0;
-  }
-  .mem > ul {
-    padding-left: 1.2rem;
-    list-style: square;
-  }
-  .mem > ol {
-    padding-left: 1.4rem;
-  }
-  .mem li + li {
-    margin-top: 0.5rem;
-  }
-  .mem li::marker {
-    color: var(--accent-ink);
-  }
-  .mem a {
-    text-decoration-color: var(--accent);
-    text-underline-offset: 0.2em;
-  }
-  .mem code {
-    font-family: var(--font-mono);
-    font-size: 0.88em;
-  }
 }
 
 /*
@@ -105,6 +73,9 @@
  */
 .brush .w {
   display: inline-block;
+  /* alinhada ao topo: na linha de base, a altura do título mudava quando a fonte de pincel
+     chegava depois da primeira pintura (CLS) */
+  vertical-align: top;
 }
 .brush.pending .w {
   opacity: 0;

@@ -8,7 +8,8 @@ import ToriiGate from './ToriiGate.astro';
 import esteSite from '../../assets/memoriais/este-site.png';
 import esteSiteMobile from '../../assets/memoriais/este-site-mobile.png';
 
-// Cada projeto atrás de um portão torii, com a captura de tela na abertura (DESIGN.md).
+// Cada projeto atrás de um portão torii, com a captura de tela na abertura (DESIGN.md). O portão
+// leva direto ao site do projeto (ADR 009); projeto sem site no ar aparece sem link.
 // Não renderiza nada quando vazio (ADR 006). Projeto sem captura mostra só o papel.
 interface Props {
   entries: CollectionEntry<'memoriais'>[];
@@ -35,7 +36,6 @@ const cards = await Promise.all(
   entries.map(async ({ id, data }) => {
     const thumb = THUMBS[id];
     return {
-      id,
       data,
       number: memorialNumber(data.number),
       thumb: thumb && {
@@ -50,53 +50,64 @@ const cards = await Promise.all(
 
 {cards.length > 0 && (
   <ul class="works">
-    {cards.map(({ id, data, number, thumb }) => (
-      <li>
-        <a class="work" href={`/memoriais/${id}`} data-gate>
-          <span class="torii">
-            <span class="torii-view">
-              {thumb && (
-                <picture>
-                  <source
-                    media="(max-width: 47.99rem)"
-                    srcset={thumb.tall.srcset}
-                    sizes="11rem"
-                    width="1170"
-                    height="1992"
-                  />
-                  <img
-                    src={thumb.wide.src}
-                    srcset={thumb.wide.srcset}
-                    sizes="(min-width: 48rem) 15rem, 11rem"
-                    width="1280"
-                    height="800"
-                    decoding="async"
-                    alt={thumb.alt}
-                  />
-                </picture>
+    {cards.map(({ data, number, thumb }) => {
+      const Card = data.links.demo ? 'a' : 'div';
+      return (
+        <li>
+          <Card
+            class="work"
+            {...(data.links.demo ? { href: data.links.demo, 'data-gate': '' } : {})}
+          >
+            <span class="torii">
+              <span class="torii-view">
+                {thumb && (
+                  <picture>
+                    <source
+                      media="(max-width: 47.99rem)"
+                      srcset={thumb.tall.srcset}
+                      sizes="11rem"
+                      width="1170"
+                      height="1992"
+                    />
+                    <img
+                      src={thumb.wide.src}
+                      srcset={thumb.wide.srcset}
+                      sizes="(min-width: 48rem) 15rem, 11rem"
+                      width="1280"
+                      height="800"
+                      decoding="async"
+                      alt={thumb.alt}
+                    />
+                  </picture>
+                )}
+              </span>
+              <ToriiGate number={number} />
+            </span>
+            <span class="work-meta">
+              <span class="n">{number}</span>
+              <h3 class="brush">{data.title}</h3>
+              <span class="sum">{data.summary}</span>
+              <span class="tags">
+                <NatureBadge nature={data.nature} />
+                <span class="kicker">{STATUS_LABELS[data.status]}</span>
+                <span class="kicker">{data.stack.join(' · ')}</span>
+              </span>
+              {data.links.demo && (
+                <span class="go">
+                  Abrir o site <span aria-hidden="true">↗</span>
+                </span>
               )}
             </span>
-            <ToriiGate number={number} />
-          </span>
-          <span class="work-meta">
-            <span class="n">{number}</span>
-            <h3 class="brush">{data.title}</h3>
-            <span class="sum">{data.summary}</span>
-            <span class="tags">
-              <NatureBadge nature={data.nature} />
-              <span class="kicker">{STATUS_LABELS[data.status]}</span>
-              <span class="kicker">{data.stack.join(' · ')}</span>
-            </span>
-          </span>
-        </a>
-      </li>
-    ))}
+          </Card>
+        </li>
+      );
+    })}
   </ul>
 )}
 
 <script>
   // Travessia do portão (INTERACTIONS I-13): o torii cresce e some, a captura atrás dele ocupa a
-  // tela e então a página do memorial abre. Sem JS, com movimento reduzido ou com Ctrl/⌘/Shift,
+  // tela e então o site do projeto abre. Sem JS, com movimento reduzido ou com Ctrl/⌘/Shift,
   // o link funciona normalmente.
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const EASE = 'cubic-bezier(.65, 0, .25, 1)';
@@ -259,6 +270,11 @@ const cards = await Promise.all(
   }
   .sum {
     color: var(--ink-muted);
+  }
+  .go {
+    margin-top: 0.6rem;
+    font-weight: 700;
+    color: var(--accent-ink);
   }
   .tags {
     display: flex;

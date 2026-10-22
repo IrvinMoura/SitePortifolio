@@ -1,5 +1,5 @@
 # 006 — Lançar sem projetos, com o site como Memorial 001
-**Status:** Aceito · 18/10/2026
+**Status:** Aceito · 18/10/2026 · Em parte substituído por [009](009-projetos-direto-ao-site.md) (não há mais página de memorial)
 
 **Contexto:** ainda não há projetos (nem de cliente nem acadêmicos documentados). A vitrine deve crescer com o tempo, sem nada inventado.
 

@@ -44,7 +44,7 @@
     "eslint-plugin-jsx-a11y-x": "0.2.0",
     "jiti": "2.7.0",
     "prettier": "3.9.10",
-    "prettier-plugin-astro": "1.1.1",
+    "prettier-plugin-astro": "1.1.2",
     "typescript": "6.0.3",
     "typescript-eslint": "8.71.2",
     "vitest": "5.0.5"
